@@ -1,24 +1,28 @@
-const { log } = require('../../utils/logger.js');
-const afkState = require('../../managers/afkState.js');
+const afkState = require("../../managers/afkState.js");
 
 module.exports = {
-  name: 'afk',
-  aliases: ['setafk', 'goafk'],
-  info: 'sets you as afk',
-  usage: 'afk [reason]',
+  name: "afk",
+  aliases: ["setafk", "goafk"],
+  info: "sets you as afk",
+  usage: "afk [reason]",
   async execute(message, args) {
-    await message.delete();
-    const reason = args.join(' ') || 'No reason provided';
-    
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
+    const reason = args.join(" ") || "No reason provided";
+
     if (afkState.afkStatus) {
-      return message.reply("You are already AFK.");
+      return message.sendMessage("You are already AFK.");
     }
 
     afkState.setAfkStatus(true);
     afkState.setAfkReason(reason);
     afkState.setAfkStartTime(new Date());
 
-    message.channel.send(`😴 You are now AFK. Reason: ${reason}`);
-    log(`AFK started with reason: ${reason}`);
-  }
+    message.sendMessage(
+      `😴 ${
+        message.isOwnMessage ? "You are" : "I am"
+      } now AFK. Reason: ${reason}`
+    );
+    console.log(`AFK started with reason: ${reason}`);
+  },
 };

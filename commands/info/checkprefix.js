@@ -1,13 +1,10 @@
-const { log } = require('../../utils/logger.js');
-const config = require('../../config.json');
-
 module.exports = {
   name: 'checkprefix',
   aliases: ['prefix'],
   info: 'displays the current prefix for the bot',
   usage: 'checkprefix',
   execute(message) {
-    const currentPrefix = config.prefix;
+    const currentPrefix = message.prefix;
 
     const prefixMessage = `
 > ## 🔎 **Current Prefix** 🔎
@@ -19,10 +16,11 @@ module.exports = {
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
 
-    message.channel.send(prefixMessage);
+    message.sendCommand(prefixMessage);
     
-    log(`Checkprefix command executed. Current prefix: ${currentPrefix}`);
+    console.log(`Checkprefix command executed. Current prefix: ${currentPrefix}`);
 
-    message.delete();
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
   }
 };

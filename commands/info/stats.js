@@ -1,5 +1,3 @@
-const { log } = require('../../utils/logger');
-
 module.exports = {
   name: 'stats',
   aliases: ['stat'],
@@ -29,8 +27,9 @@ module.exports = {
 > ✨ Selfbot crafted by \`@hydra_devx\`
 `);
     
-  message.channel.send(statsMessage);
-  message.delete();
-  log(`Stats Command has been executed`);
+  message.sendMessage(statsMessage);
+  if (message.author.id == message.client.user.id)
+    message.delete().catch(() => {});
+  console.log(`Stats Command has been executed`);
   }
 };

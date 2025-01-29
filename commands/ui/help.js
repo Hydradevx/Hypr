@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger');
 
 module.exports = {
   name: 'help',
@@ -6,8 +5,10 @@ module.exports = {
   execute(message, prefix) {
     message.channel.send(helpmsg(prefix));
 
-    log(`Help Command has been excuted`);
-    message.delete();
+   console.log(`Help Command has been excuted`);
+
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
   },
 }
 

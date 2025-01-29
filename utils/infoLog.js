@@ -1,7 +1,6 @@
 const os = require('os');
 const si = require('systeminformation');
 const colors = require('ansi-colors');
-const { log } = require('./logger');
 
 async function getDeviceInfo() {
   const basicInfo = {
@@ -26,18 +25,18 @@ async function getDeviceInfo() {
 }
 
 function logDeviceInfo(info) {
-  log('Basic System Information:')
+ console.log('Basic System Information:')
   for (const [key, value] of Object.entries(info.basicInfo)) {
-    log(`${key}: ${value}`);
+   console.log(`${key}: ${value}`);
   }
 
-  log(colors.cyanBright('\nExtended System Information:'));
-  log(`${colors.yellow('Manufacturer')}: ${colors.white(info.extendedInfo.system.manufacturer)}`);
-  log(`${colors.yellow('Model')}: ${colors.white(info.extendedInfo.system.model)}`);
-  log(`${colors.yellow('OS Distribution')}: ${colors.white(info.extendedInfo.osInfo.distro)}`);
-  log(`${colors.yellow('OS Release')}: ${colors.white(info.extendedInfo.osInfo.release)}`);
-  log(`${colors.yellow('CPU Speed')}: ${colors.white(info.extendedInfo.cpu.speed)} GHz`);
-  log(`${colors.yellow('Graphics Controller')}: ${colors.white(info.extendedInfo.graphics.controllers.map(g => g.model).join(', '))}`);
+ console.log(colors.cyanBright('\nExtended System Information:'));
+ console.log(`${colors.yellow('Manufacturer')}: ${colors.white(info.extendedInfo.system.manufacturer)}`);
+ console.log(`${colors.yellow('Model')}: ${colors.white(info.extendedInfo.system.model)}`);
+ console.log(`${colors.yellow('OS Distribution')}: ${colors.white(info.extendedInfo.osInfo.distro)}`);
+ console.log(`${colors.yellow('OS Release')}: ${colors.white(info.extendedInfo.osInfo.release)}`);
+ console.log(`${colors.yellow('CPU Speed')}: ${colors.white(info.extendedInfo.cpu.speed)} GHz`);
+ console.log(`${colors.yellow('Graphics Controller')}: ${colors.white(info.extendedInfo.graphics.controllers.map(g => g.model).join(', '))}`);
 }
 
 async function logdeviceInfo() {

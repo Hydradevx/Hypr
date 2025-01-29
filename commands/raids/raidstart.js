@@ -1,24 +1,28 @@
-const { log } = require('../../utils/logger.js');
-const raidState = require('../../managers/raidState.js');
+const raidState = require("../../managers/raidState.js");
 
 module.exports = {
-  name: 'raidstart',
-  aliases: ['startRaid', 'initiateRaid'],
-  info: 'starts a raid',
-  usage: 'raidstart [message]',
-  async execute(message, args, prefix) {
-    const messageToSend = args.join(' ') || "🚨 Raid initiated! 🚨";
+  name: "raidstart",
+  aliases: ["startRaid", "initiateRaid"],
+  info: "starts a raid",
+  usage: "raidstart [message]",
+  async execute(message, args) {
+    const messageToSend = args.join(" ") || "🚨 Raid initiated! 🚨";
     const interval = 400;
     const channel = message.channel;
-    await message.delete();
 
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     if (raidState.raidActive) {
-      return message.reply(`Raid is already active! Use ${prefix}raidstop to stop it.`);
+      return message.sendMessage(
+        `Raid is already active! Use ${message.prefix}raidstop to stop it.`
+      );
     }
 
     raidState.setRaidActive(true);
-    channel.send("🔴 **Raid started!** Messages will be sent every 400 milliseconds.");
-    log("Raid started with message: " + messageToSend);
+    channel.send(
+      "🔴 **Raid started!** Messages will be sent every 400 milliseconds."
+    );
+   console.log("Raid started with message: " + messageToSend);
 
     const raidInterval = setInterval(() => {
       if (raidState.raidActive) {
@@ -27,5 +31,5 @@ module.exports = {
     }, interval);
 
     raidState.setRaidInterval(raidInterval);
-  }
+  },
 };

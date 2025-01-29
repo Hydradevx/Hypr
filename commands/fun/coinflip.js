@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger.js');
 
 module.exports = {
   name: 'coinflip',
@@ -6,7 +5,7 @@ module.exports = {
   info: 'flips a coin',
   usage: 'coinflip',
   execute(message) {
-    message.channel.send("Flipping a coin... 🪙").then(coinflipMessage => {
+    message.sendMessage("Flipping a coin... 🪙").then(coinflipMessage => {
         const coin = Math.random() < 0.5 ? "Heads" : "Tails";
         const messages = [
             "Almost there... 🌀",
@@ -24,9 +23,9 @@ module.exports = {
                 clearInterval(editInterval);
             }
         }, 1000);
-
-        message.delete();
-        log(`Coinflip Command has been executed and Result is ${coin}`);
+        if (message.author.id == message.client.user.id)
+            message.delete().catch(() => {});
+        console.log(`Coinflip Command has been executed and Result is ${coin}`);
     });
   }
 }

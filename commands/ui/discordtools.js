@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger');
 
 module.exports = {
   name: 'discordtools',
@@ -6,9 +5,11 @@ module.exports = {
   execute(message, args, prefix) {
     const page = args[0] || 1;
     message.channel.send(loaddiscordtoolsmsg(page, prefix))
-    log(`discordtools Command has been executed and page is ${page}`);
+   console.log(`discordtools Command has been executed and page is ${page}`);
 
-    message.delete();
+
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
   }
 }
 

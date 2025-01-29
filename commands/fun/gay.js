@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger.js');
 
 module.exports = {
   name: 'gay',
@@ -8,7 +7,7 @@ module.exports = {
   execute(message, args) {
     const userToCheck = args[0] || message.author;
 
-    message.channel.send(`Calculating how gay ${userToCheck.username} is 🌈`).then(gaycheckMessage => {
+    message.sendMessage(`Calculating how gay ${userToCheck.username} is 🌈`).then(gaycheckMessage => {
         const messages = [
             `Are you gay, ${userToCheck.username}? 🌈`,
             `Maybe you are gay, ${userToCheck.username}... 🤔`,
@@ -41,8 +40,9 @@ module.exports = {
             }
         }, 1000);
 
-        message.delete();
-        log(`Gay Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`);
+        if (message.author.id == message.client.user.id)
+            message.delete().catch(() => {});
+        console.log(`Gay Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`);
     });
   }
 }
