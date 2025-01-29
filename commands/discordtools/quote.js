@@ -1,17 +1,16 @@
-const { log } = require('../../utils/logger.js');
-
 module.exports = {
-  name: 'quote',
-  aliases: ['addquote'],
-  info: 'quotes your message',
-  usage: 'qoute [message]',
+  name: "quote",
+  aliases: ["addquote"],
+  info: "quotes your message",
+  usage: "qoute [message]",
   async execute(message, args) {
-    await message.delete();
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const quote = args.join(" ");
-    
-    if (!quote) return message.channel.send("❌ Please provide a quote.");
-    
+
+    if (!quote) return message.sendMessage("❌ Please provide a quote.");
+
     message.channel.send(`💬 **Quote:** "${quote}"`);
-    log(`Quote added: "${quote}"`);
-  }
+    console.log(`Quote added: "${quote}"`);
+  },
 };

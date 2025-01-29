@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger.js');
 
 module.exports = {
   name: 'unban',
@@ -6,19 +5,21 @@ module.exports = {
   info: 'unbans a specified user',
   usage: 'unban [user ID]',
   async execute(message, args) {
-    await message.delete();
+
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const userId = args[0];
     if (!userId) {
-      return message.reply("❌ Please provide the ID of the user to unban.");
+      return message.sendMessage("❌ Please provide the ID of the user to unban.");
     }
 
     try {
       const unbannedUser = await message.guild.members.unban(userId);
       message.channel.send(`✅ ${unbannedUser.username} has been unbanned.`);
-      log("Unbanned user with ID: " + userId);
+     console.log("Unbanned user with ID: " + userId);
     } catch (error) {
       message.channel.send("❌ Failed to unban the user. Please check the ID or permissions.");
-      log("Error unbanning user with ID: " + userId + " - " + error.message);
+     console.log("Error unbanning user with ID: " + userId + " - " + error.message);
     }
   }
 };

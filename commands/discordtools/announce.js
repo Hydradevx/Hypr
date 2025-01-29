@@ -1,29 +1,39 @@
-const { log } = require('../../utils/logger.js');
+const { Message, Client } = require("discord.js-selfbot-v13");
 
 module.exports = {
-  name: 'announce',
-  aliases: ['announcement'],
-  info: 'announces a message in announcement Channel',
-  usage: 'announce [message]',
-  async execute(message, args) {
-    await message.delete();
+  name: "announce",
+  aliases: ["announcement"],
+  info: "announces a message in announcement Channel",
+  usage: "announce [message]",
+  /**
+   *
+   * @param {Message} message
+   * @param {string[]} _args
+   * @param {Client} client
+   */
+  async execute(message, args, client) {
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const announcement = args.join(" ").trim();
     if (!announcement) {
-      message.channel.send("❌ Please provide an announcement message.");
+      message.sendMessage("❌ Please provide an announcement message.");
       return;
     }
 
     try {
-      const announceChannel = message.guild.channels.cache.find(ch => ch.name.toLowerCase() === "annc");
+      const announceChannel =
+        message.guild.channels.cache.find(
+          (ch) => ch.name.toLowerCase() === "annc"
+        ) || message.mentions.channels.first();
       if (!announceChannel) {
-        message.channel.send("❌ Announcement channel not found.");
+        message.sendMessage("❌ Announcement channel not found.");
         return;
       }
       announceChannel.send(`📢 **Announcement:** ${announcement}`);
-      log(`Announcement sent: ${announcement}`);
+      console.log(`Announcement sent: ${announcement}`);
     } catch (error) {
-      message.channel.send("❌ Unable to send the announcement.");
-      log(`Failed to send announcement: ${error.message}`);
+      message.sendMessage("❌ Unable to send the announcement.");
+      console.log(`Failed to send announcement: ${error.message}`);
     }
-  }
+  },
 };

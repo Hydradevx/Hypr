@@ -1,4 +1,4 @@
-const { log } = require('../../utils/logger.js');
+
 
 module.exports = {
   name: 'ban',
@@ -6,10 +6,12 @@ module.exports = {
   info: 'bans a specified user',
   usage: 'ban [@user]',
   async execute(message, args) {
-    await message.delete();
+   
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const userToBan = message.mentions.users.first() || args[0];
     if (!userToBan) {
-      return message.reply("❌ Please mention a user to ban.");
+      return message.sendMessage("❌ Please mention a user to ban.");
     }
 
     const member = message.guild.members.cache.get(userToBan.id);
@@ -17,13 +19,13 @@ module.exports = {
       try {
         await member.ban();
         message.channel.send(`✅ ${userToBan.username} has been banned.`);
-        log("Banned user: " + userToBan.username);
+       console.log("Banned user: " + userToBan.username);
       } catch (error) {
         message.channel.send("❌ Failed to ban the user. Please check permissions.");
-        log("Error banning user: " + userToBan.username + " - " + error.message);
+       console.log("Error banning user: " + userToBan.username + " - " + error.message);
       }
     } else {
-      message.reply("❌ User not found in this server.");
+      message.sendMessage("❌ User not found in this server.");
     }
   }
 };

@@ -1,4 +1,3 @@
-const { log } = require('../../utils/logger.js');
 
 module.exports = {
   name: 'play',
@@ -6,15 +5,19 @@ module.exports = {
   info: 'sets the user to play a game',
   usage: 'play [game]', 
   async execute(message, args, client) {
-    await message.delete();
+
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const activityDescription = args.slice(1).join(" ").trim(); 
     if (activityDescription) {
       await client.user.setActivity(activityDescription, { type: "PLAYING" });
-      message.channel.send(`🎮 You are now playing **${activityDescription}**!`);
-      log(`User set their activity to playing: ${activityDescription}`);
+      message.sendMessage(`🎮 ${
+        message.isOwnMessage ? "You are" : "I am"
+      } now playing **${activityDescription}**!`);
+      console.log(`User set their activity to playing: ${activityDescription}`);
     } else {
-      message.channel.send("❌ Please provide a game description.");
-      log("User attempted to set activity without providing a description.");
+      message.sendMessage("❌ Please provide a game description.");
+      console.log("User attempted to set activity without providing a description.");
     }
   }
 };

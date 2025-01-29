@@ -1,5 +1,3 @@
-const { log } = require('../../utils/logger.js');
-
 module.exports = {
   name: 'skid',
   aliases: ['ski', 'sk'],
@@ -8,7 +6,7 @@ module.exports = {
   execute(message, args) {
     const userToCheck = message.mentions.users.first() || args[0] || message.author;
 
-    message.channel.send(`Analyzing ${userToCheck.username}'s skid level...`).then(skidcheckMessage => {
+    message.sendMeme(`Analyzing ${userToCheck.username}'s skid level...`).then(skidcheckMessage => {
         const finalPercentage = getRandomPercentage();
         const messages = [
             `Are you a skid, ${userToCheck.username}? 🤔`,
@@ -43,8 +41,9 @@ module.exports = {
             }
         }, 1000);
 
-        message.delete();
-        log(`Skid Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`);
+        if (message.author.id == message.client.user.id)
+            message.delete().catch(() => {});
+        console.log(`Skid Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`);
     });
   }
 }

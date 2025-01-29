@@ -1,17 +1,17 @@
-const { log } = require('./logger.js');
 
 module.exports = () => {
   process.on('uncaughtException', (error) => {
-    log('Uncaught Exception:', error.stack || error);
+   console.log('Uncaught Exception:', error.stack || error);
   });
 
   process.on('unhandledRejection', (reason, promise) => {
-    log('Unhandled Rejection at:', promise, 'Reason:', reason);
+   console.log('Unhandled Rejection at:', promise, 'Reason:', reason);
   });
 
   process.on('warning', (warning) => {
-    log('Warning:', warning.stack || warning);
+    if(warning.name === 'DeprecationWarning') return; // Ignore deprecation warnings (node-fetch etc.)
+   console.log('Warning:', warning.stack || warning);
   });
 
-  log('Anti-crash module initialized. All errors will be logged.');
+ console.log('Anti-crash module initialized. All errors will be logged.');
 };

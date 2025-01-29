@@ -1,12 +1,11 @@
-const { log } = require('../../utils/logger.js')
-
 module.exports = {
   name: 'rizz',
   aliases: ['pickup', 'flirt'],
   info: 'rizzes up someone',
   usage: 'rizz [@user]',
   execute(message, args) {
-    message.delete();
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
 
     const mentionedUser = message.mentions.users.first() || args[0];
     const userToSendLine = mentionedUser || message.author;
@@ -88,7 +87,7 @@ module.exports = {
     ];
 
     const randomLine = pickupLines[Math.floor(Math.random() * pickupLines.length)];
-    message.channel.send(`✨ **Rizz Line for ${userToSendLine.username}:** ${randomLine}`);
-    log(`Rizz Command has been executed and Result is: ${randomLine}`);
+    message.sendMessage(`✨ **Rizz Line for ${userToSendLine.username}:** ${randomLine}`);
+    console.log(`Rizz Command has been executed and Result is: ${randomLine}`);
   }
 };

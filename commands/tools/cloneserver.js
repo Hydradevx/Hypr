@@ -1,4 +1,4 @@
-const { log } = require('../../utils/logger.js');
+
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -7,7 +7,9 @@ module.exports = {
   info: 'clones an entire Discord Server',
   usage: 'cloneserver [guildID]',
   async execute(message, args) {
-    await message.delete();
+
+    if (message.author.id == message.client.user.id)
+      message.delete().catch(() => {});
     const originalGuildID = args[0];
     if (!originalGuildID) return message.channel.send("❌ Please specify the ID of the server to clone.");
     
@@ -88,11 +90,11 @@ module.exports = {
       await message.channel.send("✅ Emojis cloned.");
 
       message.channel.send(`🎉 Server successfully cloned to **${newGuild.name}**!`);
-      log(`Server cloned: ${originalGuild.name} to ${newGuild.name}`);
+     console.log(`Server cloned: ${originalGuild.name} to ${newGuild.name}`);
     } catch (error) {
       console.error("Error cloning server:", error);
       message.channel.send("❌ Failed to clone the server.");
-      log(`Failed to clone server: ${error.message}`);
+     console.log(`Failed to clone server: ${error.message}`);
     }
   }
 };
