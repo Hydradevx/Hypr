@@ -20,15 +20,15 @@ ${colors.cyanBright(
   log(textArt);
 }
 function renderLogs() {
-  /* displayTextArt();
+   displayTextArt();
   log(colors.green('\nLogs:\n'));
 
   const logsToShow = logs.slice(-maxLogs);
   logsToShow.forEach((logText, index) => {
     log(logText);
   });
-  */
-  log(logs.at(logs.length - 1));
+  
+ // log(logs.at(logs.length - 1));
 }
 
 function wlog(message) {
