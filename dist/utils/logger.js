@@ -16,7 +16,7 @@ exports.error = error;
 const ansi_colors_1 = __importDefault(require("ansi-colors"));
 let logs = [];
 const maxLogs = process.stdout.rows - 10;
-const Json = require("../package.json");
+const Json = require("../../package.json");
 const log = console.log;
 exports.log = log;
 function displayTextArt() {

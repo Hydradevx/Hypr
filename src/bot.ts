@@ -2,27 +2,22 @@ import { Client, Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
 import colors from "ansi-colors";
-import { checkUpdate } from "./utils/updateChecker";
+import checkUpdate from "./utils/updateChecker";
 import { initLogger, log, warn, logStatus } from "./utils/logger";
 import { logdeviceInfo } from "./utils/infoLog";
 import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
-import { afkState } from "./managers/afkState";
-import { rpc } from "./utils/richPresence";
+import afkState from "./managers/afkState";
+import rpc from "./utils/richPresence";
 
-const Json = require("./package.json");
+const Json = require("../package.json");
 
-const devConfigPath = "./devconfig/config.json";
-const regularConfigPath = "./config.json";
+import showConfigs from "./utils/configManager";
 
-let config: { [key: string]: any };
+let config: any = showConfigs();
 
-if (fs.existsSync(path.dirname(devConfigPath))) {
-  config = JSON.parse(fs.readFileSync(devConfigPath, "utf-8"));
-  logStatus("Using dev config.");
-} else {
-  config = JSON.parse(fs.readFileSync(regularConfigPath, "utf-8"));
-  require("./utils/antiCrash")();
+if (!config) {
+  process.exit(0);
 }
 
 if (!config.hasAccess) config.hasAccess = [];
@@ -125,26 +120,33 @@ client.info = client_info;
 
 let updated = checkUpdate(Json);
 if (updated) {
-  client.login(token);
+  checkConfig(client);
 } else {
   warn(
     "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
   );
 }
 
+async function checkConfig(client: any) {
+  config = await showConfigs();
+  if (config !== null) {
+    client.login(config.token);
+    startlogs();
+  } else {
+    setTimeout(checkConfig, 20000);
+  }
+}
+
 function startlogs() {
   console.log(colors.gray("Initializing logs...\n"));
   initLogger();
+  if (isTermux()) {
+    log("Running on Termux");
+  } else {
+    logdeviceInfo();
+  }
 }
 
 const isTermux = () =>
   process.env.TERMUX_VERSION ||
   require("fs").existsSync("/data/data/com.termux/files/usr");
-
-if (isTermux()) {
-  log("Running on Termux");
-} else {
-  logdeviceInfo();
-}
-
-startlogs();

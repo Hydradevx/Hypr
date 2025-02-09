@@ -1,4 +1,5 @@
 import { Message } from "discord.js-selfbot-v13";
+import { wlog } from "./logger";
 
 interface Command {
   name: string;
@@ -16,7 +17,7 @@ function infoLoad(command: Command, message: Message): void {
   if (message.author.id === message.client.user?.id)
     message.delete().catch(() => {});
   message.channel.send(infoMsg);
-  console.log(`Info Command has been executed for Command ${command.name}`);
+  wlog(`Info Command has been executed for Command ${command.name}`);
 }
 
 export { infoLoad };

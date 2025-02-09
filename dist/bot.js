@@ -9,23 +9,18 @@ const discord_js_selfbot_v13_1 = require("discord.js-selfbot-v13");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const ansi_colors_1 = __importDefault(require("ansi-colors"));
-const updateChecker_1 = require("./utils/updateChecker");
+const updateChecker_1 = __importDefault(require("./utils/updateChecker"));
 const logger_1 = require("./utils/logger");
 const infoLog_1 = require("./utils/infoLog");
 const usageLoader_1 = require("./utils/usageLoader");
 const infoLoader_1 = require("./utils/infoLoader");
-const afkState_1 = require("./managers/afkState");
-const richPresence_1 = require("./utils/richPresence");
-const Json = require("./package.json");
-const devConfigPath = "./devconfig/config.json";
-const regularConfigPath = "./config.json";
-let config;
-if (fs_1.default.existsSync(path_1.default.dirname(devConfigPath))) {
-  config = JSON.parse(fs_1.default.readFileSync(devConfigPath, "utf-8"));
-  (0, logger_1.logStatus)("Using dev config.");
-} else {
-  config = JSON.parse(fs_1.default.readFileSync(regularConfigPath, "utf-8"));
-  require("./utils/antiCrash")();
+const afkState_1 = __importDefault(require("./managers/afkState"));
+const richPresence_1 = __importDefault(require("./utils/richPresence"));
+const Json = require("../package.json");
+const configManager_1 = __importDefault(require("./utils/configManager"));
+let config = (0, configManager_1.default)();
+if (!config) {
+  process.exit(0);
 }
 if (!config.hasAccess) config.hasAccess = [];
 const client = new discord_js_selfbot_v13_1.Client();
@@ -61,13 +56,13 @@ for (const filePath of commandFiles) {
 client.on("ready", async () => {
   (0, logger_1.logStatus)(`Logged in as ${client.user?.tag}`);
   config.hasAccess.push(client.user?.id);
-  (0, richPresence_1.rpc)(client);
+  (0, richPresence_1.default)(client);
 });
 client.on("messageCreate", (message) => {
   if (config.hasAccess.includes(message.author.id)) {
-    if (afkState_1.afkState.afkStatus && message.mentions.has(client.user)) {
+    if (afkState_1.default.afkStatus && message.mentions.has(client.user)) {
       message.reply(
-        `💤 I'm currently AFK. Reason: ${afkState_1.afkState.afkReason}`,
+        `💤 I'm currently AFK. Reason: ${afkState_1.default.afkReason}`,
       );
       return;
     }
@@ -104,24 +99,32 @@ let client_info = {
   moreCmdSoonMessage: "✨ **More Commands Coming Soon!** ✨",
 };
 client.info = client_info;
-let updated = (0, updateChecker_1.checkUpdate)(Json);
+let updated = (0, updateChecker_1.default)(Json);
 if (updated) {
-  client.login(token);
+  checkConfig(client);
 } else {
   (0, logger_1.warn)(
     "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
   );
 }
+async function checkConfig(client) {
+  config = await (0, configManager_1.default)();
+  if (config !== null) {
+    client.login(config.token);
+    startlogs();
+  } else {
+    setTimeout(checkConfig, 20000);
+  }
+}
 function startlogs() {
   console.log(ansi_colors_1.default.gray("Initializing logs...\n"));
   (0, logger_1.initLogger)();
+  if (isTermux()) {
+    (0, logger_1.log)("Running on Termux");
+  } else {
+    (0, infoLog_1.logdeviceInfo)();
+  }
 }
 const isTermux = () =>
   process.env.TERMUX_VERSION ||
   require("fs").existsSync("/data/data/com.termux/files/usr");
-if (isTermux()) {
-  (0, logger_1.log)("Running on Termux");
-} else {
-  (0, infoLog_1.logdeviceInfo)();
-}
-startlogs();

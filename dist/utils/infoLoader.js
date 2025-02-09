@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.infoLoad = infoLoad;
+const logger_1 = require("./logger");
 /**
  * Sends an info message about the command.
  *
@@ -12,5 +13,7 @@ function infoLoad(command, message) {
   if (message.author.id === message.client.user?.id)
     message.delete().catch(() => {});
   message.channel.send(infoMsg);
-  console.log(`Info Command has been executed for Command ${command.name}`);
+  (0, logger_1.wlog)(
+    `Info Command has been executed for Command ${command.name}`,
+  );
 }

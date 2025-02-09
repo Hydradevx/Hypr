@@ -1,7 +1,8 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const axios = require("axios");
-const { info, Status, Warn } = require("./logger"); // Capitalized 'Status' & 'Warn' to avoid TS conflicts.
-const checkUpdate = async (Json) => {
+const { info, logStatus, warn } = require("./logger"); // Capitalized 'Statuslog to avoid TS conflicts.
+const checkUpdate = (Json) => {
   try {
     const rawFileUrl =
       "https://raw.githubusercontent.com/Hydrion-Tools/Hydrion-S3LFB0T/refs/heads/main/package.json";
@@ -9,16 +10,16 @@ const checkUpdate = async (Json) => {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537",
     };
-    const response = await axios.get(rawFileUrl, { headers });
+    const response = axios.get(rawFileUrl, { headers });
     if (!response.data || !response.data.version) {
-      Warn("Failed to fetch latest version. Response is invalid.");
+      warn("Failed to fetch latest version. Response is invalid.");
       return true;
     }
     const ghVersion = response.data.version;
     const version = Json.version;
     if (ghVersion !== version) {
-      Status(`New version available: ${ghVersion}`);
-      Warn(
+      logStatus(`New version available: ${ghVersion}`);
+      warn(
         "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
       );
       return false;
@@ -27,8 +28,8 @@ const checkUpdate = async (Json) => {
       return true;
     }
   } catch (error) {
-    Warn(`Error checking for updates: ${error.message}`);
+    warn(`Error checking for updates: ${error.message}`);
     return true;
   }
 };
-module.exports = { checkUpdate };
+exports.default = checkUpdate;

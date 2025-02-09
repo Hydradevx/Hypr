@@ -1,6 +1,7 @@
 const { RichPresence, Client } = require("discord.js-selfbot-v13");
+import { wlog } from "./logger";
 
-function rpc(client: typeof Client) {
+export default function rpc(client: typeof Client) {
   if (!client || !client.user) {
     console.error("Client is not initialized or logged in.");
     return;
@@ -21,7 +22,5 @@ function rpc(client: typeof Client) {
     .addButton("Discord 💬", "https://discord.gg/6Tufbvnebj");
 
   client.user.setActivity(status);
-  console.log("Started Discord RPC");
+  wlog("Started Discord RPC");
 }
-
-module.exports = { rpc };

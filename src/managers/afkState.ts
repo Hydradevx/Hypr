@@ -1,4 +1,4 @@
-const afkState = {
+const afkState: any = {
   status: false,
   reason: "",
   startTime: null,
@@ -28,4 +28,4 @@ const afkState = {
   },
 };
 
-module.exports = afkState;
+export default afkState;

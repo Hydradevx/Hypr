@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usageLoad = usageLoad;
+const logger_1 = require("./logger");
 /**
  * Loads the usage of a command and sends it in the channel.
  *
@@ -16,5 +17,7 @@ function usageLoad(command, message, prefix) {
   message.channel
     .send(usageMsg)
     .catch((err) => console.error("Failed to send usage message:", err));
-  console.log(`Usage Command has been executed for Command ${command.name}`);
+  (0, logger_1.wlog)(
+    `Usage Command has been executed for Command ${command.name}`,
+  );
 }

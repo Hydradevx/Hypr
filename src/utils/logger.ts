@@ -7,7 +7,7 @@ interface LogFunction {
 let logs: string[] = [];
 const maxLogs = process.stdout.rows - 10;
 
-const Json = require("../package.json");
+const Json = require("../../package.json");
 
 const log: LogFunction = console.log;
 
