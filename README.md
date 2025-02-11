@@ -1,9 +1,9 @@
-﻿
-# Hydrion-S3LFB0T
+﻿# Hydrion-S3LFB0T
 
 ## Quick Setup
 
 ### For Windows Users 💻
+
 1. Install **Git** from https://git-scm.com/download/win and **Node.js** from https://nodejs.org/en/download/.
 2. Open **Powershell** AS **Administrator** and run the following command to allow the Running of local scripts:
 
@@ -20,6 +20,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 ---
 
 ### For Termux (Android Mobile Users) 📱
+
 1. Install **Termux** from the Google Play Store.
 2. Open **Termux** and run the following commands:
 
@@ -45,12 +46,14 @@ This will install all the required dependencies and set up the bot.
 1. To **Start** the Selfbot in regular scenarios use the Command below:
 
 For Android/Linux
+
 ```bash
 cd Hydrion-S3LFB0T
 bash start.sh
 ```
 
 For Windows:
+
 ```bash
 .\ start.ps1
 ```
@@ -58,11 +61,13 @@ For Windows:
 2. To **Update** The Selfbot use The Command below:
 
 For Android/Linux
-```bash 
+
+```bash
 bash update.sh
 ```
 
 For Windows:
+
 ```bash
 .\update.ps1
 ```
