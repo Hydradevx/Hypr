@@ -47,7 +47,7 @@ async function showConfigs(): Promise<BotConfig | any> {
         new inquirer.Separator(),
         "➕ Create New Config",
         "❌ Exit",
-      ],
+      ].filter((choice) => choice !== "default"),
     },
   ]);
 

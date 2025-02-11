@@ -48,7 +48,7 @@ async function showConfigs() {
         new inquirer_1.default.Separator(),
         "➕ Create New Config",
         "❌ Exit",
-      ],
+      ].filter((choice) => choice !== "default"),
     },
   ]);
   if (selectedOption === "➕ Create New Config") return createNewConfig();
