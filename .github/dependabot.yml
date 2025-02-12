@@ -20,8 +20,7 @@ updates:
     rebase-strategy: "auto"
     allow:
       - dependency-type: "all"
-    versioning-strategy: "increase"
-    target-branch: "main"
+    versioning-strategy: "auto"  # Correctly placed
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -40,7 +39,6 @@ updates:
     assignees:
       - "Hydradevx"
     rebase-strategy: "disabled"
-    versioning-strategy: "lockfile-only"
     allow:
       - dependency-type: "direct"
 
@@ -60,21 +58,3 @@ updates:
       prefix: "docker(deps)"
       include: "scope"
     rebase-strategy: "auto"
-
-  - package-ecosystem: "cargo"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      time: "07:00"
-      timezone: "UTC"
-    labels:
-      - "rust"
-      - "dependencies"
-    assignees:
-      - "Hydradevx"
-    commit-message:
-      prefix: "cargo(deps)"
-      include: "scope"
-    versioning-strategy: "increase"
-    allow:
-      - dependency-type: "all"
