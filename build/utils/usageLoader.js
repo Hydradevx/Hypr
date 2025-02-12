@@ -10,12 +10,14 @@ const logger_1 = require("./logger");
  * @param {string} prefix - The bot's command prefix.
  */
 function usageLoad(command, message, prefix) {
-    const usageMsg = `ℹ️ **Usage of \`${command.name}\`**: \`${prefix}${command.usage || "No usage available"}\``;
-    if (message.author.id === message.client.user?.id) {
-        message.delete().catch(() => { });
-    }
-    message.channel
-        .send(usageMsg)
-        .catch((err) => console.error("Failed to send usage message:", err));
-    (0, logger_1.wlog)(`Usage Command has been executed for Command ${command.name}`);
+  const usageMsg = `ℹ️ **Usage of \`${command.name}\`**: \`${prefix}${command.usage || "No usage available"}\``;
+  if (message.author.id === message.client.user?.id) {
+    message.delete().catch(() => {});
+  }
+  message.channel
+    .send(usageMsg)
+    .catch((err) => console.error("Failed to send usage message:", err));
+  (0, logger_1.wlog)(
+    `Usage Command has been executed for Command ${command.name}`,
+  );
 }

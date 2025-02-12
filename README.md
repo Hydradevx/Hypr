@@ -1,92 +1,89 @@
-﻿# Hydrion-S3LFB0T
+# Hydrion-S3LFB0T
 
-## Quick Setup
+## 🚀 Quick Setup
 
-### For Windows Users 💻
+### 🖥️ Windows Installation
 
-1. Install **Git** from https://git-scm.com/download/win and **Node.js** from https://nodejs.org/en/download/.
-2. Open **Powershell** AS **Administrator** and run the following command to allow the Running of local scripts:
+1. Open **PowerShell** as **Administrator** and allow script execution by running:
 
-```bash
+````powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 ```
 
-3. Download **setup.ps1** into your selfbot folder and run the command below:
+2. Run the following command to download and execute the setup script:
 
-```bash
-.\setup.ps1
+```powershell
+iwr -useb https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.ps1 | iex
 ```
 
 ---
 
-### For Termux (Android Mobile Users) 📱
+### 📱 Termux (Android) Installation
 
 1. Install **Termux** from the Google Play Store.
-2. Open **Termux** and run the following commands:
+2. Open **Termux** and run the following:
 
 ```bash
-pkg install git -y
-git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
-cd Hydrion-S3LFB0T
-bash setup.sh
+curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.sh | bash
 ```
 
-3. To edit the **config.json** Use the command below
+3. To edit **config.json**, use:
 
 ```bash
 nano config.json
 ```
 
-This will install all the required dependencies and set up the bot.
+This installs all necessary dependencies and sets up the bot.
 
 ---
 
-### Additional intrustions (MUST READ)
+### 🐧 Linux/macOS Installation
 
-1. To **Start** the Selfbot in regular scenarios use the Command below:
-
-For Android/Linux
+1. Open a terminal and run the following:
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.sh | bash
+```
+
+---
+
+## 🔧 Usage & Maintenance
+
+## You must be in the ```Hydrion-S3LFB0T``` while running these commands, switch to the folder by running
+```bash 
 cd Hydrion-S3LFB0T
-bash start.sh
 ```
 
-For Windows:
+### ✅ Starting the Selfbot
+
 
 ```bash
-.\ start.ps1
+npm start
 ```
 
-2. To **Update** The Selfbot use The Command below:
-
-For Android/Linux
+### 🔄 Updating the Selfbot
 
 ```bash
-bash update.sh
-```
-
-For Windows:
-
-```bash
-.\update.ps1
+git pull
 ```
 
 ---
 
-## Configuration ⚙️
+## ⚙️ Configuration
 
-After the setup, you will be prompted to enter your **Discord Token**. This is required to run the bot. The token will be saved in a `config.json` file, which the bot will read during execution.
-
----
-
-### Contact 📩
-
-If you have any questions or need support, feel free to contact us via the [Hydrion Support Discord](https://discord.gg/6Tufbvnebj).
+During setup, you will be prompted to enter your **Discord Token**. This will be stored in `config.json`, which the bot uses during execution.
 
 ---
 
-## Support US by starring the repo and join our server [Hydrion Discord](https://discord.gg/6Tufbvnebj)
+## 📩 Support & Contact
+
+Need help? Join our [Hydrion Support Discord](https://discord.gg/6Tufbvnebj).
+
+---
+
+## ⭐ Support Us
+
+If you like this project, **star the repo** ⭐ and join our [Hydrion Discord](https://discord.gg/6Tufbvnebj)!
 
 ---
 
