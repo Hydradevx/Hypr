@@ -4,9 +4,9 @@
   "description": "the best selfbot made by Hydrion",
   "main": "dist/bot.js",
   "scripts": {
-    "test": "node dist/bot.js",
+    "test": "node build/bot.js",
     "build": "tsc",
-    "start": "node dist/bot.js",
+    "start": "node build/bot.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

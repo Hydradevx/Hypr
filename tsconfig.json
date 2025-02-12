@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "CommonJS",
-    "outDir": "dist",
+    "outDir": "build",
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
