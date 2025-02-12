@@ -24,7 +24,7 @@ iwr -useb https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/insta
 2. Open **Termux** and run the following:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/termux.sh | bash
 ```
 
 3. To edit **config.json**, use:
