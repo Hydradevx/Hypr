@@ -6,7 +6,7 @@
 
 1. Open **PowerShell** as **Administrator** and allow script execution by running:
 
-````powershell
+```powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 ```
 
