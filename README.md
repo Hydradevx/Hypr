@@ -49,13 +49,13 @@ curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/inst
 
 ## 🔧 Usage & Maintenance
 
-## You must be in the ```Hydrion-S3LFB0T``` while running these commands, switch to the folder by running
-```bash 
+## You must be in the `Hydrion-S3LFB0T` while running these commands, switch to the folder by running
+
+```bash
 cd Hydrion-S3LFB0T
 ```
 
 ### ✅ Starting the Selfbot
-
 
 ```bash
 npm start

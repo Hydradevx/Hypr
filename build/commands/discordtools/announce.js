@@ -1,5 +1,4 @@
 "use strict";
-const { Message, Client } = require("discord.js-selfbot-v13");
 module.exports = {
   name: "announce",
   aliases: ["announcement"],

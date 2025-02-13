@@ -1,6 +1,6 @@
-const { Message, Client } = require("discord.js-selfbot-v13");
+import { Message } from "discord.js-selfbot-v13";
 
-module.exports = {
+export = {
   name: "announce",
   aliases: ["announcement"],
   info: "announces a message in announcement Channel",

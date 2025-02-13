@@ -20,7 +20,7 @@ updates:
     rebase-strategy: "auto"
     allow:
       - dependency-type: "all"
-    versioning-strategy: "auto"  # Correctly placed
+    versioning-strategy: "auto" # Correctly placed
 
   - package-ecosystem: "github-actions"
     directory: "/"

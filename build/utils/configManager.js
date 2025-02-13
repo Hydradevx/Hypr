@@ -21,13 +21,7 @@ function loadConfig() {
     console.log(
       `${colors.yellow}Config file not found. Creating a new one...${colors.reset}`,
     );
-    const defaultConfig = {
-      configs: { default: { botToken: "", prefix: "!" } },
-    };
-    fs_1.default.writeFileSync(
-      CONFIG_FILE,
-      JSON.stringify(defaultConfig, null, 2),
-    );
+    createNewConfig();
   }
   return JSON.parse(fs_1.default.readFileSync(CONFIG_FILE, "utf-8"));
 }

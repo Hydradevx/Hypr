@@ -20,10 +20,7 @@ function loadConfig(): ConfigData {
     console.log(
       `${colors.yellow}Config file not found. Creating a new one...${colors.reset}`,
     );
-    const defaultConfig: ConfigData = {
-      configs: { default: { botToken: "", prefix: "!" } },
-    };
-    fs.writeFileSync(CONFIG_FILE, JSON.stringify(defaultConfig, null, 2));
+    createNewConfig();
   }
   return JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
 }

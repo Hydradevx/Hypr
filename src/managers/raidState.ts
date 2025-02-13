@@ -1,9 +1,14 @@
 const raidState = {
   active: false,
   interval: null,
+  enabled: false,
 
   getRaidActive() {
     return this.active;
+  },
+
+  getRaidEnabled() {
+    return this.enabled;
   },
 
   getRaidInterval() {
@@ -12,6 +17,10 @@ const raidState = {
 
   setRaidActive(state: boolean) {
     this.active = state;
+  },
+
+  setRaidEnabled(state: boolean) {
+    this.enabled = state;
   },
 
   setRaidInterval(interval: any) {
@@ -26,4 +35,4 @@ const raidState = {
   },
 };
 
-module.exports = raidState;
+export default raidState;
