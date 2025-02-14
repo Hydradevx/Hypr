@@ -18,6 +18,7 @@ const afkState_1 = __importDefault(require("./managers/afkState"));
 const richPresence_1 = __importDefault(require("./utils/richPresence"));
 const Json = require("../package.json");
 const configManager_1 = __importDefault(require("./utils/configManager"));
+(0, configManager_1.default)();
 let config = (0, configManager_1.default)();
 if (!config) {
   process.exit(0);
@@ -108,8 +109,10 @@ if (updated) {
   );
 }
 async function checkConfig(client) {
-  config = await (0, configManager_1.default)();
-  if (config !== null) {
+  if (config) {
+    if (fs_1.default.existsSync("../config.json")) {
+      config = fs_1.default.readFileSync("../config.json");
+    }
     client.login(config.token);
     startlogs();
   } else {

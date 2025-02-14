@@ -12,9 +12,11 @@ import rpc from "./utils/richPresence";
 
 const Json = require("../package.json");
 
-import showConfigs from "./utils/configManager";
+import manageConfig from "./utils/configManager";
 
-let config: any = showConfigs();
+manageConfig();
+
+let config: any = manageConfig();
 
 if (!config) {
   process.exit(0);
@@ -128,8 +130,10 @@ if (updated) {
 }
 
 async function checkConfig(client: any) {
-  config = await showConfigs();
-  if (config !== null) {
+  if (config) {
+    if (fs.existsSync("../config.json")) {
+      config = fs.readFileSync("../config.json");
+    }
     client.login(config.token);
     startlogs();
   } else {

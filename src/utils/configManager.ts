@@ -1,129 +1,99 @@
-import fs from "fs";
+import * as fs from "fs";
+import * as path from "path";
 import inquirer from "inquirer";
 
-const CONFIG_FILE = "config.json";
-
-const colors = {
-  reset: "\x1b[0m",
-  red: "\x1b[31m",
-  green: "\x1b[32m",
-  yellow: "\x1b[33m",
-  blue: "\x1b[34m",
-  cyan: "\x1b[36m",
+const getConfigFilePath = (): string => {
+  return path.join(__dirname, "../../config.json");
 };
 
-type BotConfig = { botToken: string; prefix: string };
-type ConfigData = { configs: Record<string, BotConfig> };
+const readOrCreateConfigFile = (): any => {
+  const configPath = getConfigFilePath();
 
-function loadConfig(): ConfigData {
-  if (!fs.existsSync(CONFIG_FILE)) {
-    console.log(
-      `${colors.yellow}Config file not found. Creating a new one...${colors.reset}`,
-    );
-    createNewConfig();
+  if (fs.existsSync(configPath)) {
+    const config = fs.readFileSync(configPath, "utf-8");
+    return JSON.parse(config);
+  } else {
+    return {};
   }
-  return JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
-}
+};
 
-function saveConfig(data: ConfigData): void {
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify(data, null, 2));
-}
-
-async function showConfigs(): Promise<BotConfig | any> {
-  if (!fs.existsSync(CONFIG_FILE)) return null;
-  const configData = loadConfig();
-  const configNames = Object.keys(configData.configs);
-
-  const { selectedOption } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "selectedOption",
-      message: `${colors.blue}Select a configuration:${colors.reset}`,
-      choices: [
-        ...configNames,
-        new inquirer.Separator(),
-        "➕ Create New Config",
-        "❌ Exit",
-      ].filter((choice) => choice !== "default"),
-    },
-  ]);
-
-  if (selectedOption === "➕ Create New Config") return createNewConfig();
-  if (selectedOption === "❌ Exit") {
-    console.log(`${colors.red}Exiting...${colors.reset}`);
-    process.exit(0);
-  }
-  return manageConfig(selectedOption);
-}
-
-async function createNewConfig(): Promise<BotConfig | undefined> {
-  const configData = loadConfig();
-
-  const { name } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: `${colors.green}Enter a name for the new config:${colors.reset}`,
-      validate: (input: string) =>
-        configData.configs[input] ? "Config name already exists!" : true,
-    },
-  ]);
-
-  configData.configs[name] = { botToken: "", prefix: "!" };
-  saveConfig(configData);
-  console.log(`${colors.green}New config '${name}' created!${colors.reset}`);
-
-  return showConfigs();
-}
-
-async function manageConfig(
-  configName: string,
-): Promise<BotConfig | undefined> {
-  console.log(`${colors.cyan}\nSelected Config: ${configName}${colors.reset}`);
-
-  const { action } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "action",
-      message: `${colors.yellow}Choose an option:${colors.reset}`,
-      choices: ["🚀 Run this config", "✏️ Edit this config", "🔙 Go back"],
-    },
-  ]);
-
-  if (action === "🚀 Run this config") {
-    console.log(
-      `${colors.green}Running bot with config: ${configName}${colors.reset}`,
-    );
-    return loadConfig().configs[configName];
-  }
-  if (action === "✏️ Edit this config") return editConfig(configName);
-  return showConfigs();
-}
-
-async function editConfig(configName: string): Promise<BotConfig | undefined> {
-  const configData = loadConfig();
-  const selectedConfig = configData.configs[configName];
-
-  const responses = await inquirer.prompt([
-    {
-      type: "input",
-      name: "botToken",
-      message: "Bot Token:",
-      default: selectedConfig.botToken,
-    },
+const askQuestions = async () => {
+  const questions: any = [
     {
       type: "input",
       name: "prefix",
-      message: "Prefix:",
-      default: selectedConfig.prefix,
+      message: "🧑‍💻 Enter your prefix:",
+      default: "!",
     },
-  ]);
+    {
+      type: "password",
+      name: "password",
+      message: "🔒 Enter your token:",
+    },
+  ];
 
-  configData.configs[configName] = responses;
-  saveConfig(configData);
+  const answers = await inquirer.prompt(questions);
+  return answers;
+};
 
-  console.log(`${colors.green}Config updated successfully!${colors.reset}`);
-  return manageConfig(configName);
-}
+const updateConfigFile = (newConfig: any) => {
+  const configPath = getConfigFilePath();
+  fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
+  console.log("✅ Config file updated!");
+};
 
-export default showConfigs;
+const manageConfig = async () => {
+  const configPath = getConfigFilePath();
+  if (fs.existsSync(configPath)) {
+    const { action } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "action",
+        message: "📂 Config file exists. Do you want to edit or run?",
+        choices: ["✏️ Edit", "🚀 Run", "❌ Exit"],
+      },
+    ]);
+
+    if (action === "✏️ Edit") {
+      const userAnswers = await askQuestions();
+      const existingConfig = readOrCreateConfigFile();
+      const updatedConfig = { ...existingConfig, ...userAnswers };
+      updateConfigFile(updatedConfig);
+      return updatedConfig;
+    } else if (action === "🚀 Run") {
+      const existingConfig = readOrCreateConfigFile();
+      return existingConfig;
+    } else {
+      process.exit();
+    }
+  } else {
+    const { create } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "create",
+        message: "❗ Config file does not exist. Do you want to create it?",
+        default: true,
+      },
+    ]);
+
+    if (create) {
+      const userAnswers = await askQuestions();
+      updateConfigFile(userAnswers);
+      return userAnswers;
+    } else {
+      process.exit();
+    }
+  }
+  const config: any = fs.readFileSync("../config.json");
+  return config;
+};
+
+manageConfig()
+  .then((config) => {
+    console.log("📄 Config data:", config);
+  })
+  .catch((error) => {
+    console.error("⚠️ Error occurred:", error);
+  });
+
+export default manageConfig;
