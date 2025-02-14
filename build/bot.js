@@ -16,14 +16,45 @@ const usageLoader_1 = require("./utils/usageLoader");
 const infoLoader_1 = require("./utils/infoLoader");
 const afkState_1 = __importDefault(require("./managers/afkState"));
 const richPresence_1 = __importDefault(require("./utils/richPresence"));
+const child_process_1 = require("child_process");
 const Json = require("../package.json");
-const configManager_1 = __importDefault(require("./utils/configManager"));
-(0, configManager_1.default)();
-let config = (0, configManager_1.default)();
-if (!config) {
-  process.exit(0);
-}
-if (!config.hasAccess) config.hasAccess = [];
+let config;
+const runConfigMakeScript = () => {
+  return new Promise((resolve, reject) => {
+    (0, child_process_1.exec)(
+      "cd .. && node build/utils/configMake.js",
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(`Error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          reject(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        resolve();
+      },
+    );
+  });
+};
+const loadConfig = () => {
+  if (!fs_1.default.existsSync("../config.json")) {
+    runConfigMakeScript()
+      .then(() => {
+        console.log("Config file created successfully.");
+        process.exit(0);
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+  } else {
+    const configData = fs_1.default.readFileSync("../config.json", "utf-8");
+    return (config = JSON.parse(configData));
+  }
+};
+config = loadConfig();
 const client = new discord_js_selfbot_v13_1.Client();
 const token = config.token;
 let prefix = config.prefix;

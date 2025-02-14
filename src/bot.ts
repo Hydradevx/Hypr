@@ -9,20 +9,47 @@ import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
+import { exec } from "child_process";
 
 const Json = require("../package.json");
 
-import manageConfig from "./utils/configManager";
+let config: any;
 
-manageConfig();
+const runConfigMakeScript = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    exec("cd .. && node build/utils/configMake.js", (error, stdout, stderr) => {
+      if (error) {
+        reject(`Error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        reject(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      resolve();
+    });
+  });
+};
 
-let config: any = manageConfig();
+const loadConfig = (): void => {
+  if (!fs.existsSync("../config.json")) {
+    runConfigMakeScript()
+      .then(() => {
+        console.log("Config file created successfully.");
+        process.exit(0);
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+  } else {
+    const configData = fs.readFileSync("../config.json", "utf-8");
+    return (config = JSON.parse(configData));
+  }
+};
 
-if (!config) {
-  process.exit(0);
-}
-
-if (!config.hasAccess) config.hasAccess = [];
+config = loadConfig();
 
 const client: any = new Client();
 

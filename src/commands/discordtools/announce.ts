@@ -1,5 +1,3 @@
-import { Message } from "discord.js-selfbot-v13";
-
 export = {
   name: "announce",
   aliases: ["announcement"],
@@ -10,7 +8,7 @@ export = {
    * @param {string[]} _args
    * @param {Client} client
    */
-  async execute(message: typeof Message, args: any) {
+  async execute(message: any, args: any) {
     if (message.author.id == message.client.user.id)
       message.delete().catch(() => {});
     const announcement = args.join(" ").trim();

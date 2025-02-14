@@ -6,17 +6,6 @@ const getConfigFilePath = (): string => {
   return path.join(__dirname, "../../config.json");
 };
 
-const readOrCreateConfigFile = (): any => {
-  const configPath = getConfigFilePath();
-
-  if (fs.existsSync(configPath)) {
-    const config = fs.readFileSync(configPath, "utf-8");
-    return JSON.parse(config);
-  } else {
-    return {};
-  }
-};
-
 const askQuestions = async () => {
   const questions: any = [
     {
@@ -27,8 +16,13 @@ const askQuestions = async () => {
     },
     {
       type: "password",
-      name: "password",
+      name: "token",
       message: "🔒 Enter your token:",
+    },
+    {
+      type: "input",
+      name: "hasAccess",
+      message: "🔑 Enter IDs of users who have access to the bot:",
     },
   ];
 
@@ -39,33 +33,15 @@ const askQuestions = async () => {
 const updateConfigFile = (newConfig: any) => {
   const configPath = getConfigFilePath();
   fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
-  console.log("✅ Config file updated!");
+  console.log("✅ Config file created!");
 };
 
-const manageConfig = async () => {
+const configMake = async () => {
   const configPath = getConfigFilePath();
-  if (fs.existsSync(configPath)) {
-    const { action } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "action",
-        message: "📂 Config file exists. Do you want to edit or run?",
-        choices: ["✏️ Edit", "🚀 Run", "❌ Exit"],
-      },
-    ]);
 
-    if (action === "✏️ Edit") {
-      const userAnswers = await askQuestions();
-      const existingConfig = readOrCreateConfigFile();
-      const updatedConfig = { ...existingConfig, ...userAnswers };
-      updateConfigFile(updatedConfig);
-      return updatedConfig;
-    } else if (action === "🚀 Run") {
-      const existingConfig = readOrCreateConfigFile();
-      return existingConfig;
-    } else {
-      process.exit();
-    }
+  if (fs.existsSync(configPath)) {
+    console.log("⚠️ Config file already exists.");
+    process.exit();
   } else {
     const { create } = await inquirer.prompt([
       {
@@ -84,11 +60,9 @@ const manageConfig = async () => {
       process.exit();
     }
   }
-  const config: any = fs.readFileSync("../config.json");
-  return config;
 };
 
-manageConfig()
+configMake()
   .then((config) => {
     console.log("📄 Config data:", config);
   })
@@ -96,4 +70,4 @@ manageConfig()
     console.error("⚠️ Error occurred:", error);
   });
 
-export default manageConfig;
+export default configMake;

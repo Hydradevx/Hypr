@@ -24,7 +24,7 @@ module.exports = {
         limit: numMessages,
       });
       const archiveData = messages
-        .map((m) => `${m.author.tag}: ${m.content}`)
+        .map((m: any) => `${m.author.tag}: ${m.content}`)
         .join("\n");
       const attachment = new MessageAttachment(
         Buffer.from(archiveData),
@@ -37,7 +37,7 @@ module.exports = {
       console.log(
         `Archived and sent the last ${numMessages} messages from ${message.channel.name}`,
       );
-    } catch (error) {
+    } catch (error: any) {
       message.sendMessage("❌ Unable to archive messages.");
       console.log(
         `Failed to archive messages in ${message.channel.name}: ${error.message}`,
