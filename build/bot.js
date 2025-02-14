@@ -108,6 +108,12 @@ if (updated) {
     "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
   );
 }
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+sleep(30000);
 async function checkConfig(client) {
   if (config) {
     if (fs_1.default.existsSync("../config.json")) {

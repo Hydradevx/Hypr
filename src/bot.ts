@@ -129,6 +129,14 @@ if (updated) {
   );
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+sleep(30000);
+
 async function checkConfig(client: any) {
   if (config) {
     if (fs.existsSync("../config.json")) {
