@@ -1,4 +1,4 @@
-import colors from "ansi-colors";
+import * as colors from "ansi-colors";
 
 interface LogFunction {
   (message: string): void;
@@ -9,7 +9,11 @@ const maxLogs = process.stdout.rows - 10;
 
 const Json = require("../../package.json");
 
-const log: LogFunction = console.log;
+const log: LogFunction = (message: string) => {
+  logs.push(message);
+  console.log(message);
+  renderLogs();
+};
 
 function displayTextArt(): void {
   const textArt = `
@@ -18,63 +22,61 @@ function displayTextArt(): void {
     ${colors.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
     ${colors.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
     ${colors.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
-    ${colors.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝ SELFBOT v${Json.version}`)}
+    ${colors.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝`)}
+    ${colors.cyanBright(`SELFBOT v${Json.version}`)}
     `;
 
   console.clear();
-  log(textArt);
+  console.log(textArt);
 }
 
 function renderLogs(): void {
   displayTextArt();
-  log(colors.green("\nLogs:\n"));
+  console.log(colors.green("\nLogs:\n"));
 
   const logsToShow = logs.slice(-maxLogs);
 
   logsToShow.forEach((logText) => {
-    log(logText);
+    console.log(logText);
   });
 }
 
-function wlog(message: string): void {
-  logs.push(colors.white(`[LOG]: ${message}`));
-  renderLogs();
-}
-
-function warn(message: string): void {
-  logs.push(colors.red(`[WARN]: ${message}`));
-  renderLogs();
-}
-
-function logStatus(message: string): void {
-  logs.push(colors.yellow(`[STATUS]: ${message}`));
-  renderLogs();
-}
-
-function logSuccess(message: string): void {
-  logs.push(colors.green(`[SUCCESS]: ${message}`));
-  renderLogs();
-}
-
-function error(message: string): void {
-  logs.push(colors.green(`[ERROR]: ${message}`));
-  renderLogs();
-}
-
-function info(message: string): void {
-  logs.push(colors.blue(`[INFO]: ${message}`));
-  renderLogs();
-}
-
 function initLogger(): void {
-  logs.push(colors.green("Logger initialized."));
-  renderLogs();
-
-  console.log = wlog;
-  console.warn = warn;
-  console.info = info;
-
-  console.error = error;
+  log(colors.green("Logger initialized."));
 }
 
-export { initLogger, log, wlog, warn, logStatus, logSuccess, info, error };
+function status(message: string) {
+  log(colors.cyan(`[STATUS] ${message}`));
+}
+
+function warn(message: string) {
+  log(colors.red(`[WARN] ${message}`));
+}
+
+function info(message: string) {
+  log(colors.blue(`[INFO] ${message}`));
+}
+
+function error(message: string) {
+  log(colors.red(`[ERROR] ${message}`));
+}
+
+
+function cmd(message: string) {
+  log(colors.cyan(`[COMMAND] ${message}`));
+}
+
+function wlog(message: string) {
+  log(colors.white(`[LOG] ${message}`));
+}
+
+
+export default {
+  status,
+  error,
+  warn,
+  info,
+  cmd,
+  initLogger,
+  wlog
+};

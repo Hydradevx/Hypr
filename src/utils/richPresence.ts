@@ -1,5 +1,5 @@
 const { RichPresence, Client } = require("discord.js-selfbot-v13");
-import { wlog } from "./logger";
+import logger from "./logger";
 
 export default function rpc(client: typeof Client) {
   if (!client || !client.user) {
@@ -22,5 +22,5 @@ export default function rpc(client: typeof Client) {
     .addButton("Discord 💬", "https://discord.gg/6Tufbvnebj");
 
   client.user.setActivity(status);
-  wlog("Started Discord RPC");
+  logger.status("Started Discord RPC");
 }

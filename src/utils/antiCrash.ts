@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 export default function antiCrash(): void {
   process.on("uncaughtException", (error: Error) => {
     console.log("Uncaught Exception:", error.stack || error);
@@ -12,5 +14,5 @@ export default function antiCrash(): void {
     console.log("Warning:", warning.stack || warning);
   });
 
-  console.log("Anti-crash module initialized. All errors will be logged.");
+  logger.status("Anti-crash module initialized. All errors will be logged.");
 }

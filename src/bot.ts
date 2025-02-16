@@ -2,8 +2,8 @@ import { Client, Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
 import colors from "ansi-colors";
-import checkUpdate from "./utils/updateChecker";
-import { initLogger, log, warn, logStatus } from "./utils/logger";
+import update from "./utils/updater";
+import logger from "./utils/logger";
 import { logdeviceInfo } from "./utils/infoLog";
 import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
@@ -93,7 +93,7 @@ for (const filePath of commandFiles) {
 }
 
 client.on("ready", async () => {
-  logStatus(`Logged in as ${client.user?.tag}`);
+  logger.status(`Logged in as ${client.user?.tag}`);
   config.hasAccess.push(client.user?.id);
   rpc(client);
 });
@@ -147,14 +147,7 @@ let client_info = {
 
 client.info = client_info;
 
-let updated = checkUpdate(Json);
-if (updated) {
-  checkConfig(client);
-} else {
-  warn(
-    "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
-  );
-}
+update()
 
 function sleep(ms: number) {
   return new Promise((resolve) => {
@@ -178,9 +171,9 @@ async function checkConfig(client: any) {
 
 function startlogs() {
   console.log(colors.gray("Initializing logs...\n"));
-  initLogger();
+  logger.initLogger();
   if (isTermux()) {
-    log("Running on Termux");
+    logger.status("Running on Termux");
   } else {
     logdeviceInfo();
   }

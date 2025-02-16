@@ -1,5 +1,5 @@
 import { Message } from "discord.js-selfbot-v13";
-import { wlog } from "./logger";
+import logger from "./logger";
 interface Command {
   name: string;
   usage?: string;
@@ -23,7 +23,7 @@ function usageLoad(command: Command, message: Message, prefix: string): void {
     .send(usageMsg)
     .catch((err) => console.error("Failed to send usage message:", err));
 
-  wlog(`Usage Command has been executed for Command ${command.name}`);
+  logger.cmd(`Usage Command has been executed for Command ${command.name}`);
 }
 
 export { usageLoad };

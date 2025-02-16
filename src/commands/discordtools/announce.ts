@@ -1,4 +1,4 @@
-export = {
+module.exports = {
   name: "announce",
   aliases: ["announcement"],
   info: "announces a message in announcement Channel",
