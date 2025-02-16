@@ -1,6 +1,14 @@
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = rpc;
 const { RichPresence, Client } = require("discord.js-selfbot-v13");
-import logger from "./logger";
-export default function rpc(client) {
+const logger_1 = __importDefault(require("./logger"));
+function rpc(client) {
   if (!client || !client.user) {
     console.error("Client is not initialized or logged in.");
     return;
@@ -19,5 +27,5 @@ export default function rpc(client) {
     )
     .addButton("Discord 💬", "https://discord.gg/6Tufbvnebj");
   client.user.setActivity(status);
-  logger.status("Started Discord RPC");
+  logger_1.default.status("Started Discord RPC");
 }

@@ -1,4 +1,12 @@
-import logger from "./logger";
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.infoLoad = infoLoad;
+const logger_1 = __importDefault(require("./logger"));
 /**
  * Sends an info message about the command.
  *
@@ -10,6 +18,7 @@ function infoLoad(command, message) {
   if (message.author.id === message.client.user?.id)
     message.delete().catch(() => {});
   message.channel.send(infoMsg);
-  logger.cmd(`Info Command has been executed for Command ${command.name}`);
+  logger_1.default.cmd(
+    `Info Command has been executed for Command ${command.name}`,
+  );
 }
-export { infoLoad };

@@ -1,5 +1,13 @@
-import logger from "./logger";
-export default function antiCrash() {
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = antiCrash;
+const logger_1 = __importDefault(require("./logger"));
+function antiCrash() {
   process.on("uncaughtException", (error) => {
     console.log("Uncaught Exception:", error.stack || error);
   });
@@ -10,5 +18,7 @@ export default function antiCrash() {
     if (warning.name === "DeprecationWarning") return; // Ignore deprecation warnings (node-fetch etc.)
     console.log("Warning:", warning.stack || warning);
   });
-  logger.status("Anti-crash module initialized. All errors will be logged.");
+  logger_1.default.status(
+    "Anti-crash module initialized. All errors will be logged.",
+  );
 }

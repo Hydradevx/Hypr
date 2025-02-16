@@ -1,59 +1,38 @@
-import { Client, Collection } from "discord.js-selfbot-v13";
-import fs from "fs";
-import path from "path";
-import colors from "ansi-colors";
-import update from "./utils/updater";
-import logger from "./utils/logger";
-import { logdeviceInfo } from "./utils/infoLog";
-import { usageLoad } from "./utils/usageLoader";
-import { infoLoad } from "./utils/infoLoader";
-import afkState from "./managers/afkState";
-import rpc from "./utils/richPresence";
-import { exec } from "child_process";
-const Json = require("../package.json");
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_selfbot_v13_1 = require("discord.js-selfbot-v13");
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const ansi_colors_1 = __importDefault(require("ansi-colors"));
+const updater_1 = __importDefault(require("./utils/updater"));
+const logger_1 = __importDefault(require("./utils/logger"));
+const usageLoader_1 = require("./utils/usageLoader");
+const infoLoader_1 = require("./utils/infoLoader");
+const afkState_1 = __importDefault(require("./managers/afkState"));
+const richPresence_1 = __importDefault(require("./utils/richPresence"));
 let config;
-const runConfigMakeScript = () => {
-  return new Promise((resolve, reject) => {
-    exec("cd .. && node build/utils/configMake.js", (error, stdout, stderr) => {
-      if (error) {
-        reject(`Error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        reject(`stderr: ${stderr}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      resolve();
-    });
-  });
-};
-const loadConfig = () => {
-  if (!fs.existsSync("../config.json")) {
-    runConfigMakeScript()
-      .then(() => {
-        console.log("Config file created successfully.");
-        process.exit(0);
-      })
-      .catch((error) => {
-        console.error(error);
-        process.exit(1);
-      });
-  } else {
-    const configData = fs.readFileSync("../config.json", "utf-8");
-    return (config = JSON.parse(configData));
-  }
-};
-config = loadConfig();
-const client = new Client();
+const configPath = path_1.default.join(__dirname, "../config.json");
+if (!fs_1.default.existsSync(configPath)) {
+  console.log(
+    `Please type ${ansi_colors_1.default.red("npm run config")} to set up the config!`,
+  );
+  process.exit();
+}
+config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+const client = new discord_js_selfbot_v13_1.Client();
 const token = config.token;
 let prefix = config.prefix;
-client.commands = new Collection();
+client.commands = new discord_js_selfbot_v13_1.Collection();
 function getFilesRecursively(directory) {
   let files = [];
-  const items = fs.readdirSync(directory, { withFileTypes: true });
+  const items = fs_1.default.readdirSync(directory, { withFileTypes: true });
   for (const item of items) {
-    const fullPath = path.join(directory, item.name);
+    const fullPath = path_1.default.join(directory, item.name);
     if (item.isDirectory()) {
       files = files.concat(getFilesRecursively(fullPath));
     } else if (item.isFile() && fullPath.endsWith(".js")) {
@@ -62,7 +41,7 @@ function getFilesRecursively(directory) {
   }
   return files;
 }
-const commandsPath = path.join(__dirname, "commands");
+const commandsPath = path_1.default.join(__dirname, "commands");
 const commandFiles = getFilesRecursively(commandsPath);
 for (const filePath of commandFiles) {
   const command = require(filePath);
@@ -76,14 +55,16 @@ for (const filePath of commandFiles) {
   }
 }
 client.on("ready", async () => {
-  logger.status(`Logged in as ${client.user?.tag}`);
+  logger_1.default.status(`Logged in as ${client.user?.tag}`);
   config.hasAccess.push(client.user?.id);
-  rpc(client);
+  (0, richPresence_1.default)(client);
 });
 client.on("messageCreate", (message) => {
   if (config.hasAccess.includes(message.author.id)) {
-    if (afkState.afkStatus && message.mentions.has(client.user)) {
-      message.reply(`💤 I'm currently AFK. Reason: ${afkState.afkReason}`);
+    if (afkState_1.default.afkStatus && message.mentions.has(client.user)) {
+      message.reply(
+        `💤 I'm currently AFK. Reason: ${afkState_1.default.afkReason}`,
+      );
       return;
     }
   }
@@ -98,11 +79,11 @@ client.on("messageCreate", (message) => {
   const command = client.commands.get(commandName);
   if (!command) return;
   if (args[0] === "--usage") {
-    usageLoad(command, message, prefix);
+    (0, usageLoader_1.usageLoad)(command, message, prefix);
     return;
   }
   if (args[0] === "--info") {
-    infoLoad(command, message);
+    (0, infoLoader_1.infoLoad)(command, message);
     return;
   }
   message.prefix = prefix;
@@ -119,33 +100,16 @@ let client_info = {
   moreCmdSoonMessage: "✨ **More Commands Coming Soon!** ✨",
 };
 client.info = client_info;
-update();
+(0, updater_1.default)();
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
-sleep(30000);
-async function checkConfig(client) {
-  if (config) {
-    if (fs.existsSync("../config.json")) {
-      config = fs.readFileSync("../config.json");
-    }
-    client.login(config.token);
-    startlogs();
-  } else {
-    setTimeout(checkConfig, 20000);
-  }
-}
+sleep(100);
+client.login(config.token);
+startlogs();
 function startlogs() {
-  console.log(colors.gray("Initializing logs...\n"));
-  logger.initLogger();
-  if (isTermux()) {
-    logger.status("Running on Termux");
-  } else {
-    logdeviceInfo();
-  }
+  console.log(ansi_colors_1.default.gray("Initializing logs...\n"));
+  logger_1.default.initLogger();
 }
-const isTermux = () =>
-  process.env.TERMUX_VERSION ||
-  require("fs").existsSync("/data/data/com.termux/files/usr");

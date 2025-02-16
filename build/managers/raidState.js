@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const raidState = {
   active: false,
   interval: null,
@@ -27,4 +29,4 @@ const raidState = {
     }
   },
 };
-export default raidState;
+exports.default = raidState;

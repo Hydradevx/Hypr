@@ -4,53 +4,22 @@ import path from "path";
 import colors from "ansi-colors";
 import update from "./utils/updater";
 import logger from "./utils/logger";
-import { logdeviceInfo } from "./utils/infoLog";
 import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
-import { exec } from "child_process";
-
-const Json = require("../package.json");
 
 let config: any;
+const configPath = path.join(__dirname, "../config.json");
 
-const runConfigMakeScript = (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    exec("cd .. && node build/utils/configMake.js", (error, stdout, stderr) => {
-      if (error) {
-        reject(`Error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        reject(`stderr: ${stderr}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      resolve();
-    });
-  });
-};
+if (!fs.existsSync(configPath)) {
+  console.log(
+    `Please type ${colors.red("npm run config")} to set up the config!`,
+  );
+  process.exit();
+}
 
-const loadConfig = (): void => {
-  if (!fs.existsSync("../config.json")) {
-    runConfigMakeScript()
-      .then(() => {
-        console.log("Config file created successfully.");
-        process.exit(0);
-      })
-      .catch((error) => {
-        console.error(error);
-        process.exit(1);
-      });
-  } else {
-    const configData = fs.readFileSync("../config.json", "utf-8");
-    return (config = JSON.parse(configData));
-  }
-};
-
-config = loadConfig();
-
+config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 const client: any = new Client();
 
 const token = config.token;
@@ -155,30 +124,12 @@ function sleep(ms: number) {
   });
 }
 
-sleep(30000);
+sleep(100);
 
-async function checkConfig(client: any) {
-  if (config) {
-    if (fs.existsSync("../config.json")) {
-      config = fs.readFileSync("../config.json");
-    }
-    client.login(config.token);
-    startlogs();
-  } else {
-    setTimeout(checkConfig, 20000);
-  }
-}
+client.login(config.token);
+startlogs();
 
 function startlogs() {
   console.log(colors.gray("Initializing logs...\n"));
   logger.initLogger();
-  if (isTermux()) {
-    logger.status("Running on Termux");
-  } else {
-    logdeviceInfo();
-  }
 }
-
-const isTermux = () =>
-  process.env.TERMUX_VERSION ||
-  require("fs").existsSync("/data/data/com.termux/files/usr");

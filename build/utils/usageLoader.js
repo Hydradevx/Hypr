@@ -1,4 +1,12 @@
-import logger from "./logger";
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usageLoad = usageLoad;
+const logger_1 = __importDefault(require("./logger"));
 /**
  * Loads the usage of a command and sends it in the channel.
  *
@@ -14,6 +22,7 @@ function usageLoad(command, message, prefix) {
   message.channel
     .send(usageMsg)
     .catch((err) => console.error("Failed to send usage message:", err));
-  logger.cmd(`Usage Command has been executed for Command ${command.name}`);
+  logger_1.default.cmd(
+    `Usage Command has been executed for Command ${command.name}`,
+  );
 }
-export { usageLoad };
