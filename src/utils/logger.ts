@@ -61,7 +61,6 @@ function error(message: string) {
   log(colors.red(`[ERROR] ${message}`));
 }
 
-
 function cmd(message: string) {
   log(colors.cyan(`[COMMAND] ${message}`));
 }
@@ -70,7 +69,6 @@ function wlog(message: string) {
   log(colors.white(`[LOG] ${message}`));
 }
 
-
 export default {
   status,
   error,
@@ -78,5 +76,5 @@ export default {
   info,
   cmd,
   initLogger,
-  wlog
+  wlog,
 };

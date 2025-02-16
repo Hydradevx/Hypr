@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = antiCrash;
-function antiCrash() {
+import logger from "./logger";
+export default function antiCrash() {
   process.on("uncaughtException", (error) => {
     console.log("Uncaught Exception:", error.stack || error);
   });
@@ -12,5 +10,5 @@ function antiCrash() {
     if (warning.name === "DeprecationWarning") return; // Ignore deprecation warnings (node-fetch etc.)
     console.log("Warning:", warning.stack || warning);
   });
-  console.log("Anti-crash module initialized. All errors will be logged.");
+  logger.status("Anti-crash module initialized. All errors will be logged.");
 }

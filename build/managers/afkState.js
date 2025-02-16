@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const afkState = {
   status: false,
   reason: "",
@@ -23,4 +21,4 @@ const afkState = {
     this.startTime = startTime;
   },
 };
-exports.default = afkState;
+export default afkState;

@@ -147,7 +147,7 @@ let client_info = {
 
 client.info = client_info;
 
-update()
+update();
 
 function sleep(ms: number) {
   return new Promise((resolve) => {

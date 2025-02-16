@@ -1,73 +1,60 @@
-"use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.log = void 0;
-exports.initLogger = initLogger;
-exports.wlog = wlog;
-exports.warn = warn;
-exports.logStatus = logStatus;
-exports.logSuccess = logSuccess;
-exports.info = info;
-exports.error = error;
-const ansi_colors_1 = __importDefault(require("ansi-colors"));
+import * as colors from "ansi-colors";
 let logs = [];
 const maxLogs = process.stdout.rows - 10;
 const Json = require("../../package.json");
-const log = console.log;
-exports.log = log;
+const log = (message) => {
+  logs.push(message);
+  console.log(message);
+  renderLogs();
+};
 function displayTextArt() {
   const textArt = `
-    ${ansi_colors_1.default.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
-    ${ansi_colors_1.default.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
-    ${ansi_colors_1.default.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
-    ${ansi_colors_1.default.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
-    ${ansi_colors_1.default.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
-    ${ansi_colors_1.default.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝ SELFBOT v${Json.version}`)}
+    ${colors.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
+    ${colors.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
+    ${colors.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
+    ${colors.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
+    ${colors.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
+    ${colors.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝`)}
+    ${colors.cyanBright(`SELFBOT v${Json.version}`)}
     `;
   console.clear();
-  log(textArt);
+  console.log(textArt);
 }
 function renderLogs() {
   displayTextArt();
-  log(ansi_colors_1.default.green("\nLogs:\n"));
+  console.log(colors.green("\nLogs:\n"));
   const logsToShow = logs.slice(-maxLogs);
   logsToShow.forEach((logText) => {
-    log(logText);
+    console.log(logText);
   });
 }
-function wlog(message) {
-  logs.push(ansi_colors_1.default.white(`[LOG]: ${message}`));
-  renderLogs();
+function initLogger() {
+  log(colors.green("Logger initialized."));
+}
+function status(message) {
+  log(colors.cyan(`[STATUS] ${message}`));
 }
 function warn(message) {
-  logs.push(ansi_colors_1.default.red(`[WARN]: ${message}`));
-  renderLogs();
-}
-function logStatus(message) {
-  logs.push(ansi_colors_1.default.yellow(`[STATUS]: ${message}`));
-  renderLogs();
-}
-function logSuccess(message) {
-  logs.push(ansi_colors_1.default.green(`[SUCCESS]: ${message}`));
-  renderLogs();
-}
-function error(message) {
-  logs.push(ansi_colors_1.default.green(`[ERROR]: ${message}`));
-  renderLogs();
+  log(colors.red(`[WARN] ${message}`));
 }
 function info(message) {
-  logs.push(ansi_colors_1.default.blue(`[INFO]: ${message}`));
-  renderLogs();
+  log(colors.blue(`[INFO] ${message}`));
 }
-function initLogger() {
-  logs.push(ansi_colors_1.default.green("Logger initialized."));
-  renderLogs();
-  console.log = wlog;
-  console.warn = warn;
-  console.info = info;
-  console.error = error;
+function error(message) {
+  log(colors.red(`[ERROR] ${message}`));
 }
+function cmd(message) {
+  log(colors.cyan(`[COMMAND] ${message}`));
+}
+function wlog(message) {
+  log(colors.white(`[LOG] ${message}`));
+}
+export default {
+  status,
+  error,
+  warn,
+  info,
+  cmd,
+  initLogger,
+  wlog,
+};
