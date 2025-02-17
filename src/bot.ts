@@ -126,7 +126,7 @@ function sleep(ms: number) {
 
 sleep(100);
 
-client.login(config.token);
+client.login(token);
 startlogs();
 
 function startlogs() {

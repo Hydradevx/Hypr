@@ -1,6 +1,6 @@
 {
   "name": "hydrion-s3lfb0t",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "the best selfbot made by Hydrion",
   "main": "dist/bot.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "config": "node build/utils/config.js",
-    "dev": "tsc && npm run format && npm start"
+    "dev": "rm -rf build && tsc && npm run format && npm start"
   },
   "keywords": [
     "selfbot",

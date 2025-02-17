@@ -107,7 +107,7 @@ function sleep(ms) {
   });
 }
 sleep(100);
-client.login(config.token);
+client.login(token);
 startlogs();
 function startlogs() {
   console.log(ansi_colors_1.default.gray("Initializing logs...\n"));

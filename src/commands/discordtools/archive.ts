@@ -4,16 +4,13 @@ const {
   Client,
 } = require("discord.js-selfbot-v13");
 
+import logger from "../../utils/logger";
+
 module.exports = {
   name: "archive",
   aliases: ["archiveMessages"],
   info: "archives previously sent messages",
   usage: "archive [number]",
-  /**
-   *
-   * @param {string[]} _args
-   * @param {Client} client
-   */
   async execute(message: typeof Message, args: any) {
     if (message.author.id == message.client.user.id)
       message.delete().catch(() => {});
@@ -30,16 +27,16 @@ module.exports = {
         Buffer.from(archiveData),
         "archive.txt",
       );
-      await message.sendMessage({
+      await message.channel.send({
         content: `📄 Here’s the archive of the last ${numMessages} messages:`,
         files: [attachment],
       });
-      console.log(
+      logger.cmd(
         `Archived and sent the last ${numMessages} messages from ${message.channel.name}`,
       );
     } catch (error: any) {
-      message.sendMessage("❌ Unable to archive messages.");
-      console.log(
+      message.channel.send("❌ Unable to archive messages.");
+      logger.error(
         `Failed to archive messages in ${message.channel.name}: ${error.message}`,
       );
     }

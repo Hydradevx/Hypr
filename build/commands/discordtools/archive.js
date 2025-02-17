@@ -1,19 +1,21 @@
 "use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
 const {
   MessageAttachment,
   Message,
   Client,
 } = require("discord.js-selfbot-v13");
+const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "archive",
   aliases: ["archiveMessages"],
   info: "archives previously sent messages",
   usage: "archive [number]",
-  /**
-   *
-   * @param {string[]} _args
-   * @param {Client} client
-   */
   async execute(message, args) {
     if (message.author.id == message.client.user.id)
       message.delete().catch(() => {});
@@ -29,16 +31,16 @@ module.exports = {
         Buffer.from(archiveData),
         "archive.txt",
       );
-      await message.sendMessage({
+      await message.channel.send({
         content: `📄 Here’s the archive of the last ${numMessages} messages:`,
         files: [attachment],
       });
-      console.log(
+      logger_1.default.cmd(
         `Archived and sent the last ${numMessages} messages from ${message.channel.name}`,
       );
     } catch (error) {
-      message.sendMessage("❌ Unable to archive messages.");
-      console.log(
+      message.channel.send("❌ Unable to archive messages.");
+      logger_1.default.error(
         `Failed to archive messages in ${message.channel.name}: ${error.message}`,
       );
     }
