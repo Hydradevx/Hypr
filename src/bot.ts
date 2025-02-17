@@ -106,7 +106,7 @@ client.on("messageCreate", (message: any) => {
       : message.reply.bind(message);
   message.hasAccess = config.hasAccess;
 
-  command.execute(message, args, client);
+  command.execute(message, args, client, prefix);
 });
 
 let client_info = {

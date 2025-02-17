@@ -15,10 +15,8 @@ module.exports = {
     const userToSendLine = mentionedUser || message.author;
 
     try {
-      const response = await axios.get(
-        "https://api.quotable.io/random?tags=love",
-      );
-      const pickupLine = response.data.content;
+      const response = await axios.get("https://api.popcat.xyz/pickuplines");
+      const pickupLine = response.data.pickupline;
 
       const messages = [
         "Finding the perfect rizz line... 🤔",

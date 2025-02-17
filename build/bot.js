@@ -93,7 +93,7 @@ client.on("messageCreate", (message) => {
       ? message.channel.send.bind(message)
       : message.reply.bind(message);
   message.hasAccess = config.hasAccess;
-  command.execute(message, args, client);
+  command.execute(message, args, client, prefix);
 });
 let client_info = {
   raidsEnabled: false,
