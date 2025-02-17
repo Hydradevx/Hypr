@@ -12,8 +12,7 @@ module.exports = {
   info: "lists roles of a user",
   usage: "roles [@user]",
   execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const user = message.mentions.users.first() || args[0];
     if (!user)
       return message.channel.send("Please mention a user to list roles.");

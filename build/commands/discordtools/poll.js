@@ -12,8 +12,7 @@ module.exports = {
   info: "conducts a poll request",
   usage: "poll [question] <optional: --old>",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete;
     if (!args.length)
       return message.channel.send("❌ Please provide a question for the poll.");
     const last = args.pop();

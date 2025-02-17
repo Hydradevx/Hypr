@@ -6,8 +6,7 @@ module.exports = {
   info: "lists roles of a user",
   usage: "roles [@user]",
   execute(message: any, args: any) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
 
     const user = message.mentions.users.first() || args[0];
     if (!user)

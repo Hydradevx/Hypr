@@ -12,8 +12,7 @@ module.exports = {
   info: "announces a message in announcement Channel",
   usage: "announce [message]",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const announcement = args.join(" ").trim();
     if (!announcement) {
       message.channel.send("❌ Please provide an announcement message.");

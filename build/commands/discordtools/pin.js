@@ -12,8 +12,7 @@ module.exports = {
   info: "pins a message",
   usage: "pin [messageID]",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const messageId = args[1];
     if (!messageId) {
       message.channel.send("❌ Please provide a valid message ID to pin.");

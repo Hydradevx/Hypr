@@ -34,8 +34,7 @@ module.exports = {
 `;
 
     message.channel.send(statsMessage);
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     logger.cmd(`Stats Command has been executed`);
   },
 };

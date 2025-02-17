@@ -12,8 +12,7 @@ module.exports = {
   info: "dms a message to a user",
   usage: "dm @user <message>",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const user = message.mentions.users.first();
     const dmMessage = args.slice(1).join(" ");
     if (!user || !dmMessage)

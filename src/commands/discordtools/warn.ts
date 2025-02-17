@@ -6,8 +6,7 @@ module.exports = {
   info: "warns a user",
   usage: "warn [@user] [reason]",
   async execute(message: any, args: any) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const user = message.mentions.users.first() || args[0];
     const reason = args.slice(1).join(" ") || "No reason provided";
 

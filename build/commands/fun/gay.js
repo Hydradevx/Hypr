@@ -46,8 +46,7 @@ module.exports = {
             clearInterval(editInterval);
           }
         }, 1000);
-        if (message.author.id == message.client.user.id)
-          message.delete().catch(() => {});
+        message.delete();
         logger_1.default.cmd(
           `Gay Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`,
         );

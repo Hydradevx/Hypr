@@ -6,8 +6,7 @@ module.exports = {
   info: "locks a channel",
   usage: "lock",
   async execute(message: any) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     try {
       await message.channel.permissionOverwrites.edit(
         message.guild.roles.everyone,

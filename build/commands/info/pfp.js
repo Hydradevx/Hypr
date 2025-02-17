@@ -20,7 +20,6 @@ module.exports = {
       ${avatar}
     `);
     logger_1.default.cmd(`Pfp command has been executed on ${user.username}`);
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };

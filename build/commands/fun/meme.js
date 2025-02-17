@@ -27,7 +27,6 @@ module.exports = {
         logger_1.default.error(`Failed to fetch a meme: ${error.message}`);
         message.channel.send("❌ Could not fetch a meme right now.");
       });
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };

@@ -20,7 +20,7 @@ if (!fs.existsSync(configPath)) {
 }
 
 config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-const client: any = new Client();
+export const client: any = new Client();
 
 const token = config.token;
 let prefix = config.prefix;

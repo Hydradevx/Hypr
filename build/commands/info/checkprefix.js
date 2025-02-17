@@ -25,7 +25,6 @@ module.exports = {
     logger_1.default.cmd(
       `Checkprefix command executed. Current prefix: ${prefix}`,
     );
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };

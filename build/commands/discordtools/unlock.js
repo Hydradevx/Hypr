@@ -12,8 +12,7 @@ module.exports = {
   info: "unlocks current channel",
   usage: "unlock",
   async execute(message) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     try {
       await message.channel.permissionOverwrites.edit(
         message.guild.roles.everyone,

@@ -44,8 +44,6 @@ module.exports = {
       logger_1.default.error(`Error fetching joke: ${error.message}`);
       jokeMessage.edit("Oops! Couldn't fetch a joke at the moment. 😢");
     }
-    if (message.author.id === message.client.user?.id) {
-      message.delete().catch(() => {});
-    }
+    message.delete();
   },
 };

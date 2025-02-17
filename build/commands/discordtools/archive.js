@@ -17,8 +17,7 @@ module.exports = {
   info: "archives previously sent messages",
   usage: "archive [number]",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const numMessages = parseInt(args[0]) || 50;
     try {
       const messages = await message.channel.messages.fetch({

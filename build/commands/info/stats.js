@@ -38,8 +38,7 @@ module.exports = {
 > ✨ Selfbot crafted by \`@hydra_devx\`
 `;
     message.channel.send(statsMessage);
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     logger_1.default.cmd(`Stats Command has been executed`);
   },
 };

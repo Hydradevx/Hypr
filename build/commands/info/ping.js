@@ -18,7 +18,6 @@ module.exports = {
     logger_1.default.cmd(
       `Ping Command has been excuted and ping is ${message.createdTimestamp - Date.now()}ms`,
     );
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };

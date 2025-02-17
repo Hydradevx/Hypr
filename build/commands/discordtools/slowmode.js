@@ -12,8 +12,7 @@ module.exports = {
   info: "sets slowmode for the current channel",
   usage: "slowmode [time in seconds]",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const time = parseInt(args[0], 10);
     if (isNaN(time) || time < 0)
       return message.channel.send(

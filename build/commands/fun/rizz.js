@@ -13,9 +13,7 @@ module.exports = {
   info: "Rizzes up someone",
   usage: "rizz [@user]",
   async execute(message, args) {
-    if (message.author.id === message.client.user?.id) {
-      message.delete().catch(() => {});
-    }
+    message.delete();
     const mentionedUser = message.mentions.users.first() || args[0];
     const userToSendLine = mentionedUser || message.author;
     try {

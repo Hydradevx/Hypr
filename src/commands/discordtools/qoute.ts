@@ -6,8 +6,7 @@ module.exports = {
   info: "quotes your message",
   usage: "qoute [message]",
   async execute(message: any, args: any) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const quote = args.join(" ");
 
     if (!quote) return message.channel.send("❌ Please provide a quote.");

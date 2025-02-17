@@ -26,8 +26,7 @@ module.exports = {
             clearInterval(editInterval);
           }
         }, 1000);
-        if (message.author.id == message.client.user.id)
-          message.delete().catch(() => {});
+        message.delete();
         logger.cmd(`Coinflip Command has been executed and Result is ${coin}`);
       });
   },

@@ -12,8 +12,7 @@ module.exports = {
   info: "sets a reminder for you",
   usage: "remind [time in minutes] [message]",
   async execute(message, args) {
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
     const time = parseInt(args[0], 10);
     const reminderText = args.slice(1).join(" ");
     if (isNaN(time) || !reminderText) {

@@ -14,8 +14,7 @@ module.exports = {
   execute(message, args) {
     const user = message.mentions.users.first() || message.author || args[0];
     getuserinfo(message, user);
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };
 function getuserinfo(message, mentionedUser) {

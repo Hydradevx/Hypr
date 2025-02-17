@@ -8,8 +8,7 @@ module.exports = {
   execute(message: any, args: any) {
     const user = message.mentions.users.first() || message.author || args[0];
     getuserinfo(message, user);
-    if (message.author.id == message.client.user.id)
-      message.delete().catch(() => {});
+    message.delete();
   },
 };
 
