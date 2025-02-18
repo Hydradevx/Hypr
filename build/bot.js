@@ -35,8 +35,8 @@ function getFilesRecursively(directory) {
   for (const item of items) {
     const fullPath = path_1.default.join(directory, item.name);
     if (item.isDirectory()) {
-      files = files.concat(getFilesRecursively(fullPath));
-    } else if (item.isFile() && fullPath.endsWith(".js")) {
+      files.push(...getFilesRecursively(fullPath));
+    } else if (item.isFile() && path_1.default.extname(fullPath) === ".js") {
       files.push(fullPath);
     }
   }
@@ -48,16 +48,15 @@ for (const filePath of commandFiles) {
   const command = require(filePath);
   if (command.name) {
     exports.client.commands.set(command.name, command);
-    if (command.aliases) {
-      command.aliases.forEach((alias) => {
-        exports.client.commands.set(alias, command);
-      });
+    if (command.aliases && Array.isArray(command.aliases)) {
+      command.aliases.forEach((alias) =>
+        exports.client.commands.set(alias, command),
+      );
     }
   }
 }
 exports.client.on("ready", async () => {
   logger_1.default.status(`Logged in as ${exports.client.user?.tag}`);
-  config.hasAccess.push(exports.client.user?.id);
   (0, richPresence_1.default)(exports.client);
 });
 exports.client.on("messageCreate", (message) => {
@@ -75,7 +74,8 @@ exports.client.on("messageCreate", (message) => {
   if (
     message.author.bot ||
     !message.content.startsWith(prefix) ||
-    !config.hasAccess.includes(message.author.id)
+    (!config.hasAccess.includes(message.author.id) &&
+      message.author.id !== exports.client.user?.id)
   )
     return;
   const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -97,7 +97,7 @@ exports.client.on("messageCreate", (message) => {
       ? message.channel.send.bind(message)
       : message.reply.bind(message);
   message.hasAccess = config.hasAccess;
-  command.execute(message, args, exports.client, prefix);
+  command.execute(message, args, exports.client, config.prefix);
 });
 let client_info = {
   raidsEnabled: false,

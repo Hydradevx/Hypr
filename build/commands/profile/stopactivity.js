@@ -16,7 +16,7 @@ module.exports = {
   async execute(message, args) {
     await bot_1.client.user.setActivity(null);
     message.delete();
-    message.chanel.send("Activity cleared.");
+    message.channel.send("Activity cleared.");
     logger_1.default.status("Activity cleared.");
     await (0, richPresence_1.default)(bot_1.client);
   },

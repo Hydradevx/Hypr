@@ -11,7 +11,7 @@ module.exports = {
     await client.user.setActivity(null);
     message.delete();
 
-    message.chanel.send("Activity cleared.");
+    message.channel.send("Activity cleared.");
     logger.status("Activity cleared.");
     await rpc(client);
   },

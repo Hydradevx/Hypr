@@ -31,6 +31,7 @@ function loadinfomsg(page: number, prefix: string) {
 > 👥 **${prefix}roles**
 > 🔧 **${prefix}setprefix**
 > 🔎 **${prefix}checkprefix**
+> 👀 **${prefix}listallcommands**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
