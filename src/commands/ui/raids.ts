@@ -5,7 +5,8 @@ module.exports = {
   aliases: ["r", "raid"],
   execute(message: any, args: any, prefix: string) {
     const page: number = args[0] || 1;
-    message.channel.send(loadraidmsg(page, prefix));
+    let msg = loadraidmsg(page, prefix);
+    message.channel.send(msg);
     logger.cmd(`Raids Command has been executed and page is ${page}`);
 
     message.delete();
@@ -13,7 +14,7 @@ module.exports = {
 };
 
 function loadraidmsg(page: number, prefix: string) {
-  if (page == 1) {
+  if (page === 1) {
     return `
 > ## 🚀 **Raids Commands - Page 1** 🚀
 > 📜 **Command List:**
@@ -25,7 +26,7 @@ function loadraidmsg(page: number, prefix: string) {
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
-  } else if (page == 2) {
+  } else if (page === 2) {
     return `
 > ## 🚀 **Raids Commands - Page 2** 🚀
 > 📜 **Command List:**

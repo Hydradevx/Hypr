@@ -11,13 +11,14 @@ module.exports = {
   aliases: ["r", "raid"],
   execute(message, args, prefix) {
     const page = args[0] || 1;
-    message.channel.send(loadraidmsg(page, prefix));
+    let msg = loadraidmsg(page, prefix);
+    message.channel.send(msg);
     logger_1.default.cmd(`Raids Command has been executed and page is ${page}`);
     message.delete();
   },
 };
 function loadraidmsg(page, prefix) {
-  if (page == 1) {
+  if (page === 1) {
     return `
 > ## 🚀 **Raids Commands - Page 1** 🚀
 > 📜 **Command List:**
@@ -29,7 +30,7 @@ function loadraidmsg(page, prefix) {
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
-  } else if (page == 2) {
+  } else if (page === 2) {
     return `
 > ## 🚀 **Raids Commands - Page 2** 🚀
 > 📜 **Command List:**

@@ -6,16 +6,16 @@ module.exports = {
   info: "checks if a user is gay",
   usage: "gay [@user]",
   execute(message: any, args: any) {
-    const userToCheck = args[0] || message.author;
+    const userToCheck = message.mentions.users.first() || message.author;
 
     message.channel
-      .send(`Calculating how gay ${userToCheck.username} is 🌈`)
+      .send(`Calculating how gay <@${userToCheck.id}> is 🌈`)
       .then(async (gaycheckMessage: any) => {
         const messages = [
-          `Are you gay, ${userToCheck.username}? 🌈`,
-          `Maybe you are gay, ${userToCheck.username}... 🤔`,
-          `Starting to look a bit gay, ${userToCheck.username}! 😳`,
-          `Definitely some gay vibes, ${userToCheck.username}! 💅`,
+          `Are you gay, ${userToCheck.tag}? 🌈`,
+          `Maybe you are gay, ${userToCheck.tag}... 🤔`,
+          `Starting to look a bit gay, ${userToCheck.tag}! 😳`,
+          `Definitely some gay vibes, ${userToCheck.tag}! 💅`,
           `Gayness level loading... 🔄`,
         ];
 
@@ -28,15 +28,15 @@ module.exports = {
           } else {
             let gayResultMessage;
             if (finalPercentage <= 20) {
-              gayResultMessage = `Final result for ${userToCheck.username}: ${finalPercentage}% gay. Pure sigma energy 😎.`;
+              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Pure sigma energy 😎.`;
             } else if (finalPercentage <= 40) {
-              gayResultMessage = `Final result for ${userToCheck.username}: ${finalPercentage}% gay. A hint of fabulousness 🌟.`;
+              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. A hint of fabulousness 🌟.`;
             } else if (finalPercentage <= 60) {
-              gayResultMessage = `Final result for ${userToCheck.username}: ${finalPercentage}% gay. Balanced vibes 🕶️✨.`;
+              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Balanced vibes 🕶️✨.`;
             } else if (finalPercentage <= 80) {
-              gayResultMessage = `Final result for ${userToCheck.username}: ${finalPercentage}% gay. Strong fabulous energy 🌈🔥.`;
+              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Strong fabulous energy 🌈🔥.`;
             } else {
-              gayResultMessage = `Final result for ${userToCheck.username}: ${finalPercentage}% gay. Embrace your inner diva 💅🌈!`;
+              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Embrace your inner diva 💅🌈!`;
             }
             await gaycheckMessage.edit(gayResultMessage);
             clearInterval(editInterval);
@@ -45,7 +45,7 @@ module.exports = {
 
         message.delete();
         logger.cmd(
-          `Gay Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`,
+          `Gay Command has been executed on <@${userToCheck.id}> and Result is ${finalPercentage}%`,
         );
       });
   },

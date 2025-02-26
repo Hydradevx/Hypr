@@ -6,19 +6,24 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
+const configPath = path_1.default.join(__dirname, "../../../config.json");
+const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+let prefix = config.prefix;
 module.exports = {
   name: "discordtools",
   aliases: ["dt", "dsicord", "discordt", "dst"],
-  execute(message, args, prefix) {
+  execute(message, args) {
     const page = args[0] || "1";
-    message.channel.send(loaddiscordtoolsmsg(page, prefix));
+    message.channel.send(loaddiscordtoolsmsg(page));
     logger_1.default.cmd(
       `discordtools Command has been executed and page is ${page}`,
     );
     message.delete();
   },
 };
-function loaddiscordtoolsmsg(page, prefix) {
+function loaddiscordtoolsmsg(page) {
   if (page === "1") {
     return `
 > ## 🛠️ **Discord Tools - Page 1** 🛠️

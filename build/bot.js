@@ -27,7 +27,7 @@ if (!fs_1.default.existsSync(configPath)) {
 config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
 exports.client = new discord_js_selfbot_v13_1.Client();
 const token = config.token;
-let prefix = config.prefix;
+const prefix = config.prefix || "!";
 exports.client.commands = new discord_js_selfbot_v13_1.Collection();
 function getFilesRecursively(directory) {
   let files = [];
@@ -60,7 +60,7 @@ exports.client.on("ready", async () => {
   (0, richPresence_1.default)(exports.client);
 });
 exports.client.on("messageCreate", (message) => {
-  if (config.hasAccess.includes(message.author.id)) {
+  if (!config.hasAccess.includes(message.author.id)) {
     if (
       afkState_1.default.afkStatus &&
       message.mentions.has(exports.client.user)
@@ -90,14 +90,7 @@ exports.client.on("messageCreate", (message) => {
     (0, infoLoader_1.infoLoad)(command, message);
     return;
   }
-  message.prefix = prefix;
-  message.isOwnMessage = message.author.id === message.client.user?.id;
-  message.sendMessage =
-    message.author.id === message.client.user?.id
-      ? message.channel.send.bind(message)
-      : message.reply.bind(message);
-  message.hasAccess = config.hasAccess;
-  command.execute(message, args, exports.client, config.prefix);
+  command.execute(message, args, exports.client, prefix);
 });
 let client_info = {
   raidsEnabled: false,

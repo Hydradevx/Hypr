@@ -11,7 +11,7 @@ module.exports = {
       .get("https://meme-api.com/gimme")
       .then((response) => {
         const data = response.data;
-        message.sendMessage({
+        message.channel.send({
           content: `🤣 **Meme:** ${data.title}`,
           files: [data.url],
         });

@@ -23,7 +23,7 @@ config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 export const client: any = new Client();
 
 const token = config.token;
-let prefix = config.prefix;
+const prefix: string = config.prefix || "!";
 
 client.commands = new Collection();
 
@@ -67,7 +67,7 @@ client.on("ready", async () => {
 });
 
 client.on("messageCreate", (message: any) => {
-  if (config.hasAccess.includes(message.author.id)) {
+  if (!config.hasAccess.includes(message.author.id)) {
     if (afkState.afkStatus && message.mentions.has(client.user!)) {
       message.reply(`💤 I'm currently AFK. Reason: ${afkState.afkReason}`);
       return;
@@ -98,15 +98,7 @@ client.on("messageCreate", (message: any) => {
     return;
   }
 
-  message.prefix = prefix;
-  message.isOwnMessage = message.author.id === message.client.user?.id;
-  message.sendMessage =
-    message.author.id === message.client.user?.id
-      ? message.channel.send.bind(message)
-      : message.reply.bind(message);
-  message.hasAccess = config.hasAccess;
-
-  command.execute(message, args, client, config.prefix);
+  command.execute(message, args, client, prefix);
 });
 
 let client_info = {
