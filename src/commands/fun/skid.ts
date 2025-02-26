@@ -56,4 +56,3 @@ module.exports = {
 function getRandomPercentage() {
   return Math.floor(Math.random() * 100) + 1;
 }
-

@@ -12,17 +12,16 @@ module.exports = {
   info: "checks if the user is a skid",
   usage: "skid [@user]",
   execute(message, args) {
-    const userToCheck =
-      message.mentions.users.first() || args[0] || message.author;
+    const userToCheck = message.mentions.users.first() || message.author;
     message.channel
-      .send(`Analyzing ${userToCheck.username}'s skid level...`)
+      .send(`Calculating how skid <@${userToCheck.id}> is...`)
       .then(async (skidcheckMessage) => {
         const finalPercentage = getRandomPercentage();
         const messages = [
-          `Are you a skid, ${userToCheck.username}? 🤔`,
-          `Hmmm... You might be a skid, ${userToCheck.username}! 👀`,
-          `I'm getting some skid vibes from you, ${userToCheck.username}... 😳`,
-          `Yeah, you're looking pretty skid, ${userToCheck.username}... 💻`,
+          `Are you a skid, ${userToCheck.tag}? 🤔`,
+          `Hmmm... You might be a skid, ${userToCheck.tag}... 👀`,
+          `I'm getting some skid vibes from you, ${userToCheck.tag}... 😳`,
+          `Yeah, you're looking pretty skid, ${userToCheck.tag}... 💻`,
           `Calculating final skid level... 🔄`,
         ];
         let editCount = 0;
@@ -49,7 +48,7 @@ module.exports = {
         }, 1000);
         message.delete();
         logger_1.default.cmd(
-          `Skid Command has been executed on ${userToCheck.username} and Result is ${finalPercentage}%`,
+          `Skid Command has been executed on <@${userToCheck.id}> and Result is ${finalPercentage}%`,
         );
       });
   },

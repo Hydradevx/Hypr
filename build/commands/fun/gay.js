@@ -48,7 +48,7 @@ module.exports = {
         }, 1000);
         message.delete();
         logger_1.default.cmd(
-          `Gay Command has been executed on ${userToCheck.tag} and Result is ${finalPercentage}%`,
+          `Gay Command has been executed on <@${userToCheck.id}> and Result is ${finalPercentage}%`,
         );
       });
   },
