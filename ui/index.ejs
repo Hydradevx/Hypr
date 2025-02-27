@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selfbot Dashboard</title>
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on("stats", (data) => {
+            document.getElementById("username").innerText = data.username;
+            document.getElementById("servers").innerText = data.servers;
+            document.getElementById("ping").innerText = data.ping + "ms";
+            document.getElementById("uptime").innerText = data.uptime;
+        });
+    </script>
+</head>
+<body>
+    <div class="dashboard">
+        <h1 class="title">🚀 Selfbot Dashboard</h1>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2>👤 Username</h2>
+                <p id="username">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h2>🌍 Servers</h2>
+                <p id="servers">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h2>⚡ Ping</h2>
+                <p id="ping">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h2>⏳ Uptime</h2>
+                <p id="uptime">Loading...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

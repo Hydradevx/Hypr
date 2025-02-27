@@ -16,6 +16,7 @@ const usageLoader_1 = require("./utils/usageLoader");
 const infoLoader_1 = require("./utils/infoLoader");
 const afkState_1 = __importDefault(require("./managers/afkState"));
 const richPresence_1 = __importDefault(require("./utils/richPresence"));
+const web_1 = require("./web");
 let config;
 const configPath = path_1.default.join(__dirname, "../config.json");
 if (!fs_1.default.existsSync(configPath)) {
@@ -105,6 +106,7 @@ function sleep(ms) {
 }
 sleep(100);
 exports.client.login(token);
+(0, web_1.startWebUI)(3000);
 startlogs();
 function startlogs() {
   console.log(ansi_colors_1.default.gray("Initializing logs...\n"));

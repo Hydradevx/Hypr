@@ -8,6 +8,7 @@ import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
+import { startWebUI } from "./web";
 
 let config: any;
 const configPath = path.join(__dirname, "../config.json");
@@ -119,6 +120,7 @@ function sleep(ms: number) {
 sleep(100);
 
 client.login(token);
+startWebUI(3000);
 startlogs();
 
 function startlogs() {
