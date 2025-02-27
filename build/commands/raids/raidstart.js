@@ -12,7 +12,7 @@ module.exports = {
   aliases: ["startRaid", "initiateRaid"],
   info: "starts a raid",
   usage: "raidstart [message]",
-  async execute(message, args, prefix) {
+  async execute(message, args, client, prefix) {
     const messageToSend = args.join(" ") || "🚨 Raid initiated! 🚨";
     const interval = 400;
     const channel = message.channel;

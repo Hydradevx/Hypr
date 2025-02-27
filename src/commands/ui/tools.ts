@@ -3,7 +3,7 @@ import logger from "../../utils/logger";
 module.exports = {
   name: "tools",
   aliases: ["t", "tool"],
-  execute(message: any, args: any, prefix: string) {
+  execute(message: any, args: any, client: any, prefix: string) {
     const page: number = args[0] || 1;
     message.channel.send(loadtoolsmsg(page, prefix));
     logger.cmd(`Tools Command has been executed and page is ${page}`);

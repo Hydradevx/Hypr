@@ -3,7 +3,7 @@ import logger from "../../utils/logger";
 module.exports = {
   name: "help",
   aliases: ["h"],
-  execute(message: any, prefix: string) {
+  execute(message: any, args: any, client: any, prefix: string) {
     message.channel.send(helpmsg(prefix));
 
     logger.cmd(`Help Command has been excuted`);

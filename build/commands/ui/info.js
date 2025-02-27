@@ -9,7 +9,7 @@ const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "info",
   aliases: ["i"],
-  execute(message, args, prefix) {
+  execute(message, args, client, prefix) {
     const page = args[0] || 1;
     message.channel.send(loadinfomsg(page, prefix));
     logger_1.default.cmd(`Info Command has been executed and page is ${page}`);

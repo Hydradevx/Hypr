@@ -11,7 +11,7 @@ module.exports = {
   aliases: ["ga"],
   info: "checks if a user is gay",
   usage: "gay [@user]",
-  execute(message, args) {
+  execute(message) {
     const userToCheck = message.mentions.users.first() || message.author;
     message.channel
       .send(`Calculating how gay <@${userToCheck.id}> is 🌈`)

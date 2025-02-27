@@ -13,7 +13,7 @@ module.exports = {
   aliases: ["stopactivity", "clearactivity"],
   info: "clears the user's current activity",
   usage: "stopactivity",
-  async execute(message, args) {
+  async execute(message) {
     await bot_1.client.user.setActivity(null);
     message.delete();
     message.channel.send("Activity cleared.");

@@ -9,8 +9,8 @@ const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "raids",
   aliases: ["r", "raid"],
-  execute(message, args, prefix) {
-    const page = args[0] || 1;
+  execute(message, args, client, prefix) {
+    const page = Number(args[0]) || 1;
     let msg = loadraidmsg(page, prefix);
     message.channel.send(msg);
     logger_1.default.cmd(`Raids Command has been executed and page is ${page}`);

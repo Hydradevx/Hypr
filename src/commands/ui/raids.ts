@@ -3,8 +3,8 @@ import logger from "../../utils/logger";
 module.exports = {
   name: "raids",
   aliases: ["r", "raid"],
-  execute(message: any, args: any, prefix: string) {
-    const page: number = args[0] || 1;
+  execute(message: any, args: any, client: any, prefix: string) {
+    const page: number = Number(args[0]) || 1;
     let msg = loadraidmsg(page, prefix);
     message.channel.send(msg);
     logger.cmd(`Raids Command has been executed and page is ${page}`);

@@ -3,7 +3,7 @@ import logger from "../../utils/logger";
 module.exports = {
   name: "profile",
   aliases: ["p"],
-  execute(message: any, args: any, prefix: string) {
+  execute(message: any, args: any, client: any, prefix: string) {
     const page = args[0] || 1;
     message.channel.send(loadprofilemsg(page, prefix));
     logger.cmd(`Profile Command has been executed and page is ${page}`);

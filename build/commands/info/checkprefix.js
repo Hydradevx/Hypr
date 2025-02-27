@@ -11,7 +11,7 @@ module.exports = {
   aliases: ["prefix"],
   info: "displays the current prefix for the bot",
   usage: "checkprefix",
-  execute(message, prefix) {
+  execute(message, args, client, prefix) {
     const prefixMessage = `
 > ## 🔎 **Current Prefix** 🔎
 > 

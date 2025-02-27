@@ -7,7 +7,7 @@ module.exports = {
   aliases: ["stopactivity", "clearactivity"],
   info: "clears the user's current activity",
   usage: "stopactivity",
-  async execute(message: any, args: any) {
+  async execute(message: any) {
     await client.user.setActivity(null);
     message.delete();
 

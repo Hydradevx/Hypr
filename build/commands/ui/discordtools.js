@@ -6,25 +6,20 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
-const configPath = path_1.default.join(__dirname, "../../../config.json");
-const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
-let prefix = config.prefix;
 module.exports = {
   name: "discordtools",
   aliases: ["dt", "dsicord", "discordt", "dst"],
-  execute(message, args) {
-    const page = args[0] || "1";
-    message.channel.send(loaddiscordtoolsmsg(page));
+  execute(message, args, client, prefix) {
+    const page = Number(args[0]) || 1;
+    message.channel.send(loaddiscordtoolsmsg(page, prefix));
     logger_1.default.cmd(
       `discordtools Command has been executed and page is ${page}`,
     );
     message.delete();
   },
 };
-function loaddiscordtoolsmsg(page) {
-  if (page === "1") {
+function loaddiscordtoolsmsg(page, prefix) {
+  if (page === 1) {
     return `
 > ## 🛠️ **Discord Tools - Page 1** 🛠️
 > 🔍 **Command List:**
@@ -36,7 +31,7 @@ function loaddiscordtoolsmsg(page) {
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
-  } else if (page === "2") {
+  } else if (page === 2) {
     return `
 > ## 🛠️ **Discord Tools - Page 2** 🛠️
 > 🔍 **Command List:**
@@ -48,7 +43,7 @@ function loaddiscordtoolsmsg(page) {
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
-  } else if (page === "3") {
+  } else if (page === 3) {
     return `
 > ## 🛠️ **Discord Tools - Page 3** 🛠️
 > 🔍 **Command List:**

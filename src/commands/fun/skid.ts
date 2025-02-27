@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["ski", "sk"],
   info: "checks if the user is a skid",
   usage: "skid [@user]",
-  execute(message: any, args: any) {
+  execute(message: any) {
     const userToCheck = message.mentions.users.first() || message.author;
 
     message.channel

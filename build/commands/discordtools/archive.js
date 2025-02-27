@@ -5,11 +5,7 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
-const {
-  MessageAttachment,
-  Message,
-  Client,
-} = require("discord.js-selfbot-v13");
+const { MessageAttachment, Message } = require("discord.js-selfbot-v13");
 const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "archive",

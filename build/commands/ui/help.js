@@ -9,7 +9,7 @@ const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "help",
   aliases: ["h"],
-  execute(message, prefix) {
+  execute(message, args, client, prefix) {
     message.channel.send(helpmsg(prefix));
     logger_1.default.cmd(`Help Command has been excuted`);
     message.delete();

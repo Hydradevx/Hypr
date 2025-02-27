@@ -1,8 +1,4 @@
-const {
-  MessageAttachment,
-  Message,
-  Client,
-} = require("discord.js-selfbot-v13");
+const { MessageAttachment, Message } = require("discord.js-selfbot-v13");
 
 import logger from "../../utils/logger";
 
