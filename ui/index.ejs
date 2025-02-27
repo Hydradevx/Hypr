@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selfbot Dashboard</title>
-    <link rel="stylesheet" href="/public/style.css">
+<%- include("./base/layout", { body: `
+    <div class="text-center space-y-4">
+        <div class="bg-gray-900 text-white p-4 rounded-lg shadow-md">
+            <p><b>Username:</b> <span id="username"></span></p>
+            <p><b>Servers:</b> <span id="servers"></span></p>
+            <p><b>Ping:</b> <span id="ping"></span></p>
+            <p><b>Uptime:</b> <span id="uptime"></span></p>
+        </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
@@ -15,28 +18,4 @@
             document.getElementById("uptime").innerText = data.uptime;
         });
     </script>
-</head>
-<body>
-    <div class="dashboard">
-        <h1 class="title">🚀 Selfbot Dashboard</h1>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h2>👤 Username</h2>
-                <p id="username">Loading...</p>
-            </div>
-            <div class="stat-card">
-                <h2>🌍 Servers</h2>
-                <p id="servers">Loading...</p>
-            </div>
-            <div class="stat-card">
-                <h2>⚡ Ping</h2>
-                <p id="ping">Loading...</p>
-            </div>
-            <div class="stat-card">
-                <h2>⏳ Uptime</h2>
-                <p id="uptime">Loading...</p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+` }) %>
