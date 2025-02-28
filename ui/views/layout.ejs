@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Hydrion Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+    <nav class="flex justify-center space-x-4 bg-gray-900 p-4 border-b border-gray-700">
+        <a href="/" class="hover:text-blue-400">Control Centre</a>
+        <a href="/device" class="hover:text-blue-400">User's Device Stats</a>
+        <a href="/selfbot" class="hover:text-blue-400">Selfbot Stats</a>
+        <a href="/info" class="hover:text-blue-400">Useful Links & Info</a>
+    </nav>
+
+    <main class="container mx-auto px-4 py-6">
+        <%- body %>
+    </main>
+
+</body>
+</html>

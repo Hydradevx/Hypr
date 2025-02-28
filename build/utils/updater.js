@@ -9,7 +9,7 @@ exports.default = update;
 const axios = require("axios");
 const logger_1 = __importDefault(require("./logger"));
 const inquirer_1 = __importDefault(require("inquirer"));
-const { spawn } = require("child_process");
+const child_process_1 = require("child_process");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 async function update() {
@@ -52,14 +52,15 @@ async function update() {
       ]);
       if (update) {
         logger_1.default.info("Updating...");
-        const git = spawn("git", ["pull"], { stdio: "inherit" });
-        git.on("close", (code) => {
-          if (code === 0) {
-            logger_1.default.info("Update successful!");
-          } else {
-            logger_1.default.warn("Update failed!");
-          }
-        });
+        try {
+          (0, child_process_1.execSync)("git stash");
+          (0, child_process_1.execSync)("git pull");
+          (0, child_process_1.execSync)("git reset --hard");
+          logger_1.default.info("Update successful!");
+          restart();
+        } catch (error) {
+          logger_1.default.warn(`Update failed! (Code: ${error.status})`);
+        }
       }
     } else {
       logger_1.default.info(`You are running the latest version: ${version}`);
@@ -67,4 +68,15 @@ async function update() {
   } catch (error) {
     logger_1.default.warn(`Error checking for updates: ${error.message}`);
   }
+}
+function restart() {
+  logger_1.default.info("Restarting...");
+  const child = (0, child_process_1.spawn)("cmd.exe", ["/K", "npm start"], {
+    cwd: process.cwd(),
+    shell: true,
+    detached: true,
+    stdio: "ignore",
+  });
+  child.unref();
+  process.exit(0);
 }
