@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> | Hydrion Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../public/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-black text-white flex">
-    <%- include("partials/sidebar") %>
-    <main class="flex-1 p-6">
-        <%- include(body) %>
-    </main>
+<body>
+    <div class="container">
+        <%- include("partials/sidebar") %>
+        <main class="main-content">
+            <%- include(body) %>
+        </main>
+    </div>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

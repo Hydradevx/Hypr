@@ -7,7 +7,6 @@ const app = express();
 
 app.set("views", path.join(__dirname, "../ui/views"));
 app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "../ui/public")));
 
 app.get("/", (req, res) =>
   res.render("layout", { title: "Control Centre", body: "control" }),

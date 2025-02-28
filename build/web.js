@@ -14,6 +14,7 @@ const app = (0, express_1.default)();
 app.set("views", path_1.default.join(__dirname, "../ui/views"));
 app.set("view engine", "ejs");
 app.use(
+  "/public",
   express_1.default.static(path_1.default.join(__dirname, "../ui/public")),
 );
 app.get("/", (req, res) =>
