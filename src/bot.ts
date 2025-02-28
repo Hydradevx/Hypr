@@ -28,6 +28,11 @@ const prefix: string = config.prefix || "!";
 
 client.commands = new Collection();
 
+if (!config.hasAccess) {
+  config.hasAccess = [];
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+}
+
 function getFilesRecursively(directory: string): string[] {
   let files: string[] = [];
 

@@ -9,42 +9,24 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-app.set("views", path.join(__dirname, "../ui"));
+app.set("views", path.join(__dirname, "../ui/views"));
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "../ui/public")));
 
-app.get("/", (req, res) => {
-  res.render("index", { stats: getBotStats() });
-});
-
-io.on("connection", (socket) => {
-  socket.emit("stats", getBotStats());
-
-  setInterval(() => {
-    socket.emit("stats", getBotStats());
-  }, 5000);
-});
-
-function getBotStats() {
-  return {
-    username: client.user?.username || "Unknown",
-    servers: client.guilds.cache.size,
-    ping: client.ws.ping,
-    uptime: formatUptime(client.uptime || 0),
-  };
-}
-
-function formatUptime(ms: number): string {
-  let seconds = Math.floor(ms / 1000) % 60;
-  let minutes = Math.floor(ms / (1000 * 60)) % 60;
-  let hours = Math.floor(ms / (1000 * 60 * 60)) % 24;
-  let days = Math.floor(ms / (1000 * 60 * 60 * 24));
-  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
+app.get("/", (req, res) => res.render("index", { title: "Control Centre" }));
+app.get("/device", (req, res) =>
+  res.render("device", { title: "User's Device Stats" }),
+);
+app.get("/selfbot", (req, res) =>
+  res.render("selfbot", { title: "Selfbot Stats" }),
+);
+app.get("/info", (req, res) =>
+  res.render("info", { title: "Useful Links & Info" }),
+);
 
 export function startWebUI(port: number = 3000) {
-  server.listen(port, () => {
+  app.listen(port, () => {
     logger.status(`Web UI running at http://localhost:${port}`);
   });
 }

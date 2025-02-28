@@ -10,23 +10,16 @@ module.exports = {
   name: "spam",
   aliases: ["s"],
   info: "Spams a specified number of messages with a given interval",
-  usage: "spam [number] [interval in ms] [message]",
+  usage: "spam [number] [message]",
   execute(message, args, prefix) {
     const count = parseInt(args[0]) || 50;
-    const interval = parseInt(args[1]);
-    const messageToSpam = args.slice(2).join(" ");
-    if (
-      isNaN(count) ||
-      count <= 0 ||
-      !messageToSpam ||
-      isNaN(interval) ||
-      interval <= 0
-    ) {
+    const messageToSpam = args.slice(1).join(" ");
+    if (isNaN(count) || count <= 0 || !messageToSpam) {
       message.reply(`Usage: ${prefix}spam [number] [interval in ms] [message]`);
       return;
     }
     logger_1.default.cmd(
-      `Spam Command has been executed and count is ${count} and interval is ${interval}`,
+      `Spam Command has been executed and count is ${count}`,
     );
     let spamCount = 0;
     let spamInterval;
@@ -38,7 +31,7 @@ module.exports = {
         clearInterval(spamInterval);
         spamInterval = null;
       }
-    }, interval);
+    }, 10);
     message.delete();
   },
 };

@@ -30,6 +30,10 @@ exports.client = new discord_js_selfbot_v13_1.Client();
 const token = config.token;
 const prefix = config.prefix || "!";
 exports.client.commands = new discord_js_selfbot_v13_1.Collection();
+if (!config.hasAccess) {
+  config.hasAccess = [];
+  fs_1.default.writeFileSync(configPath, JSON.stringify(config, null, 2));
+}
 function getFilesRecursively(directory) {
   let files = [];
   const items = fs_1.default.readdirSync(directory, { withFileTypes: true });
