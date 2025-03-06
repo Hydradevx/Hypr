@@ -9,6 +9,7 @@ import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
 import { startWebUI } from "./web";
+import { setupAutoReact } from "./features/autoReact";
 
 let config: any;
 const configPath = path.join(__dirname, "../config.json");
@@ -124,6 +125,7 @@ function sleep(ms: number) {
 
 sleep(100);
 
+setupAutoReact(client);
 client.login(token);
 startWebUI(3000);
 startlogs();
