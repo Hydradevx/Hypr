@@ -1,9 +1,25 @@
-<div class="text-center">
-    <h1 class="text-3xl font-bold text-blue-400">Selfbot Stats</h1>
-    <div class="bg-gray-900 text-white p-6 rounded-lg shadow-md mt-4">
-        <p><b>Username:</b> <%= stats.username %></p>
-        <p><b>Servers:</b> <%= stats.servers %></p>
-        <p><b>Ping:</b> <%= stats.ping %> ms</p>
-        <p><b>Uptime:</b> <%= stats.uptime %></p>
+<div class="selfbot-stats">
+    <h1 class="title">Selfbot Stats</h1>
+    <div class="stats-box">
+        <p><b>Username:</b> <span id="bot-username">Loading...</span></p>
+        <p><b>Servers:</b> <span id="bot-servers">Loading...</span></p>
+        <p><b>Ping:</b> <span id="bot-ping">Loading...</span>ms</p>
+        <p><b>Uptime:</b> <span id="bot-uptime">Loading...</span></p>
     </div>
 </div>
+
+<!--
+<script>
+    async function updateStats() {
+        const res = await fetch('/botStats');
+        const data = await res.json();
+        document.getElementById("bot-username").innerText = data.username;
+        document.getElementById("bot-servers").innerText = data.servers;
+        document.getElementById("bot-ping").innerText = data.ping;
+        document.getElementById("bot-uptime").innerText = data.uptime;
+    }
+
+    updateStats();
+    setInterval(updateStats, 1000);
+</script>
+-->

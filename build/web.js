@@ -14,9 +14,9 @@ const app = (0, express_1.default)();
 app.set("views", path_1.default.join(__dirname, "../ui/views"));
 app.set("view engine", "ejs");
 app.use(
-  "/public",
   express_1.default.static(path_1.default.join(__dirname, "../ui/public")),
 );
+app.use(express_1.default.json());
 app.get("/", (req, res) =>
   res.render("layout", { title: "Control Centre", body: "control" }),
 );
@@ -24,15 +24,14 @@ app.get("/device", (req, res) =>
   res.render("layout", { title: "User's Device Stats", body: "device" }),
 );
 app.get("/selfbot", (req, res) =>
-  res.render("layout", {
-    title: "Selfbot Stats",
-    body: "stats",
-    stats: getBotStats(),
-  }),
+  res.render("layout", { title: "Selfbot Stats", body: "stats" }),
 );
 app.get("/info", (req, res) =>
   res.render("layout", { title: "Useful Links & Info", body: "info" }),
 );
+app.get("/botStats", (req, res) => {
+  res.json(getBotStats());
+});
 function getBotStats() {
   return {
     username: bot_1.client.user?.username || "Unknown",
