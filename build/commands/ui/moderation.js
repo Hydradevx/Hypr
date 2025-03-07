@@ -7,26 +7,23 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
-  name: "fun",
-  aliases: ["f"],
+  name: "moderation",
+  aliases: ["m"],
   execute(message, args, client, prefix) {
     const page = args[0] || 1;
-    message.channel.send(loadFunMsg(page, prefix));
-    logger_1.default.cmd(`Fun Command executed, page: ${page}`);
+    message.channel.send(loadModerationMsg(page, prefix));
+    logger_1.default.cmd(`Moderation Command executed, page: ${page}`);
     message.delete();
   },
 };
-function loadFunMsg(page, prefix) {
+function loadModerationMsg(page, prefix) {
   if (page == 1) {
     return `
-> ## 🎲 **Fun Commands - Page 1** 🎲
-> 🎱 **${prefix}8ball**
-> 🪙 **${prefix}coinflip**
-> 🌈 **${prefix}gay**
-> 🤣 **${prefix}joke**
-> 🖼️ **${prefix}meme**
-> 💬 **${prefix}rizz**
-> 🚀 **${prefix}skid**
+> ## 🚔 **Moderation Commands - Page 1** 🚔
+> 🔨 **${prefix}kick**
+> ⛔ **${prefix}mute**
+> 🚫 **${prefix}ban**
+> 🔓 **${prefix}unban**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

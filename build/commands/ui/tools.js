@@ -8,24 +8,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
   name: "tools",
-  aliases: ["t", "tool"],
+  aliases: ["t"],
   execute(message, args, client, prefix) {
     const page = args[0] || 1;
-    message.channel.send(loadtoolsmsg(page, prefix));
-    logger_1.default.cmd(`Tools Command has been executed and page is ${page}`);
+    message.channel.send(loadToolsMsg(page, prefix));
+    logger_1.default.cmd(`Tools Command executed, page: ${page}`);
     message.delete();
   },
 };
-function loadtoolsmsg(page, prefix) {
+function loadToolsMsg(page, prefix) {
   if (page == 1) {
     return `
-> ## 🚨 **Tools Commands - Page 1** 🚨
-> ⚔️ **Command List:**
-> 👤 **${prefix}kick**
-> 🚫 **${prefix}ban**
-> 🔓 **${prefix}unban**
-> 🔇 **${prefix}mute**
-> 📝 **${prefix}cloneserver**
+> ## 🛠 **Tools Commands - Page 1** 🛠
+> 🌍 **${prefix}iplookup**
+> 🎁 **${prefix}nitrosniper**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

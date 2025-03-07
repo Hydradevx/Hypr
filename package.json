@@ -1,6 +1,6 @@
 {
   "name": "hydrion-s3lfb0t",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "the best selfbot made by Hydrion",
   "main": "dist/bot.js",
   "scripts": {

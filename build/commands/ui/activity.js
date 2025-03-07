@@ -7,26 +7,28 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
-  name: "fun",
-  aliases: ["f"],
+  name: "activity",
+  aliases: ["a"],
   execute(message, args, client, prefix) {
     const page = args[0] || 1;
-    message.channel.send(loadFunMsg(page, prefix));
-    logger_1.default.cmd(`Fun Command executed, page: ${page}`);
+    message.channel.send(loadActivityMsg(page, prefix));
+    logger_1.default.cmd(`Activity Command executed, page: ${page}`);
     message.delete();
   },
 };
-function loadFunMsg(page, prefix) {
+function loadActivityMsg(page, prefix) {
   if (page == 1) {
     return `
-> ## 🎲 **Fun Commands - Page 1** 🎲
-> 🎱 **${prefix}8ball**
-> 🪙 **${prefix}coinflip**
-> 🌈 **${prefix}gay**
-> 🤣 **${prefix}joke**
-> 🖼️ **${prefix}meme**
-> 💬 **${prefix}rizz**
-> 🚀 **${prefix}skid**
+> ## 🎮 **Activity Commands - Page 1** 🎮
+> 🟢 **${prefix}afk**
+> ⛔ **${prefix}dnd**
+> 🌙 **${prefix}idle**
+> 🎵 **${prefix}listen**
+> ▶️ **${prefix}play**
+> ⏹ **${prefix}stopactivity**
+> 📺 **${prefix}stream**
+> 🔄 **${prefix}unafk**
+> 🎬 **${prefix}watch**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

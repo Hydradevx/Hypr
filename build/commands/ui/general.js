@@ -7,26 +7,30 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
 module.exports = {
-  name: "fun",
-  aliases: ["f"],
+  name: "general",
+  aliases: ["g"],
   execute(message, args, client, prefix) {
     const page = args[0] || 1;
-    message.channel.send(loadFunMsg(page, prefix));
-    logger_1.default.cmd(`Fun Command executed, page: ${page}`);
+    message.channel.send(loadGeneralMsg(page, prefix));
+    logger_1.default.cmd(`General Command executed, page: ${page}`);
     message.delete();
   },
 };
-function loadFunMsg(page, prefix) {
+function loadGeneralMsg(page, prefix) {
   if (page == 1) {
     return `
-> ## 🎲 **Fun Commands - Page 1** 🎲
-> 🎱 **${prefix}8ball**
-> 🪙 **${prefix}coinflip**
-> 🌈 **${prefix}gay**
-> 🤣 **${prefix}joke**
-> 🖼️ **${prefix}meme**
-> 💬 **${prefix}rizz**
-> 🚀 **${prefix}skid**
+> ## 🔨 **General Commands - Page 1** 🔨
+> 📝 **${prefix}announce**
+> 📌 **${prefix}archive**
+> ✉️ **${prefix}dm**
+> 🔒 **${prefix}lock**
+> 📌 **${prefix}pin**
+> 📊 **${prefix}poll**
+> 🗨️ **${prefix}quote**
+> ⏰ **${prefix}remind**
+> 🕒 **${prefix}slowmode**
+> 🔓 **${prefix}unlock**
+> ⚠️ **${prefix}warn**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

@@ -11,23 +11,23 @@ module.exports = {
   aliases: ["h"],
   execute(message, args, client, prefix) {
     message.channel.send(helpmsg(prefix));
-    logger_1.default.cmd(`Help Command has been excuted`);
+    logger_1.default.cmd(`Help Command has been executed`);
     message.delete();
   },
 };
 function helpmsg(prefix) {
   return `
-> ✨ **${prefix}[section] [page] ? Default is 1** ✨
+> ✨ **${prefix}[section]** ✨
 > 
-> 🔨 **${prefix}raids**
-> 📊 **${prefix}info**
+> 🔨 **${prefix}general**
 > 🎲 **${prefix}fun**
-> 🛠️ **${prefix}tools**
-> 📡 **${prefix}discordtools**
-> 👤 **${prefix}profile**
+> 🔧 **${prefix}utility**
+> 🎮 **${prefix}activity**
+> 💥 **${prefix}raiding**
+> 🚔 **${prefix}moderation**
+> 🛠 **${prefix}tools**
 > 
 > ✨ Add --info or --usage After a Command to Get more Information about it.
 > ✨ Selfbot crafted by \`@hydradevx\`
-
-    `;
+  `;
 }

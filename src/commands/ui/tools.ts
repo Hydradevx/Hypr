@@ -2,26 +2,21 @@ import logger from "../../utils/logger";
 
 module.exports = {
   name: "tools",
-  aliases: ["t", "tool"],
+  aliases: ["t"],
   execute(message: any, args: any, client: any, prefix: string) {
     const page: number = args[0] || 1;
-    message.channel.send(loadtoolsmsg(page, prefix));
-    logger.cmd(`Tools Command has been executed and page is ${page}`);
-
+    message.channel.send(loadToolsMsg(page, prefix));
+    logger.cmd(`Tools Command executed, page: ${page}`);
     message.delete();
   },
 };
 
-function loadtoolsmsg(page: number, prefix: string) {
+function loadToolsMsg(page: number, prefix: string) {
   if (page == 1) {
     return `
-> ## 🚨 **Tools Commands - Page 1** 🚨
-> ⚔️ **Command List:**
-> 👤 **${prefix}kick**
-> 🚫 **${prefix}ban**
-> 🔓 **${prefix}unban**
-> 🔇 **${prefix}mute**
-> 📝 **${prefix}cloneserver**
+> ## 🛠 **Tools Commands - Page 1** 🛠
+> 🌍 **${prefix}iplookup**
+> 🎁 **${prefix}nitrosniper**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

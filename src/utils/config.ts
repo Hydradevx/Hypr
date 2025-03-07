@@ -32,7 +32,7 @@ async function configure() {
   const config = {
     token: await askInput("Enter your bot token"),
     prefix: await askInput("Enter your command prefix"),
-    safetyTime: await askInput("Enter the safety time in seconds"),
+    safetyTime: await askInput("Enter the safety(Auto-Delete) time in seconds"),
   };
 
   const configPath = path.join(__dirname, "../../config.json");
