@@ -34,6 +34,7 @@ async function configure() {
   const config = {
     token: await askInput("Enter your bot token"),
     prefix: await askInput("Enter your command prefix"),
+    safetyTime: await askInput("Enter the safety time in seconds"),
   };
   const configPath = path_1.default.join(__dirname, "../../config.json");
   fs_1.default.writeFileSync(

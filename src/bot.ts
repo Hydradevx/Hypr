@@ -26,6 +26,7 @@ export const client: any = new Client();
 
 const token = config.token;
 const prefix: string = config.prefix || "!";
+const safetyTime = config.safetyTime * 1000 || 60000 * 5;
 
 client.commands = new Collection();
 
@@ -94,6 +95,23 @@ client.on("messageCreate", (message: any) => {
   const command = client.commands.get(commandName!);
 
   if (!command) return;
+
+  if (message.author.id !== client.user?.id) return;
+
+  const originalSend = message.channel.send.bind(message.channel);
+
+  message.channel.send = async (...args: any[]) => {
+    const sentMessage = await originalSend(...args);
+    if (sentMessage) {
+      setTimeout(() => {
+        if (sentMessage.deletable) sentMessage.delete().catch(() => {});
+      }, safetyTime);
+    }
+  };
+
+  setTimeout(() => {
+    if (message.deletable) message.delete().catch(() => {});
+  }, safetyTime);
 
   if (args[0] === "--usage") {
     usageLoad(command, message, prefix);

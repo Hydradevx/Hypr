@@ -30,6 +30,7 @@ config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
 exports.client = new discord_js_selfbot_v13_1.Client();
 const token = config.token;
 const prefix = config.prefix || "!";
+const safetyTime = config.safetyTime * 1000 || 60000 * 5;
 exports.client.commands = new discord_js_selfbot_v13_1.Collection();
 if (!config.hasAccess) {
   config.hasAccess = [];
@@ -88,6 +89,19 @@ exports.client.on("messageCreate", (message) => {
   const commandName = args.shift()?.toLowerCase();
   const command = exports.client.commands.get(commandName);
   if (!command) return;
+  if (message.author.id !== exports.client.user?.id) return;
+  const originalSend = message.channel.send.bind(message.channel);
+  message.channel.send = async (...args) => {
+    const sentMessage = await originalSend(...args);
+    if (sentMessage) {
+      setTimeout(() => {
+        if (sentMessage.deletable) sentMessage.delete().catch(() => {});
+      }, safetyTime);
+    }
+  };
+  setTimeout(() => {
+    if (message.deletable) message.delete().catch(() => {});
+  }, safetyTime);
   if (args[0] === "--usage") {
     (0, usageLoader_1.usageLoad)(command, message, prefix);
     return;
