@@ -19,6 +19,8 @@ function loadModerationMsg(page: number, prefix: string) {
 > ⛔ **${prefix}mute**
 > 🚫 **${prefix}ban**
 > 🔓 **${prefix}unban**
+> 🕒 **${prefix}slowmode**
+> ⚠️ **${prefix}warn**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;

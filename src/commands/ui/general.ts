@@ -23,9 +23,7 @@ function loadGeneralMsg(page: number, prefix: string) {
 > 📊 **${prefix}poll**
 > 🗨️ **${prefix}quote**
 > ⏰ **${prefix}remind**
-> 🕒 **${prefix}slowmode**
 > 🔓 **${prefix}unlock**
-> ⚠️ **${prefix}warn**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
