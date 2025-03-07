@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import autoReactState from "../managers/autoReactState";
 
 const configPath = path.join(__dirname, "../../autoReact.json");
 let autoReactConfig: { [key: string]: string } = {};
@@ -15,13 +16,23 @@ function loadConfig() {
 export function setupAutoReact(client: any) {
   loadConfig();
 
-  client.on("messageCreate", async (message: any) => {
-    if (message.author.bot || !message.guild) return;
+  client.on("messageCreate", (message: any) => {
+    if (message.author.bot || !message.guild || !autoReactState.getStatus())
+      return;
 
-    for (const word of message.content.toLowerCase().split(/\s+/)) {
+    const words = message.content.toLowerCase().split(/\s+/);
+    const reactions = new Set<string>();
+
+    for (const word of words) {
       if (autoReactConfig[word]) {
-        await message.react(autoReactConfig[word]).catch(() => {});
+        reactions.add(autoReactConfig[word]);
       }
     }
+
+    reactions.forEach(async (reaction) => {
+      try {
+        await message.react(reaction);
+      } catch {}
+    });
   });
 }

@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupAutoReact = setupAutoReact;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const autoReactState_1 = __importDefault(require("../managers/autoReactState"));
 const configPath = path_1.default.join(__dirname, "../../autoReact.json");
 let autoReactConfig = {};
 function loadConfig() {
@@ -19,12 +20,24 @@ function loadConfig() {
 }
 function setupAutoReact(client) {
   loadConfig();
-  client.on("messageCreate", async (message) => {
-    if (message.author.bot || !message.guild) return;
-    for (const word of message.content.toLowerCase().split(/\s+/)) {
+  client.on("messageCreate", (message) => {
+    if (
+      message.author.bot ||
+      !message.guild ||
+      !autoReactState_1.default.getStatus()
+    )
+      return;
+    const words = message.content.toLowerCase().split(/\s+/);
+    const reactions = new Set();
+    for (const word of words) {
       if (autoReactConfig[word]) {
-        await message.react(autoReactConfig[word]).catch(() => {});
+        reactions.add(autoReactConfig[word]);
       }
     }
+    reactions.forEach(async (reaction) => {
+      try {
+        await message.react(reaction);
+      } catch {}
+    });
   });
 }

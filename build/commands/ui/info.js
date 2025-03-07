@@ -36,6 +36,8 @@ function loadinfomsg(page, prefix) {
 > 🔧 **${prefix}setprefix**
 > 🔎 **${prefix}checkprefix**
 > 👀 **${prefix}listallcommands**
+> 🤖 **${prefix}enableautoreact**
+> ❌ **${prefix}disableautoreact**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
     `;
