@@ -16,8 +16,6 @@ function loadUtilityMsg(page: number, prefix: string) {
     return `
 > ## 🔧 **Utility Commands - Page 1** 🔧
 > 🔍 **${prefix}checkprefix**
-> 🚀 **${prefix}disableautoreact**
-> 🛑 **${prefix}enableautoreact**
 > 📜 **${prefix}listallcommands**
 > 🖼️ **${prefix}pfp**
 > 📡 **${prefix}ping**

@@ -16,6 +16,7 @@ function loadToolsMsg(page: number, prefix: string) {
     return `
 > ## 🛠 **Tools Commands - Page 1** 🛠
 > 🌍 **${prefix}iplookup**
+> 🚀 **${prefix}autoreact**
 > 🎁 **${prefix}nitrosniper**
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
