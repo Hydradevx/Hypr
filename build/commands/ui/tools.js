@@ -20,6 +20,7 @@ function loadToolsMsg(page, prefix) {
   if (page == 1) {
     return `
 > ## 🛠 **Tools Commands - Page 1** 🛠
+> 🎁 **${prefix}giveawaysniper**
 > 🌍 **${prefix}iplookup**
 > 🚀 **${prefix}autoreact**
 > 🎁 **${prefix}nitrosniper**

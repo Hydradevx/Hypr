@@ -15,6 +15,7 @@ function loadToolsMsg(page: number, prefix: string) {
   if (page == 1) {
     return `
 > ## 🛠 **Tools Commands - Page 1** 🛠
+> 🎁 **${prefix}giveawaysniper**
 > 🌍 **${prefix}iplookup**
 > 🚀 **${prefix}autoreact**
 > 🎁 **${prefix}nitrosniper**
