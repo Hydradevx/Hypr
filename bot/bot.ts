@@ -8,11 +8,19 @@ import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
-import { startWebUI } from "../ui/web";
 import { setupAutoReact } from "./features/autoReact";
 
 let config: any;
 const configPath = path.join(__dirname, "../config.json");
+
+config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+export const client: any = new Client();
+
+const token = config.token;
+const prefix: string = config.prefix || "!";
+const safetyTime = config.safetyTime * 1000 || 60000 * 5;
+
+export function initBot() {
 
 if (!fs.existsSync(configPath)) {
   console.log(
@@ -21,12 +29,7 @@ if (!fs.existsSync(configPath)) {
   process.exit();
 }
 
-config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-export const client: any = new Client();
 
-const token = config.token;
-const prefix: string = config.prefix || "!";
-const safetyTime = config.safetyTime * 1000 || 60000 * 5;
 
 client.commands = new Collection();
 
@@ -145,10 +148,12 @@ sleep(100);
 
 setupAutoReact(client);
 client.login(token);
-startWebUI(3000);
+
 startlogs();
 
 function startlogs() {
   console.log(colors.gray("Initializing logs...\n"));
   logger.initLogger();
+}
+
 }
