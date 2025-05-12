@@ -14,7 +14,6 @@ Set-Location Hydrion-S3LFB0T
 Write-Host "[+] Installing Node.js dependencies..." -ForegroundColor Green
 npm install -g bun
 bun install
-bun run build
 
 Write-Host "[=] Installation complete! Starting Hydrion-S3LFB0T..." -ForegroundColor Cyan
 bun start

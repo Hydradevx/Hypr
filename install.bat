@@ -13,6 +13,5 @@ echo [+] Installing Node.js dependencies...
 npm install -g bun
 echo [=] Installation complete! Starting Hydrion-S3LFB0T...
 bun install
-bun run build
 bun start
 pause
