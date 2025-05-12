@@ -22,7 +22,7 @@ let config;
 const configPath = path_1.default.join(__dirname, "../config.json");
 if (!fs_1.default.existsSync(configPath)) {
   console.log(
-    `Please type ${ansi_colors_1.default.red("npm run config")} to set up the config!`,
+    `Please type ${ansi_colors_1.default.red("bun run config")} to set up the config!`,
   );
   process.exit();
 }

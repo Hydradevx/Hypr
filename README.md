@@ -58,7 +58,7 @@ cd Hydrion-S3LFB0T
 ### ✅ Starting the Selfbot
 
 ```bash
-npm start
+bun start
 ```
 
 ### 🔄 Updating the Selfbot

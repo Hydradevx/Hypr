@@ -12,7 +12,9 @@ git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
 Set-Location Hydrion-S3LFB0T
 
 Write-Host "[+] Installing Node.js dependencies..." -ForegroundColor Green
-npm install
+npm install -g bun
+bun install
+bun run build
 
 Write-Host "[=] Installation complete! Starting Hydrion-S3LFB0T..." -ForegroundColor Cyan
-npm start
+bun start

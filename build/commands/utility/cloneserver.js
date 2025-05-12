@@ -6,7 +6,7 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../../utils/logger"));
-const fetch = require("node-fetch");
+const cross_fetch_1 = __importDefault(require("cross-fetch"));
 const bot_1 = require("../../bot");
 module.exports = {
   name: "cloneserver",
@@ -89,7 +89,9 @@ module.exports = {
       }
       await message.channel.send("✅ Channels and categories cloned.");
       for (const emoji of originalGuild.emojis.cache.values()) {
-        const emojiBuffer = await fetch(emoji.url).then((res) => res.buffer());
+        const emojiBuffer = await (0, cross_fetch_1.default)(emoji.url).then(
+          (res) => res.buffer(),
+        );
         await newGuild.emojis.create(emojiBuffer, emoji.name);
       }
       await message.channel.send("✅ Emojis cloned.");

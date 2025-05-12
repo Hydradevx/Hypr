@@ -1,5 +1,5 @@
 import logger from "../../utils/logger";
-const fetch = require("node-fetch");
+import fetch from "cross-fetch";
 import { client } from "../../bot";
 
 module.exports = {

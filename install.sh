@@ -17,6 +17,8 @@ sudo apt install -y git nodejs npm || brew install git nodejs
 echo -e "${GREEN}[+] ${BLUE}Cloning Hydrion-S3LFB0T repository...${RESET}"
 git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git && cd Hydrion-S3LFB0T
 echo -e "${GREEN}[+] ${BLUE}Installing Node.js dependencies...${RESET}"
-npm install
+npm install -g bun
+bun install
+bun run build
 echo -e "${GREEN}[=] Installation complete! Starting Hydrion-S3LFB0T...${RESET}"
-npm start
+bun start

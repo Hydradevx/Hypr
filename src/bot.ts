@@ -16,7 +16,7 @@ const configPath = path.join(__dirname, "../config.json");
 
 if (!fs.existsSync(configPath)) {
   console.log(
-    `Please type ${colors.red("npm run config")} to set up the config!`,
+    `Please type ${colors.red("bun run config")} to set up the config!`,
   );
   process.exit();
 }
