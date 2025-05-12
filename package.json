@@ -1,14 +1,14 @@
 {
   "name": "hydrion-s3lfb0t",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "the best selfbot made by Hydrion",
   "main": "dist/bot.js",
   "scripts": {
-    "test": "bun src/bot.ts",
-    "start": "bun src/bot.ts",
+    "test": "bun bot/bot.ts",
+    "start": "bun bot/bot.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "config": "bun src/utils/config.ts",
+    "config": "bun bot/utils/config.ts",
     "dev": "bun run format && bun start"
   },
   "keywords": [

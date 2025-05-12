@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
-import { client } from "./bot";
-import logger from "./utils/logger";
+import { client } from "../bot/bot";
+import logger from "../bot/utils/logger";
 
 const app = express();
 

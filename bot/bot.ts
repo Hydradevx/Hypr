@@ -8,7 +8,7 @@ import { usageLoad } from "./utils/usageLoader";
 import { infoLoad } from "./utils/infoLoader";
 import afkState from "./managers/afkState";
 import rpc from "./utils/richPresence";
-import { startWebUI } from "./web";
+import { startWebUI } from "../ui/web";
 import { setupAutoReact } from "./features/autoReact";
 
 let config: any;

@@ -3,8 +3,6 @@
     "target": "ESNext",
     "module": "NodeNext",
     "types": ["node"],
-    "outDir": "build",
-    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true
