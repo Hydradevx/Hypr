@@ -22,10 +22,18 @@ function App() {
       <h1>Hydrion Selfbot Dashboard</h1>
       {stats ? (
         <ul>
-          <li><b>Username:</b> {stats.username}</li>
-          <li><b>Servers:</b> {stats.servers}</li>
-          <li><b>Ping:</b> {stats.ping}ms</li>
-          <li><b>Uptime:</b> {stats.uptime}</li>
+          <li>
+            <b>Username:</b> {stats.username}
+          </li>
+          <li>
+            <b>Servers:</b> {stats.servers}
+          </li>
+          <li>
+            <b>Ping:</b> {stats.ping}ms
+          </li>
+          <li>
+            <b>Uptime:</b> {stats.uptime}
+          </li>
         </ul>
       ) : (
         <p>Loading...</p>

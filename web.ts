@@ -1,41 +1,21 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { execSync } from "child_process";
-import cors from "cors";
 import { client } from "./bot/bot";
 import logger from "./bot/utils/logger";
+
+const app = express();
+const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-const buildReactApp = () => {
-  logger.info("Building React app...");
-  try {
-    execSync("bun vite build", {
-      cwd: path.join(__dirname, "./"),
-      stdio: "inherit",
-    });
-    logger.info("React app built successfully.");
-  } catch (error) {
-    logger.error("Error building React app");
-    process.exit(1);
-  }
-};
-
-const buildPath = path.join(__dirname, "./dist");
-app.use(express.static(buildPath));
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "./dist/index.html"));
+});
 
 app.get("/api/botStats", (req, res) => {
   res.json(getBotStats());
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 function getBotStats() {
@@ -54,10 +34,8 @@ function formatUptime(ms: number): string {
   const days = Math.floor(ms / (1000 * 60 * 60 * 24));
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
-
-export function startWebUI(port = 3000) {
-  buildReactApp();
-  app.listen(port, () =>
-    logger.info(`Web UI running at http://localhost:${port}`)
-  );
+export function startWebUI() {
+  app.listen(PORT, () => {
+    logger.info(`Server running at http://localhost:${PORT}`);
+  });
 }
