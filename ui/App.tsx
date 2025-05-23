@@ -18,26 +18,30 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Hydrion Selfbot Dashboard</h1>
-      {stats ? (
-        <ul>
-          <li>
-            <b>Username:</b> {stats.username}
-          </li>
-          <li>
-            <b>Servers:</b> {stats.servers}
-          </li>
-          <li>
-            <b>Ping:</b> {stats.ping}ms
-          </li>
-          <li>
-            <b>Uptime:</b> {stats.uptime}
-          </li>
-        </ul>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="min-h-screen bg-gray-100 p-8 font-sans">
+      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">
+          Hydrion Selfbot Dashboard
+        </h1>
+        {stats ? (
+          <ul className="space-y-2 text-gray-800">
+            <li>
+              <span className="font-semibold">Username:</span> {stats.username}
+            </li>
+            <li>
+              <span className="font-semibold">Servers:</span> {stats.servers}
+            </li>
+            <li>
+              <span className="font-semibold">Ping:</span> {stats.ping}ms
+            </li>
+            <li>
+              <span className="font-semibold">Uptime:</span> {stats.uptime}
+            </li>
+          </ul>
+        ) : (
+          <p className="text-gray-500">Loading...</p>
+        )}
+      </div>
     </div>
   );
 }

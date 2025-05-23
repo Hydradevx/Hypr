@@ -9,9 +9,29 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(__dirname, "./dist/index.html"));
+  res.sendFile(path.join(__dirname, "dist/index.html"));
 });
+
+app.get("/api/botStats", (_req, res) => {
+  const stats = {
+    username: client.user?.username || "Unknown",
+    servers: client.guilds.cache.size,
+    ping: client.ws.ping,
+    uptime: formatUptime(client.uptime),
+  };
+  res.json(stats);
+});
+
+function formatUptime(ms: number = 0): string {
+  const sec = Math.floor(ms / 1000);
+  const hrs = Math.floor(sec / 3600);
+  const min = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  return `${hrs}h ${min}m ${s}s`;
+}
 
 export function startWebUI(PORT: number) {
   app.listen(PORT, () => {
