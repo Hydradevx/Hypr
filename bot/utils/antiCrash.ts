@@ -1,6 +1,6 @@
 import logger from "./logger";
 
-export function antiCrash(): void {
+export default function antiCrash(): void {
   process.on("uncaughtException", (error: Error) => {
     console.log("Uncaught Exception:", error.stack || error);
   });
