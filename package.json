@@ -6,7 +6,7 @@
   "main": "main.ts",
   "scripts": {
     "test": "bot.ts",
-    "start": "bun bot.ts",
+    "start": "bun run build && bun bot.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "config": "bun bot/utils/config.ts",
