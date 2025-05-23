@@ -1,7 +1,7 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "idle",
   aliases: ["idlemode"],
   info: "sets the user to idle mode",

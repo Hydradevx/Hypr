@@ -1,7 +1,7 @@
 import logger from "../../utils/logger";
 const ms = require("ms");
 
-module.exports = {
+export default {
   name: "mute",
   aliases: ["mutemember", "silent"],
   info: "mutes a specified user",

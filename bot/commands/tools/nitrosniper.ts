@@ -1,7 +1,7 @@
 import axios from "axios";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "nitrosniper",
   aliases: ["ns"],
   enabled: false,

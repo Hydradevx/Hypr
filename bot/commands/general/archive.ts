@@ -2,7 +2,7 @@ const { MessageAttachment, Message } = require("discord.js-selfbot-v13");
 
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "archive",
   aliases: ["archiveMessages"],
   info: "archives previously sent messages",

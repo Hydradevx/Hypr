@@ -1,8 +1,8 @@
 import logger from "../../utils/logger";
 import fetch from "cross-fetch";
-import { client } from "../../bot";
+import { client } from "../../../bot";
 
-module.exports = {
+export default {
   name: "cloneserver",
   aliases: ["clone"],
   info: "clones an entire Discord Server",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "skid",
   aliases: ["ski", "sk"],
   info: "checks if the user is a skid",

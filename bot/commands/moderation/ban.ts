@@ -1,4 +1,5 @@
 import logger from "../../utils/logger";
+
 export default {
   name: "ban",
   aliases: ["banuser", "banish"],

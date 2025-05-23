@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "pin",
   aliases: ["pinmessage"],
   info: "pins a message",

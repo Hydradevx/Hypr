@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "stats",
   aliases: ["stat"],
   info: "shows server statistics",

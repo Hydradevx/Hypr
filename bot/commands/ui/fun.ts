@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "fun",
   aliases: ["f"],
   execute(message: any, args: any, client: any, prefix: string) {

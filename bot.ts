@@ -44,7 +44,7 @@ function getFilesRecursively(directory: string): string[] {
     const fullPath = path.join(directory, item.name);
     if (item.isDirectory()) {
       files.push(...getFilesRecursively(fullPath));
-    } else if (item.isFile() && path.extname(fullPath) === ".js") {
+    } else if (item.isFile() && path.extname(fullPath) === ".ts") {
       files.push(fullPath);
     }
   }
@@ -56,7 +56,8 @@ const commandsPath = path.join(__dirname, "./bot/commands");
 const commandFiles = getFilesRecursively(commandsPath);
 
 for (const filePath of commandFiles) {
-  const command = require(filePath);
+  const commandModule = await import(filePath);
+  const command = commandModule.default;
 
   if (command.name) {
     client.commands.set(command.name, command);
@@ -75,20 +76,17 @@ client.on("ready", async () => {
 });
 
 client.on("messageCreate", (message: any) => {
-  if (!config.hasAccess.includes(message.author.id)) {
+  if (
+    !config.hasAccess.includes(message.author.id) &&
+    message.author.id !== client.user?.id
+  ) {
     if (afkState.afkStatus && message.mentions.has(client.user!)) {
       message.reply(`💤 I'm currently AFK. Reason: ${afkState.afkReason}`);
       return;
     }
   }
 
-  if (
-    message.author.bot ||
-    !message.content.startsWith(prefix) ||
-    (!config.hasAccess.includes(message.author.id) &&
-      message.author.id !== client.user?.id)
-  )
-    return;
+  if (message.author.bot || !message.content.startsWith(prefix)) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift()?.toLowerCase();

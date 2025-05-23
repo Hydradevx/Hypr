@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "announce",
   aliases: ["announcement"],
   info: "announces a message in announcement Channel",

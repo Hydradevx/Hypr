@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "remind",
   aliases: ["reminder"],
   info: "sets a reminder for you",

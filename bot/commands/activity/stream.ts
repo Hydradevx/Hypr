@@ -1,7 +1,7 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "stream",
   aliases: ["startstream", "setstream"],
   info: "sets the user's streaming status",

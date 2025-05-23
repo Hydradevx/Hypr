@@ -1,7 +1,7 @@
 import logger from "../../utils/logger";
 import raidState from "../../managers/raidState";
 
-module.exports = {
+export default {
   name: "raidstart",
   aliases: ["startRaid", "initiateRaid"],
   info: "starts a raid",

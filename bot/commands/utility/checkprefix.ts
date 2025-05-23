@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "checkprefix",
   aliases: ["prefix"],
   info: "displays the current prefix for the bot",

@@ -1,7 +1,7 @@
 import logger from "../../utils/logger";
 import autoReactState from "../../managers/autoReactState";
 
-module.exports = {
+export default {
   name: "autoreact",
   aliases: [
     "enableautoreact",

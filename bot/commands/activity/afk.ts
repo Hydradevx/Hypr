@@ -1,7 +1,7 @@
 const afkState = require("../../managers/afkState.js");
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "afk",
   aliases: ["setafk", "goafk"],
   info: "sets you as afk",

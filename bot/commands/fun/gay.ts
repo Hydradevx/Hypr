@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "gay",
   aliases: ["ga"],
   info: "checks if a user is gay",

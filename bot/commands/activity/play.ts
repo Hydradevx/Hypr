@@ -1,7 +1,7 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "play",
   aliases: ["game", "playGame", "setGame"],
   info: "sets the user to play a game",

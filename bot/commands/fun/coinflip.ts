@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "coinflip",
   aliases: ["cf"],
   info: "flips a coin",

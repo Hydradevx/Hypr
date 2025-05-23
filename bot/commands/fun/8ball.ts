@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "8ball",
   aliases: ["eightball"],
   info: "asks the eightball a questions",

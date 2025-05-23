@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "deleteCategories",
   aliases: ["deleteAllCategories", "removeCategories"],
   info: "deletes all categories in the server",

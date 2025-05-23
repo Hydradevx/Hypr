@@ -1,8 +1,8 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import rpc from "../../utils/richPresence";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "stopactivity",
   aliases: ["stopactivity", "clearactivity"],
   info: "clears the user's current activity",

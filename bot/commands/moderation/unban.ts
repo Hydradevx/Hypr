@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "unban",
   aliases: ["revokeBan", "unbanuser"],
   info: "unbans a specified user",

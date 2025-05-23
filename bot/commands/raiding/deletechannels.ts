@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "deleteChannels",
   aliases: ["dChannels", "deleteC"],
   info: "deletes all channels in the server",

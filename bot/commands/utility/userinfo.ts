@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "userinfo",
   aliases: ["ui"],
   info: "shows user information",

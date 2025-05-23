@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "pfp",
   aliases: ["pf"],
   info: "shows a user's profile picture",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "ping",
   aliases: ["p"],
   info: "Returns the ping of the Selfbot",

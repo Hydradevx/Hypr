@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "poll",
   aliases: ["survey"],
   info: "conducts a poll request",

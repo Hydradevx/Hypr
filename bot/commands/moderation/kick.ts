@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "kick",
   aliases: ["kickuser", "kicky"],
   info: "kicks a specified user",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "quote",
   aliases: ["addquote"],
   info: "quotes your message",

@@ -5,7 +5,7 @@ import path from "path";
 const configPath = path.join(__dirname, "../../../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
-module.exports = {
+export default {
   name: "setprefix",
   aliases: ["changeprefix"],
   info: "changes the prefix for the bot",

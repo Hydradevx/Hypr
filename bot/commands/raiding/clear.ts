@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "clear",
   aliases: ["purge", "cl"],
   info: "clears a specified number of messages",

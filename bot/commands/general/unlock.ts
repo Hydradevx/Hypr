@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "unlock",
   aliases: ["channelunlock"],
   info: "unlocks current channel",

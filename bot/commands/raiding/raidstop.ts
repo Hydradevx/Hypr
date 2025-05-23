@@ -1,7 +1,7 @@
 import logger from "../../utils/logger.js";
 import raidState from "../../managers/raidState.js";
 
-module.exports = {
+export default {
   name: "raidstop",
   aliases: ["endRaid", "stopRaid"],
   info: "ends a raid",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "nuke",
   aliases: ["n"],
   description: "Nukes a channel",

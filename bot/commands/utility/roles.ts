@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "roles",
   aliases: ["listroles", "roleslist"],
   info: "lists roles of a user",

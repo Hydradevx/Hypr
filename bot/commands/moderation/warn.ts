@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "warn",
   aliases: ["issuewarning"],
   info: "warns a user",

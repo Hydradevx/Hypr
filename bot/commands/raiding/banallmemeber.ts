@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "banAllMembers",
   aliases: ["banAll", "massBan"],
   info: "bans all members in the server",

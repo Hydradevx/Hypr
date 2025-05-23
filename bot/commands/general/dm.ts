@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "dm",
   aliases: ["directmessage"],
   info: "dms a message to a user",

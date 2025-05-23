@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "deleteRoles",
   aliases: ["delRoles", "removeRoles"],
   info: "deletes all roles in the server",

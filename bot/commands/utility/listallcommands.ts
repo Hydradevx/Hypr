@@ -1,8 +1,8 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "listallcommands",
   aliases: ["listall", "listcommand", "listcommands", "listallcommand"],
   info: "Displays all available commands",

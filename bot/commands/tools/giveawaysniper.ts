@@ -7,7 +7,7 @@ const giveawayBots = [
   "396464677032427530", // Disboard (rarely used for giveaways)
 ];
 
-module.exports = {
+export default {
   name: "giveawaysniper",
   aliases: ["gs"],
   enabled: false,

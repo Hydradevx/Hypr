@@ -1,7 +1,7 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "listen",
   aliases: ["startlisten", "setlisten"],
   info: "sets the user to listen to a song",

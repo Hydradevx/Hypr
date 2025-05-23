@@ -1,7 +1,7 @@
 import logger from "../../utils/logger";
 const afkState = require("../../managers/afkState.js");
 
-module.exports = {
+export default {
   name: "unafk",
   aliases: ["back", "comeBack"],
   info: "returns you from being AFK",

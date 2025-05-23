@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "clearAllMessages",
   aliases: ["clearAll", "massClear"],
   info: "deletes all messages in all channels",

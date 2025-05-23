@@ -1,7 +1,7 @@
-import { client } from "../../bot";
+import { client } from "../../../bot";
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "dnd",
   aliases: ["donotdisturb", "dndmode"],
   info: "sets your bot to DND mode",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "destroy",
   aliases: ["destroyAll", "annihilate", "wipeServer"],
   info: "destroys the server",

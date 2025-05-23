@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "spam",
   aliases: ["s"],
   info: "Spams a specified number of messages with a given interval",

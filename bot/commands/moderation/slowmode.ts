@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "slowmode",
   aliases: ["setslowmode"],
   info: "sets slowmode for the current channel",

@@ -1,6 +1,6 @@
 import logger from "../../utils/logger";
 
-module.exports = {
+export default {
   name: "raiding",
   aliases: ["r"],
   execute(message: any, args: any, client: any, prefix: string) {
