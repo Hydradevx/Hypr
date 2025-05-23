@@ -10,6 +10,7 @@ import afkState from "./bot/managers/afkState";
 import rpc from "./bot/utils/richPresence";
 import { startWebUI } from "./web";
 import { setupAutoReact } from "./bot/features/autoReact";
+import { antiCrash } from "./bot/utils/antiCrash";
 
 let config: any;
 const configPath = path.join(__dirname, "./config.json");
@@ -149,4 +150,5 @@ startlogs();
 function startlogs() {
   console.log(colors.gray("Initializing logs...\n"));
   logger.initLogger();
+  antiCrash();
 }
