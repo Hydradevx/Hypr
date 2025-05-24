@@ -3,7 +3,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Logs from "./pages/Logs";
 import Settings from "./pages/Settings";
-import Commands from "./pages/Commands";
+import Controls from "./pages/Controls";
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/logs" element={<Logs />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/commands" element={<Commands />} />
+          <Route path="/controls" element={<Controls />} />
         </Routes>
       </main>
     </div>
