@@ -25,6 +25,13 @@ app.get("/api/botStats", (_req, res) => {
   res.json(stats);
 });
 
+app.post("/api/kill", (_req, res) => {
+  logger.warn("Selfbot kill requested from web UI");
+  res.status(200).json({ message: "Selfbot shutting down..." });
+
+  setTimeout(() => process.exit(0), 1000);
+});
+
 function formatUptime(ms: number = 0): string {
   const sec = Math.floor(ms / 1000);
   const hrs = Math.floor(sec / 3600);

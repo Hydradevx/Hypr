@@ -12,9 +12,9 @@ import clsx from "clsx";
 
 const navItems = [
   { path: "/", name: "Dashboard", icon: Home },
-  { path: "/logs", name: "Logs", icon: Terminal },
-  { path: "/settings", name: "Settings", icon: Settings },
   { path: "/controls", name: "Bot Controls", icon: Bot },
+  { path: "/settings", name: "Settings", icon: Settings },
+  { path: "/logs", name: "Logs", icon: Terminal },
 ];
 
 export default function Sidebar() {
