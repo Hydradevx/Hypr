@@ -18,7 +18,7 @@ export default {
         const fullPath = path.join(directory, item.name);
         if (item.isDirectory()) {
           files = files.concat(getFilesRecursively(fullPath));
-        } else if (item.isFile() && fullPath.endsWith(".js")) {
+        } else if (item.isFile() && fullPath.endsWith(".ts")) {
           files.push(fullPath);
         }
       }

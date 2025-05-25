@@ -1,109 +1,116 @@
 import { useEffect, useState } from "react";
 
-type Channel = { id: string; name: string };
-type Guild = { id: string; name: string; channels: Channel[] };
+type Channel = {
+  id: string;
+  name: string;
+};
+
+type Server = {
+  id: string;
+  name: string;
+  channels: Channel[];
+};
 
 export default function Controls() {
-  const [guilds, setGuilds] = useState<Guild[]>([]);
-  const [selectedGuild, setSelectedGuild] = useState<string>("");
-  const [selectedChannel, setSelectedChannel] = useState<string>("");
+  const [servers, setServers] = useState<Server[]>([]);
+  const [selectedServerId, setSelectedServerId] = useState("");
+  const [selectedChannelId, setSelectedChannelId] = useState("");
   const [command, setCommand] = useState("");
-  const [status, setStatus] = useState<string | null>(null);
+  const [response, setResponse] = useState("");
 
   useEffect(() => {
     fetch("/api/servers")
       .then((res) => res.json())
-      .then(setGuilds)
-      .catch((err) => console.error("Failed to fetch servers", err));
+      .then(setServers)
+      .catch(console.error);
   }, []);
 
-  const handleGuildChange = (id: string) => {
-    setSelectedGuild(id);
-    setSelectedChannel(""); 
+  const handleServerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedServerId(e.target.value);
+    setSelectedChannelId("");
   };
 
-  const handleSubmit = async () => {
-    if (!selectedGuild || !selectedChannel || !command.trim()) {
-      setStatus("Please select server, channel and enter a command.");
-      return;
-    }
+  const handleSendCommand = async () => {
+    if (!selectedChannelId || !command.trim()) return;
 
-    const res = await fetch("/api/command", {
+    const res = await fetch("/api/sendCommand", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        guildId: selectedGuild,
-        channelId: selectedChannel,
-        command,
+        channelId: selectedChannelId,
+        content: command.trim(),
       }),
     });
 
     const data = await res.json();
-    setStatus(data.message || (data.success ? "Command sent!" : "Failed to send command."));
+    setResponse(data.message || "Command sent.");
   };
 
-  const selectedGuildObj = guilds.find((g) => g.id === selectedGuild);
+  const selectedServer = servers.find((s) => s.id === selectedServerId);
 
   return (
     <div className="p-6 text-white font-sans bg-gradient-to-br from-black via-blue-950 to-black min-h-screen h-full w-full">
-      <h1 className="text-4xl font-bold mb-8 text-blue-400 drop-shadow-lg">
-        Send Commands
+      <h1 className="text-3xl font-bold mb-6 text-blue-400 drop-shadow-lg">
+        Command Executor
       </h1>
 
-      <div className="grid gap-6 max-w-2xl">
+      <div className="space-y-4">
         <div>
-          <label className="block mb-2 text-blue-300">Server</label>
+          <label className="block mb-1">Server:</label>
           <select
-            value={selectedGuild}
-            onChange={(e) => handleGuildChange(e.target.value)}
-            className="w-full bg-blue-900/40 border border-blue-700 text-white p-3 rounded-xl shadow-md hover:shadow-blue-500/40 transition-all duration-200"
+            value={selectedServerId}
+            onChange={handleServerChange}
+            className="w-full bg-blue-900 text-white p-2 rounded"
           >
             <option value="">Select a server</option>
-            {guilds.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.name}
+            {servers.map((server) => (
+              <option key={server.id} value={server.id}>
+                {server.name}
               </option>
             ))}
           </select>
         </div>
 
-        <div>
-          <label className="block mb-2 text-blue-300">Channel</label>
-          <select
-            value={selectedChannel}
-            onChange={(e) => setSelectedChannel(e.target.value)}
-            disabled={!selectedGuild}
-            className="w-full bg-blue-900/40 border border-blue-700 text-white p-3 rounded-xl shadow-md hover:shadow-blue-500/40 transition-all duration-200 disabled:opacity-50"
-          >
-            <option value="">Select a channel</option>
-            {selectedGuildObj?.channels.map((c) => (
-              <option key={c.id} value={c.id}>
-                #{c.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {selectedServer && (
+          <div>
+            <label className="block mb-1">Channel:</label>
+            <select
+              value={selectedChannelId}
+              onChange={(e) => setSelectedChannelId(e.target.value)}
+              className="w-full bg-blue-900 text-white p-2 rounded"
+            >
+              <option value="">Select a channel</option>
+              {selectedServer.channels.map((channel) => (
+                <option key={channel.id} value={channel.id}>
+                  #{channel.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div>
-          <label className="block mb-2 text-blue-300">Command</label>
+          <label className="block mb-1">Command:</label>
           <input
             type="text"
             value={command}
             onChange={(e) => setCommand(e.target.value)}
-            placeholder="!ping or any selfbot command"
-            className="w-full bg-blue-900/40 border border-blue-700 text-white p-3 rounded-xl shadow-md hover:shadow-blue-500/40 transition-all duration-200"
+            placeholder="Enter command with arguments"
+            className="w-full bg-blue-900 text-white p-2 rounded"
           />
         </div>
 
         <button
-          onClick={handleSubmit}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md hover:shadow-blue-500/40 transition-all duration-200"
+          onClick={handleSendCommand}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
         >
           Send Command
         </button>
 
-        {status && (
-          <p className="text-sm text-blue-300 mt-4 drop-shadow">{status}</p>
+        {response && (
+          <div className="mt-4 text-green-400 bg-blue-950 p-3 rounded shadow">
+            {response}
+          </div>
         )}
       </div>
     </div>

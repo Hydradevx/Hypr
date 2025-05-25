@@ -66,7 +66,12 @@ app.get("/api/servers", async (req, res) => {
         id: guild.id,
         name: guild.name,
         channels: guild.channels.cache
-          .filter((ch: any) => ["GUILD_TEXT", "GUILD_NEWS"].includes(ch.type))
+          .filter(
+            (ch: any) =>
+              (ch.type === "GUILD_TEXT" || ch.type === "GUILD_NEWS") &&
+              ch.viewable &&
+              ch.permissionsFor(guild.me)?.has("SEND_MESSAGES"),
+          )
           .map((channel: any) => ({
             id: channel.id,
             name: channel.name,
@@ -78,6 +83,28 @@ app.get("/api/servers", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch servers." });
+  }
+});
+
+app.post("/api/sendCommand", async (req, res) => {
+  const { channelId, content } = req.body;
+
+  if (!channelId || !content) {
+    return res.status(400).json({ message: "Missing channelId or content." });
+  }
+
+  try {
+    const channel = await client.channels.fetch(channelId);
+
+    if (!channel || !channel.send) {
+      return res.status(400).json({ message: "Invalid channel." });
+    }
+
+    await channel.send(content);
+    res.json({ message: "Command sent successfully." });
+  } catch (error) {
+    console.error("Error sending command:", error);
+    res.status(500).json({ message: "Failed to send command." });
   }
 });
 
