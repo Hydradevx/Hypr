@@ -59,6 +59,46 @@ app.get("/api/logs", (_req, res) => {
   res.json({ logs: logger.getLogs() });
 });
 
+app.get("/api/servers", async (req, res) => {
+  try {
+    const servers = client.guilds.cache.map((guild: any) => {
+      return {
+        id: guild.id,
+        name: guild.name,
+        channels: guild.channels.cache
+          .filter((ch: any) => ["GUILD_TEXT", "GUILD_NEWS"].includes(ch.type))
+          .map((channel: any) => ({
+            id: channel.id,
+            name: channel.name,
+          })),
+      };
+    });
+
+    res.json(servers);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch servers." });
+  }
+});
+
+app.post("/api/command", async (req, res) => {
+  const { guildId, channelId, command } = req.body;
+
+  try {
+    const guild = client.guilds.cache.get(guildId);
+    if (!guild) throw new Error("Guild not found");
+
+    const channel = guild.channels.cache.get(channelId);
+    if (!channel || !channel.isTextBased())
+      throw new Error("Channel not found or not text-based");
+
+    await (channel as any).send(command);
+    res.json({ success: true, message: "Command sent" });
+  } catch (err: any) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
 function formatUptime(ms: number = 0): string {
   const sec = Math.floor(ms / 1000);
   const hrs = Math.floor(sec / 3600);
