@@ -55,6 +55,10 @@ app.post("/api/kill", (_req, res) => {
   setTimeout(() => process.exit(0), 1000);
 });
 
+app.get("/api/logs", (_req, res) => {
+  res.json({ logs: logger.getLogs() });
+});
+
 function formatUptime(ms: number = 0): string {
   const sec = Math.floor(ms / 1000);
   const hrs = Math.floor(sec / 3600);
@@ -63,7 +67,9 @@ function formatUptime(ms: number = 0): string {
   return `${hrs}h ${min}m ${s}s`;
 }
 
-export function startWebUI(PORT: number) {
+let PORT = 3000;
+
+export function startWebUI() {
   app.listen(PORT, () => {
     logger.info(`Server running at http://localhost:${PORT}`);
   });

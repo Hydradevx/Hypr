@@ -19,7 +19,7 @@ function Dashboard() {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 5000);
+    const interval = setInterval(fetchStats, 500);
 
     return () => clearInterval(interval);
   }, []);

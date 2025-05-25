@@ -1,22 +1,35 @@
 import * as colors from "ansi-colors";
-
-interface LogFunction {
-  (message: string): void;
-}
+const Json = require("../../package.json");
 
 let logs: string[] = [];
 const maxLogs = process.stdout.rows - 10;
 
-const Json = require("../../package.json");
+const logBuffer: string[] = [];
 
-const log: LogFunction = (message: string) => {
+const log = (message: string) => {
   logs.push(message);
+  logBuffer.push(stripAnsi(message));
   console.log(message);
   renderLogs();
 };
 
-function displayTextArt(): void {
-  const textArt = `
+function stripAnsi(str: string): string {
+  return str.replace(
+    // ANSI escape codes
+    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+    "",
+  );
+}
+
+function renderLogs() {
+  displayTextArt();
+  console.log(colors.green("\nLogs:\n"));
+  const logsToShow = logs.slice(-maxLogs);
+  logsToShow.forEach((line) => console.log(line));
+}
+
+function displayTextArt() {
+  const art = `
     ${colors.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
     ${colors.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
     ${colors.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
@@ -24,57 +37,26 @@ function displayTextArt(): void {
     ${colors.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
     ${colors.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝`)}
     ${colors.cyanBright(`SELFBOT v${Json.version}`)}
-    `;
-
+  `;
   console.clear();
-  console.log(textArt);
+  console.log(art);
 }
 
-function renderLogs(): void {
-  displayTextArt();
-  console.log(colors.green("\nLogs:\n"));
-
-  const logsToShow = logs.slice(-maxLogs);
-
-  logsToShow.forEach((logText) => {
-    console.log(logText);
-  });
+function getLogs(): string[] {
+  return logBuffer.slice(-100);
 }
 
-function initLogger(): void {
+function initLogger() {
   log(colors.green("Logger initialized."));
 }
 
-function status(message: string) {
-  log(colors.cyan(`[STATUS] ${message}`));
-}
-
-function warn(message: string) {
-  log(colors.red(`[WARN] ${message}`));
-}
-
-function info(message: string) {
-  log(colors.blue(`[INFO] ${message}`));
-}
-
-function error(message: string) {
-  log(colors.red(`[ERROR] ${message}`));
-}
-
-function cmd(message: string) {
-  log(colors.cyan(`[COMMAND] ${message}`));
-}
-
-function wlog(message: string) {
-  log(colors.white(`[LOG] ${message}`));
-}
-
 export default {
-  status,
-  error,
-  warn,
-  info,
-  cmd,
+  status: (msg: string) => log(colors.cyan(`[STATUS] ${msg}`)),
+  error: (msg: string) => log(colors.red(`[ERROR] ${msg}`)),
+  warn: (msg: string) => log(colors.yellow(`[WARN] ${msg}`)),
+  info: (msg: string) => log(colors.blue(`[INFO] ${msg}`)),
+  cmd: (msg: string) => log(colors.magenta(`[COMMAND] ${msg}`)),
+  wlog: (msg: string) => log(colors.white(`[LOG] ${msg}`)),
   initLogger,
-  wlog,
+  getLogs,
 };
