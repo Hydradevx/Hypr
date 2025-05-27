@@ -29,14 +29,24 @@ export default function Sidebar() {
       )}
     >
       <div className="flex items-center justify-between p-4">
-        <h1
-          className={clsx(
-            "text-blue-400 text-xl font-semibold transition-opacity duration-200",
-            !expanded && "opacity-0",
-          )}
-        >
-          Hydrion
-        </h1>
+        <div className="flex items-center">
+          <img
+            src="/hydrion.jpg"
+            alt="Hydrion Logo"
+            className={clsx(
+              "w-20 h-20 mr-2 transition-opacity duration-200",
+              !expanded && "opacity-0",
+            )}
+          />
+          <h1
+            className={clsx(
+              "text-blue-400 text-xl font-semibold transition-opacity duration-200",
+              !expanded && "opacity-0",
+            )}
+          >
+            Hydrion
+          </h1>
+        </div>
         <button
           onClick={() => setExpanded((p) => !p)}
           className="text-blue-400 hover:text-blue-300 transition-all"

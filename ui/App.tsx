@@ -4,8 +4,19 @@ import Dashboard from "./pages/Dashboard";
 import Logs from "./pages/Logs";
 import Settings from "./pages/Settings";
 import Controls from "./pages/Controls";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./components/LoadingScreen";
 
 export default function App() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoaded(true), 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (!loaded) return <LoadingScreen />;
+
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar />

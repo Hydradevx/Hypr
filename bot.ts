@@ -144,7 +144,7 @@ sleep(100);
 
 setupAutoReact(client);
 client.login(token);
-startWebUI(3000);
+startWebUI();
 startlogs();
 
 function startlogs() {
