@@ -5,6 +5,7 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
+  LayoutDashboard,
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -15,6 +16,7 @@ const navItems = [
   { path: "/controls", name: "Bot Controls", icon: Bot },
   { path: "/settings", name: "Settings", icon: Settings },
   { path: "/logs", name: "Logs", icon: Terminal },
+  { path: "/rpc", name: "RPC Editor", icon: LayoutDashboard },
 ];
 
 export default function Sidebar() {

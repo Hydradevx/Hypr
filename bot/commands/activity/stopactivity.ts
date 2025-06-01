@@ -1,5 +1,5 @@
 import { client } from "../../../bot";
-import rpc from "../../utils/richPresence";
+import { setRichPresence as rpc } from "../../utils/richPresence";
 import logger from "../../utils/logger";
 
 export default {

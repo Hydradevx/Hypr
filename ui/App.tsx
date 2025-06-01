@@ -6,6 +6,7 @@ import Settings from "./pages/Settings";
 import Controls from "./pages/Controls";
 import { useEffect, useState } from "react";
 import LoadingScreen from "./components/LoadingScreen";
+import RpcEditor from "./pages/RpcEditor";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/logs" element={<Logs />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/controls" element={<Controls />} />
+          <Route path="/rpc" element={<RpcEditor />} />
         </Routes>
       </main>
     </div>

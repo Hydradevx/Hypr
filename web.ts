@@ -4,6 +4,11 @@ import { fileURLToPath } from "url";
 import { client } from "./bot";
 import logger from "./bot/utils/logger";
 import fs from "fs/promises";
+import {
+  setRichPresence,
+  getCurrentRpc,
+  RpcData,
+} from "./bot/utils/richPresence";
 
 const CONFIG_PATH = path.resolve("config.json");
 
@@ -123,6 +128,69 @@ app.post("/api/command", async (req, res) => {
     res.json({ success: true, message: "Command sent" });
   } catch (err: any) {
     res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+const PRESETS_PATH = path.resolve("rpc-presets.json");
+
+async function loadPresets(): Promise<Record<string, RpcData>> {
+  try {
+    const data = await fs.readFile(PRESETS_PATH, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return {};
+  }
+}
+
+async function savePresets(presets: Record<string, RpcData>) {
+  await fs.writeFile(PRESETS_PATH, JSON.stringify(presets, null, 2));
+}
+
+app.get("/api/rpc/current", (_req, res) => {
+  res.json(getCurrentRpc());
+});
+
+app.post("/api/rpc/update", (req, res) => {
+  try {
+    setRichPresence(client, req.body);
+    res.json({ success: true });
+  } catch {
+    res.status(500).json({ success: false });
+  }
+});
+
+app.get("/api/rpc/presets", async (_req, res) => {
+  const presets = await loadPresets();
+  res.json(presets);
+});
+
+app.post("/api/rpc/presets/save", async (req, res) => {
+  const { name, data } = req.body;
+  if (!name || !data)
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing name or data." });
+
+  const presets = await loadPresets();
+  presets[name] = data;
+  await savePresets(presets);
+  res.json({ success: true });
+});
+
+app.post("/api/rpc/presets/load", async (req, res) => {
+  const { name } = req.body;
+  const presets = await loadPresets();
+  const preset = presets[name];
+  if (!preset)
+    return res
+      .status(404)
+      .json({ success: false, message: "Preset not found." });
+
+  try {
+    setRichPresence(client, preset);
+    res.json({ success: true });
+  } catch {
+    res.status(500).json({ success: false });
   }
 });
 

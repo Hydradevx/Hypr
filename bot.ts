@@ -7,7 +7,7 @@ import logger from "./bot/utils/logger";
 import { usageLoad } from "./bot/utils/usageLoader";
 import { infoLoad } from "./bot/utils/infoLoader";
 import afkState from "./bot/managers/afkState";
-import rpc from "./bot/utils/richPresence";
+import { setRichPresence } from "./bot/utils/richPresence";
 import { startWebUI } from "./web";
 import { setupAutoReact } from "./bot/features/autoReact";
 import { antiCrash } from "./bot/utils/antiCrash";
@@ -73,7 +73,7 @@ for (const filePath of commandFiles) {
 
 client.on("ready", async () => {
   logger.status(`Logged in as ${client.user?.tag}`);
-  rpc(client);
+  setRichPresence(client);
 });
 
 client.on("messageCreate", (message: any) => {
