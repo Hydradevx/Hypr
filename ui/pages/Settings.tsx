@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { showError, showSuccess } from "../utils/toast";
 
 type Config = {
   token: string;
@@ -35,12 +36,12 @@ function Settings() {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert(data.message);
+        showSuccess(data.message);
         setSaving(false);
       })
       .catch((err) => {
         console.error(err);
-        alert("Failed to save config");
+        showError("Failed to save config");
         setSaving(false);
       });
   };

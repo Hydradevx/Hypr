@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import { Trash2, Plus } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Trash2, Plus } from "lucide-react";
+import { showSuccess } from "../utils/toast";
 
-const types = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"]
+const types = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"];
 
 export default function RpcEditor() {
   const [rpc, setRpc] = useState({
@@ -12,65 +13,69 @@ export default function RpcEditor() {
     largeImageKey: "",
     largeImageText: "",
     buttons: [{ label: "", url: "" }],
-  })
+  });
 
-  const [presets, setPresets] = useState<{ [key: string]: typeof rpc }>({})
-  const [presetName, setPresetName] = useState("")
+  const [presets, setPresets] = useState<{ [key: string]: typeof rpc }>({});
+  const [presetName, setPresetName] = useState("");
 
   useEffect(() => {
-    fetch("/api/rpc/current").then((res) => res.json()).then(setRpc)
-    fetch("/api/rpc/presets").then((res) => res.json()).then(setPresets)
-  }, [])
+    fetch("/api/rpc/current")
+      .then((res) => res.json())
+      .then(setRpc);
+    fetch("/api/rpc/presets")
+      .then((res) => res.json())
+      .then(setPresets);
+  }, []);
 
   const handleChange = (key: string, value: any) => {
-    setRpc({ ...rpc, [key]: value })
-  }
+    setRpc({ ...rpc, [key]: value });
+  };
 
   const handleButtonChange = (i: number, key: string, value: string) => {
-    const newButtons: any = [...rpc.buttons]
-    newButtons[i][key] = value
-    setRpc({ ...rpc, buttons: newButtons })
-  }
+    const newButtons: any = [...rpc.buttons];
+    newButtons[i][key] = value;
+    setRpc({ ...rpc, buttons: newButtons });
+  };
 
   const addButton = () => {
-    setRpc({ ...rpc, buttons: [...rpc.buttons, { label: "", url: "" }] })
-  }
+    setRpc({ ...rpc, buttons: [...rpc.buttons, { label: "", url: "" }] });
+  };
 
   const deleteButton = (index: number) => {
-    const newButtons = rpc.buttons.filter((_, i) => i !== index)
-    setRpc({ ...rpc, buttons: newButtons })
-  }
+    const newButtons = rpc.buttons.filter((_, i) => i !== index);
+    setRpc({ ...rpc, buttons: newButtons });
+  };
 
   const updateRpc = async () => {
     await fetch("/api/rpc/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(rpc),
-    })
-    alert("RPC updated")
-  }
+    });
+    showSuccess("RPC updated");
+  };
 
   const savePreset = async () => {
-    if (!presetName) return alert("Preset name required")
+    if (!presetName) return alert("Preset name required");
     await fetch("/api/rpc/presets/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: presetName, data: rpc }),
-    })
-    alert("Preset saved")
-    const res = await fetch("/api/rpc/presets")
-    setPresets(await res.json())
-  }
+    });
+    showSuccess("Preset saved");
+    const res = await fetch("/api/rpc/presets");
+    setPresets(await res.json());
+  };
 
   const loadPreset = async (name: string) => {
     await fetch("/api/rpc/presets/load", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
-    })
-    const res = await fetch("/api/rpc/current")
-    setRpc(await res.json())
-  }
+    });
+    const res = await fetch("/api/rpc/current");
+    setRpc(await res.json());
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#0f172a] to-black p-8 text-white">
@@ -98,7 +103,9 @@ export default function RpcEditor() {
               onChange={(e) => handleChange("type", e.target.value)}
             >
               {types.map((t) => (
-                <option key={t} value={t}>{t}</option>
+                <option key={t} value={t}>
+                  {t}
+                </option>
               ))}
             </select>
           </div>
@@ -162,7 +169,9 @@ export default function RpcEditor() {
                   <input
                     className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
                     value={btn.label}
-                    onChange={(e) => handleButtonChange(i, "label", e.target.value)}
+                    onChange={(e) =>
+                      handleButtonChange(i, "label", e.target.value)
+                    }
                     placeholder={`Button ${i + 1} Label`}
                   />
                 </div>
@@ -172,7 +181,9 @@ export default function RpcEditor() {
                   <input
                     className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
                     value={btn.url}
-                    onChange={(e) => handleButtonChange(i, "url", e.target.value)}
+                    onChange={(e) =>
+                      handleButtonChange(i, "url", e.target.value)
+                    }
                     placeholder={`Button ${i + 1} URL`}
                   />
                   <button
@@ -227,5 +238,5 @@ export default function RpcEditor() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { showSuccess } from "../utils/toast";
 
 type BotStats = {
   username: string;
@@ -46,7 +47,7 @@ function Dashboard() {
           onClick={() => {
             fetch("/api/kill", { method: "POST" })
               .then((res) => res.json())
-              .then((data) => alert(data.message));
+              .then((data) => showSuccess(data.message));
           }}
           className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md hover:shadow-red-500/40 transition-all duration-200"
         >
