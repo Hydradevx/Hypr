@@ -1,5 +1,5 @@
 const autoReactState: any = {
-  active: false,
+  active: true,
 
   enable() {
     this.active = true;
