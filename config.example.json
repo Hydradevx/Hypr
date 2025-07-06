@@ -1,0 +1,6 @@
+{
+  "token": "your-token",
+  "prefix": "!",
+  "safetyTime": 30,
+  "WebUI": false
+}
