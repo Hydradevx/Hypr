@@ -7,7 +7,7 @@ export default defineConfig({
   base: "./",
   plugins: [react(), tailwindcss()],
   build: {
-    outDir: "../dist",
+    outDir: "../build/web",
     emptyOutDir: true,
     rollupOptions: {
       input: "ui/index.html",
