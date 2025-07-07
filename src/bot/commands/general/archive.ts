@@ -1,6 +1,6 @@
 const { MessageAttachment, Message } = require("discord.js-selfbot-v13");
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.js";
 
 export default {
   name: "archive",

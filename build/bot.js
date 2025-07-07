@@ -12,7 +12,7 @@ import { startWebUI } from "./web.js";
 import { setupAutoReact } from "./bot/features/autoReact.js";
 import { antiCrash } from "./bot/utils/antiCrash.js";
 import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.js";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let config;
@@ -31,6 +31,7 @@ if (!config.hasAccess) {
     config.hasAccess = [];
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
+const commandsPath = path.resolve("build/bot/commands");
 function getFilesRecursively(directory) {
     let files = [];
     const items = fs.readdirSync(directory, { withFileTypes: true });
@@ -39,24 +40,30 @@ function getFilesRecursively(directory) {
         if (item.isDirectory()) {
             files.push(...getFilesRecursively(fullPath));
         }
-        else if (item.isFile() && path.extname(fullPath) === ".ts") {
+        else if (item.isFile() && fullPath.endsWith(".js")) {
             files.push(fullPath);
         }
     }
     return files;
 }
-const commandsPath = path.join(__dirname, "./bot/commands");
 const commandFiles = getFilesRecursively(commandsPath);
-for (const filePath of commandFiles) {
-    const commandModule = await import(filePath);
-    const command = commandModule.default;
-    if (command.name) {
-        client.commands.set(command.name, command);
-        if (command.aliases && Array.isArray(command.aliases)) {
-            command.aliases.forEach((alias) => client.commands.set(alias, command));
+(async () => {
+    for (const filePath of commandFiles) {
+        try {
+            const commandModule = await import(pathToFileURL(filePath).href);
+            const command = commandModule.default;
+            if (command?.name) {
+                client.commands.set(command.name, command);
+                if (Array.isArray(command.aliases)) {
+                    command.aliases.forEach((alias) => client.commands.set(alias, command));
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
         }
     }
-}
+})();
 client.on("ready", async () => {
     logger.status(`Logged in as ${client.user?.tag}`);
     setRichPresence(client);

@@ -1,4 +1,4 @@
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.js";
 import fs from "fs";
 import path from "path";
 const configPath = path.join(__dirname, "../../../config.json");

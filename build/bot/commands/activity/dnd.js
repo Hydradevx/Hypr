@@ -1,5 +1,5 @@
-import { client } from "../../../bot";
-import logger from "../../utils/logger";
+import { client } from "../../../bot.js";
+import logger from "../../utils/logger.js";
 export default {
     name: "dnd",
     aliases: ["donotdisturb", "dndmode"],

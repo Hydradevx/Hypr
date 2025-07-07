@@ -1,5 +1,5 @@
-const afkState = require("../../managers/afkState.js");
-import logger from "../../utils/logger";
+import afkState from "../../managers/afkState.js";
+import logger from "../../utils/logger.js";
 
 export default {
   name: "afk",

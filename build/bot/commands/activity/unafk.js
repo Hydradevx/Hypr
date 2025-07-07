@@ -1,5 +1,5 @@
-import logger from "../../utils/logger";
-const afkState = require("../../managers/afkState.js");
+import logger from "../../utils/logger.js";
+import afkState from "../../managers/afkState.js";
 export default {
     name: "unafk",
     aliases: ["back", "comeBack"],

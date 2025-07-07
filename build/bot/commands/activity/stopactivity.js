@@ -1,6 +1,6 @@
-import { client } from "../../../bot";
-import { setRichPresence as rpc } from "../../utils/richPresence";
-import logger from "../../utils/logger";
+import { client } from "../../../bot.js";
+import { setRichPresence as rpc } from "../../utils/richPresence.js";
+import logger from "../../utils/logger.js";
 export default {
     name: "stopactivity",
     aliases: ["stopactivity", "clearactivity"],

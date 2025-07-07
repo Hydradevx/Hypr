@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.js";
 export default {
     name: "listallcommands",
     aliases: ["listall", "listcommand", "listcommands", "listallcommand"],

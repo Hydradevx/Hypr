@@ -1,6 +1,6 @@
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.js";
 import fetch from "cross-fetch";
-import { client } from "../../../bot";
+import { client } from "../../../bot.js";
 export default {
     name: "cloneserver",
     aliases: ["clone"],
