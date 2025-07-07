@@ -4,6 +4,9 @@ import inquirer from "inquirer";
 import { spawn, execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 export default async function update() {
     try {
         const rawFileUrl = "https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/refs/heads/main/package.json";
@@ -16,7 +19,7 @@ export default async function update() {
             return;
         }
         const ghVersion = response.data.version;
-        const packageJsonPath = path.join(__dirname, "../../package.json");
+        const packageJsonPath = path.join(__dirname, "../../../package.json");
         const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
         const Json = JSON.parse(packageJsonContent);
         const version = Json.version;

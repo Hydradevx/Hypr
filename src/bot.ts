@@ -85,7 +85,9 @@ const commandFiles = getFilesRecursively(commandsPath);
 
 client.on("ready", async () => {
   logger.status(`Logged in as ${client.user?.tag}`);
-  setRichPresence(client);
+  if(config.rpc) {
+    setRichPresence(client);
+  }
   equipInvisibilityCloak(client);
 });
 

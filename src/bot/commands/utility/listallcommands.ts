@@ -1,39 +1,45 @@
 import fs from "fs";
 import path from "path";
 import logger from "../../utils/logger.js";
+import { fileURLToPath, pathToFileURL } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
   name: "listallcommands",
   aliases: ["listall", "listcommand", "listcommands", "listallcommand"],
   info: "Displays all available commands",
   usage: "listallcommands",
-  async execute(message: any) {
+  async execute(message) {
     await message.delete();
 
-    function getFilesRecursively(directory: string): string[] {
-      let files: string[] = [];
-      const items = fs.readdirSync(directory, { withFileTypes: true });
+    function getFilesRecursively(dir) {
+      let files: any = [];
+      const items = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const item of items) {
-        const fullPath = path.join(directory, item.name);
+        const fullPath = path.join(dir, item.name);
         if (item.isDirectory()) {
           files = files.concat(getFilesRecursively(fullPath));
-        } else if (item.isFile() && fullPath.endsWith(".ts")) {
+        } else if (item.isFile() && fullPath.endsWith(".js")) {
           files.push(fullPath);
         }
       }
+
       return files;
     }
 
     const commandsPath = path.join(__dirname, "../");
     const commandFiles = getFilesRecursively(commandsPath);
-
-    let commandNames: string[] = [];
+    let commandNames: any[] = [];
 
     for (const filePath of commandFiles) {
       try {
-        const command = require(filePath);
-        if (command.name) commandNames.push(command.name);
+        const commandModule = await import(pathToFileURL(filePath).href);
+        const command = commandModule.default;
+
+        if (command?.name) commandNames.push(command.name);
       } catch (error: any) {
         logger.error(`Failed to load command at ${filePath}: ${error.message}`);
       }

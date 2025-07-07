@@ -3,51 +3,36 @@ import logger from "../../utils/logger.js";
 export default {
   name: "gay",
   aliases: ["ga"],
-  info: "checks if a user is gay",
+  info: "Checks how gay a user is",
   usage: "gay [@user]",
-  execute(message: any) {
-    const userToCheck = message.mentions.users.first() || message.author;
+  async execute(message) {
+    try {
+      const userToCheck = message.mentions.users.first() || message.author;
+      const percentage = getRandomPercentage();
 
-    message.channel
-      .send(`Calculating how gay <@${userToCheck.id}> is 🌈`)
-      .then(async (gaycheckMessage: any) => {
-        const messages = [
-          `Are you gay, ${userToCheck.tag}? 🌈`,
-          `Maybe you are gay, ${userToCheck.tag}... 🤔`,
-          `Starting to look a bit gay, ${userToCheck.tag}! 😳`,
-          `Definitely some gay vibes, ${userToCheck.tag}! 💅`,
-          `Gayness level loading... 🔄`,
-        ];
+      let result = "";
 
-        let editCount = 0;
-        const finalPercentage = getRandomPercentage();
-        const editInterval = setInterval(async () => {
-          if (editCount < messages.length) {
-            await gaycheckMessage.edit(messages[editCount]);
-            editCount++;
-          } else {
-            let gayResultMessage;
-            if (finalPercentage <= 20) {
-              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Pure sigma energy 😎.`;
-            } else if (finalPercentage <= 40) {
-              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. A hint of fabulousness 🌟.`;
-            } else if (finalPercentage <= 60) {
-              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Balanced vibes 🕶️✨.`;
-            } else if (finalPercentage <= 80) {
-              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Strong fabulous energy 🌈🔥.`;
-            } else {
-              gayResultMessage = `Final result for ${userToCheck.tag}: ${finalPercentage}% gay. Embrace your inner diva 💅🌈!`;
-            }
-            await gaycheckMessage.edit(gayResultMessage);
-            clearInterval(editInterval);
-          }
-        }, 1000);
+      if (percentage <= 20) {
+        result = `Final result for ${userToCheck.tag}: **${percentage}% gay**. Pure sigma energy 😎.`;
+      } else if (percentage <= 40) {
+        result = `Final result for ${userToCheck.tag}: **${percentage}% gay**. A hint of fabulousness 🌟.`;
+      } else if (percentage <= 60) {
+        result = `Final result for ${userToCheck.tag}: **${percentage}% gay**. Balanced vibes 🕶️✨.`;
+      } else if (percentage <= 80) {
+        result = `Final result for ${userToCheck.tag}: **${percentage}% gay**. Strong fabulous energy 🌈🔥.`;
+      } else {
+        result = `Final result for ${userToCheck.tag}: **${percentage}% gay**. Embrace your inner diva 💅🌈!`;
+      }
 
-        message.delete();
-        logger.cmd(
-          `Gay Command has been executed on <@${userToCheck.id}> and Result is ${finalPercentage}%`,
-        );
-      });
+      await message.channel.send(result);
+      await message.delete();
+
+      logger.cmd(
+        `Gay Command executed on <@${userToCheck.id}> — ${percentage}%`,
+      );
+    } catch (err) {
+      console.error("Gay command error:", err);
+    }
   },
 };
 

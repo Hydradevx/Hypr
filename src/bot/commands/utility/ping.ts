@@ -7,10 +7,10 @@ export default {
   usage: `ping`,
   execute(message: any) {
     message.channel.send(
-      `🏓 Ping is ${message.createdTimestamp - Date.now()}ms!`,
+      `🏓 Ping is ${Date.now() - message.createdTimestamp}ms!`,
     );
     logger.cmd(
-      `Ping Command has been excuted and ping is ${message.createdTimestamp - Date.now()}ms`,
+      `Ping Command has been excuted and ping is ${Date.now() - message.createdTimestamp}ms`,
     );
     message.delete();
   },

@@ -6,40 +6,18 @@ export default {
   aliases: ["funny", "telljoke", "jk"],
   info: "Tells a funny joke",
   usage: "joke",
-  async execute(message: any) {
-    const jokeMessage = await message.channel.send(
-      "Loading a funny joke... 🤔",
-    );
-
+  async execute(message) {
     try {
-      const response = await axios.get(
-        "https://official-joke-api.appspot.com/jokes/random",
-      );
+      const response = await axios.get("https://official-joke-api.appspot.com/jokes/random");
       const joke = `${response.data.setup} - ${response.data.punchline}`;
 
-      const messages = [
-        "Searching for a hilarious joke... 🤔",
-        "Hold on... this joke is worth the wait! 🕒",
-        "Almost there... just one more second! ⏳",
-        "Ready for a funny one? 😄",
-      ];
+      await message.channel.send(`😂 **Joke:** ${joke}`);
+      await message.delete();
 
-      let editCount = 0;
-      logger.cmd(`Joke Command has been executed and Result is ${joke}`);
-      const editInterval = setInterval(async () => {
-        if (editCount < messages.length) {
-          await jokeMessage.edit(messages[editCount]);
-          editCount++;
-        } else {
-          await jokeMessage.edit(`😂 **Joke:** ${joke}`);
-          clearInterval(editInterval);
-        }
-      }, 1000);
+      logger.cmd(`Joke Command executed. Result: ${joke}`);
     } catch (error: any) {
       logger.error(`Error fetching joke: ${error.message}`);
-      jokeMessage.edit("Oops! Couldn't fetch a joke at the moment. 😢");
+      await message.channel.send("❌ Couldn't fetch a joke right now. Try again later.");
     }
-
-    message.delete();
   },
 };

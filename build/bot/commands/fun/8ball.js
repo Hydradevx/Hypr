@@ -2,12 +2,10 @@ import logger from "../../utils/logger.js";
 export default {
     name: "8ball",
     aliases: ["eightball"],
-    info: "asks the eightball a questions",
-    usage: "8ball",
-    execute(message) {
-        message.channel
-            .send("Shaking the Magic 8-Ball... 🎱")
-            .then((ballMessage) => {
+    info: "Asks the magic 8-Ball a question",
+    usage: "8ball <question>",
+    async execute(message) {
+        try {
             const responses = [
                 "Yes, definitely!",
                 "No way!",
@@ -20,24 +18,12 @@ export default {
                 "Ask again later.",
             ];
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            const messages = [
-                "Hmm... Let me think... 🤔",
-                "The 8-Ball is preparing an answer... 🔮",
-                "Almost there... 🌌",
-            ];
-            let editCount = 0;
-            const editInterval = setInterval(async () => {
-                if (editCount < messages.length) {
-                    await ballMessage.edit(messages[editCount]);
-                    editCount++;
-                }
-                else {
-                    await ballMessage.edit(`🎱 **8-Ball:** ${randomResponse}`);
-                    clearInterval(editInterval);
-                }
-            }, 1000);
-            message.delete();
-            logger.cmd(`8Ball Command has been executed and Result is: ${randomResponse}`);
-        });
+            await message.channel.send(`🎱 **8-Ball:** ${randomResponse}`);
+            await message.delete();
+            logger.cmd(`8Ball Command executed: ${randomResponse}`);
+        }
+        catch (err) {
+            console.error("8Ball error:", err);
+        }
     },
 };

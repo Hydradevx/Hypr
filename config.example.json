@@ -2,5 +2,6 @@
   "token": "your-token",
   "prefix": "!",
   "safetyTime": 30,
-  "WebUI": false
+  "WebUI": false,
+  "rpc": true
 }

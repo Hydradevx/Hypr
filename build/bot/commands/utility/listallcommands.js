@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 import logger from "../../utils/logger.js";
+import { fileURLToPath, pathToFileURL } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 export default {
     name: "listallcommands",
     aliases: ["listall", "listcommand", "listcommands", "listallcommand"],
@@ -8,15 +11,15 @@ export default {
     usage: "listallcommands",
     async execute(message) {
         await message.delete();
-        function getFilesRecursively(directory) {
+        function getFilesRecursively(dir) {
             let files = [];
-            const items = fs.readdirSync(directory, { withFileTypes: true });
+            const items = fs.readdirSync(dir, { withFileTypes: true });
             for (const item of items) {
-                const fullPath = path.join(directory, item.name);
+                const fullPath = path.join(dir, item.name);
                 if (item.isDirectory()) {
                     files = files.concat(getFilesRecursively(fullPath));
                 }
-                else if (item.isFile() && fullPath.endsWith(".ts")) {
+                else if (item.isFile() && fullPath.endsWith(".js")) {
                     files.push(fullPath);
                 }
             }
@@ -27,8 +30,9 @@ export default {
         let commandNames = [];
         for (const filePath of commandFiles) {
             try {
-                const command = require(filePath);
-                if (command.name)
+                const commandModule = await import(pathToFileURL(filePath).href);
+                const command = commandModule.default;
+                if (command?.name)
                     commandNames.push(command.name);
             }
             catch (error) {
