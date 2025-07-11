@@ -6,10 +6,10 @@
   "main": "main.ts",
   "scripts": {
     "test": "bot.ts",
-    "start": "node bot.ts",
+    "start": "node build/bot.js",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "config": "pnpm bot/utils/config.ts",
+    "config": "node build/bot/utils/config.js",
     "build": "pnpm run vite build"
   },
   "keywords": [
