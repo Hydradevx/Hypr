@@ -35,7 +35,7 @@ else
 fi
 
 echo -e "${GREEN}[3/5] ${YELLOW}Installing pnpm globally...${RESET}"
-npm i -g pnpm
+sudo npm i -g pnpm
 
 echo -e "${GREEN}[4/5] ${YELLOW}Cloning Hydrion repo...${RESET}"
 git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
