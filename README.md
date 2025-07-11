@@ -1,90 +1,57 @@
-# Hydrion-S3LFB0T
+<p align="center">
+  <img src="./ui/public/hydrion.jpg" width="120" alt="Hydrion Logo" style="border-radius: 50%;" />
+</p>
 
-## 🚀 Quick Setup
+<h1 align="center">⚡ Hydrion-S3LFB0T</h1>
 
-### 🖥️ Windows Installation
+<p align="center">
+  <b>The ultimate, feature-rich Discord selfbot built by <a href="https://github.com/Hydradevx">@Hydradevx</a></b><br/>
+  <a href="https://discord.gg/6Tufbvnebj">🌐 Support Server</a> • <a href="https://hydrion.netlify.app">📘 Docs</a>
+</p>
 
-1. Open **PowerShell** as **Administrator** and allow script execution by running:
-
-```powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-```
-
-2. Run the following command to download and execute the setup script:
-
-```powershell
-iwr -useb https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.ps1 | iex
-```
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&center=true&vCenter=true&width=450&lines=Hydrion+S3LFB0T+is+lightning+fast.;Modular%2C+Powerful%2C+Sleek." alt="Typing SVG">
+</p>
 
 ---
 
-### 📱 Termux (Android) Installation
+## ✨ Features
 
-1. Install **Termux** from the Google Play Store.
-2. Open **Termux** and run the following:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/termux.sh | bash
-```
-
-3. To edit **config.json**, use:
-
-```bash
-nano config.json
-```
-
-This installs all necessary dependencies and sets up the bot.
+- ⚡ Blazing-fast setup with cross-platform support
+- 🧩 Clean and modular command system
+- 🛠️ Easy config via `config.json`
+- 🌐 Optional web UI
+- 💬 Active support & community
+- 🚀 Auto-updatable
 
 ---
 
-### 🐧 Linux/macOS Installation
+## 📘 Documentation
 
-1. Open a terminal and run the following:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/main/install.sh | bash
-```
+Full installation & usage instructions are available on our docs site:  
+👉 **[hydrion.netlify.app](https://hydrion.netlify.app)**
 
 ---
 
-## 🔧 Usage & Maintenance
+## 💬 Support
 
-## You must be in the `Hydrion-S3LFB0T` while running these commands, switch to the folder by running
+Need help or want to request a feature?
 
-```bash
-cd Hydrion-S3LFB0T
-```
-
-### ✅ Starting the Selfbot
-
-```bash
-bun start
-```
-
-### 🔄 Updating the Selfbot
-
-```bash
-git pull
-```
+- 💭 [GitHub Issues](https://github.com/Hydradevx/Hydrion-S3LFB0T/issues)
+- 🌐 [Discord Support Server](https://discord.gg/6Tufbvnebj)
 
 ---
 
-## ⚙️ Configuration
+## ⭐ Support the Project
 
-During setup, you will be prompted to enter your **Discord Token**. This will be stored in `config.json`, which the bot uses during execution.
+If you like this project:
 
----
-
-## 📩 Support & Contact
-
-Need help? Join our [Hydrion Support Discord](https://discord.gg/6Tufbvnebj).
+- Leave a ⭐ on this repo  
+- Join our community on Discord  
+- Share it with friends
 
 ---
 
-## ⭐ Support Us
-
-If you like this project, **star the repo** ⭐ and join our [Hydrion Discord](https://discord.gg/6Tufbvnebj)!
-
----
-
-**Selfbot crafted by** `@hydradevx` 🎨
+<p align="center">
+  <b>Crafted with ⚡ by <a href="https://github.com/Hydradevx">Hydradevx</a></b>
+</p>
