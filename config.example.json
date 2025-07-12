@@ -3,5 +3,6 @@
   "prefix": "!",
   "safetyTime": 30,
   "WebUI": false,
-  "rpc": true
+  "rpc": true,
+  "autoreact": false
 }

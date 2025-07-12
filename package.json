@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "config": "node build/bot/utils/config.js",
-    "build": "pnpm run vite build"
+    "build:web": "pnpm run vite build",
+    "build:src": "pnpm tsc .",
+    "build": "pnpm run build:web && pnpm run build:src"
   },
   "keywords": [
     "selfbot",
