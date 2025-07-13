@@ -1,7 +1,7 @@
 {
   "name": "hydrion-s3lfb0t",
   "type": "module",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "the best selfbot made by Hydrion",
   "main": "main.ts",
   "scripts": {
