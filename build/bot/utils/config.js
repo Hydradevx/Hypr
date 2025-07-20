@@ -20,12 +20,12 @@ const rl = readline.createInterface({
     output: process.stdout,
 });
 const askTrueorFalse = (question) => {
-  return new Promise((resolve) => {
-    rl.question(chalk.yellow(question + ' (y/n): '), (answer) => {
-      const normalized = answer.trim().toLowerCase();
-      resolve(normalized === 'y' || normalized === 'yes');
+    return new Promise((resolve) => {
+        rl.question(chalk.yellow(question + ' (y/n): '), (answer) => {
+            const normalized = answer.trim().toLowerCase();
+            resolve(normalized === 'y' || normalized === 'yes');
+        });
     });
-  });
 };
 const askInput = (question) => {
     return new Promise((resolve) => {

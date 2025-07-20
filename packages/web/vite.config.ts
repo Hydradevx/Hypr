@@ -1,16 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  root: "ui",
   base: "./",
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   build: {
-    outDir: "../build/web",
+    outDir: "../../build/web",
     emptyOutDir: true,
     rollupOptions: {
-      input: "ui/index.html",
+      input: "./index.html",
     },
   },
 });

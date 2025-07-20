@@ -8,12 +8,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "rootDir": "./src",
-    "outDir": "./build",
-    "types": ["vite/client"],
+    "rootDir": "./",
+    "outDir": "../../build",
     "noImplicitAny": false,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "vite.config.ts", "tailwind.config.ts", "postcss.config.js"]
+  "exclude": ["node_modules"]
 }

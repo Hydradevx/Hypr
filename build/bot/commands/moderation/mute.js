@@ -1,5 +1,5 @@
 import logger from "../../utils/logger.js";
-const ms = require("ms");
+import ms from "ms";
 export default {
     name: "mute",
     aliases: ["mutemember", "silent"],
