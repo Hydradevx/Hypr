@@ -5,7 +5,7 @@ $cyan = "Cyan"
 $yellow = "Yellow"
 $red = "Red"
 
-Write-Host "🚀 Hydrion Selfbot Installer — Windows (PowerShell)" -ForegroundColor $green
+Write-Host "🚀 Hypr Installer — Windows (PowerShell)" -ForegroundColor $green
 Write-Host "────────────────────────────────────────────`n"
 
 # 1. System Update
@@ -24,9 +24,9 @@ Write-Host "`n[3/6] Installing pnpm globally..." -ForegroundColor $cyan
 npm install -g pnpm
 
 # 4. Clone repo
-Write-Host "`n[4/6] Cloning Hydrion-S3LFB0T..." -ForegroundColor $cyan
-git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
-Set-Location Hydrion-S3LFB0T
+Write-Host "`n[4/6] Cloning Hypr..." -ForegroundColor $cyan
+git clone https://github.com/Hydradevx/Hypr.git
+Set-Location Hypr
 
 # 5. Install dependencies
 Write-Host "`n[5/6] Installing dependencies via pnpm..." -ForegroundColor $cyan
@@ -51,6 +51,6 @@ if (-Not (Test-Path "config.json")) {
 }
 
 # Final
-Write-Host "`n🎉 Setup complete! Launching Hydrion..." -ForegroundColor $green
+Write-Host "`n🎉 Setup complete! Launching Hypr..." -ForegroundColor $green
 Start-Sleep -Seconds 1
 pnpm start

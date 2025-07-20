@@ -9,7 +9,7 @@ YELLOW='\033[1;33m'
 BOLD='\033[1m'
 
 clear
-echo -e "${GREEN}${BOLD}🚀 Hydrion Selfbot — Termux Installer${RESET}"
+echo -e "${GREEN}${BOLD}🚀 Hypr — Termux Installer${RESET}"
 echo -e "${CYAN}For Android via Termux | PNPM version${RESET}"
 echo "────────────────────────────────────────────"
 sleep 1
@@ -27,9 +27,9 @@ echo -e "${GREEN}[3/6] ${YELLOW}Installing pnpm globally...${RESET}"
 npm i -g pnpm
 
 # Clone repo
-echo -e "${GREEN}[4/6] ${YELLOW}Cloning Hydrion-S3LFB0T repository...${RESET}"
-git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
-cd Hydrion-S3LFB0T
+echo -e "${GREEN}[4/6] ${YELLOW}Cloning Hypr repository...${RESET}"
+git clone https://github.com/Hydradevx/Hypr.git
+cd Hypr
 
 # Install dependencies
 echo -e "${GREEN}[5/6] ${YELLOW}Installing dependencies via pnpm...${RESET}"
@@ -55,6 +55,6 @@ else
 fi
 
 # Finish
-echo -e "\n${BOLD}${GREEN}🎉 All done! Starting Hydrion-S3LFB0T...${RESET}"
+echo -e "\n${BOLD}${GREEN}🎉 All done! Starting Hypr...${RESET}"
 sleep 1
 pnpm start

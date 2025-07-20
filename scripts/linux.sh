@@ -8,7 +8,7 @@ YELLOW='\033[1;33m'
 BOLD='\033[1m'
 
 clear
-echo -e "${GREEN}${BOLD}🐧 Hydrion Selfbot Installer — Linux${RESET}"
+echo -e "${GREEN}${BOLD}🐧 Hypr Installer — Linux${RESET}"
 echo -e "${CYAN}Auto-detects distro and uses PNPM${RESET}"
 echo "────────────────────────────────────────────"
 sleep 1
@@ -37,9 +37,9 @@ fi
 echo -e "${GREEN}[3/5] ${YELLOW}Installing pnpm globally...${RESET}"
 sudo npm i -g pnpm
 
-echo -e "${GREEN}[4/5] ${YELLOW}Cloning Hydrion repo...${RESET}"
-git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
-cd Hydrion-S3LFB0T
+echo -e "${GREEN}[4/5] ${YELLOW}Cloning Hypr repo...${RESET}"
+git clone https://github.com/Hydradevx/Hypr.git
+cd Hypr
 
 echo -e "${GREEN}[5/5] ${YELLOW}Installing dependencies via pnpm...${RESET}"
 pnpm install
@@ -59,5 +59,5 @@ EOF
   echo -e "${GREEN}✅ config.json created. Please add your token.${RESET}"
 fi
 
-echo -e "\n${BOLD}${GREEN}✅ Setup complete. Launching Hydrion...${RESET}"
+echo -e "\n${BOLD}${GREEN}✅ Setup complete. Launching Hypr...${RESET}"
 pnpm start

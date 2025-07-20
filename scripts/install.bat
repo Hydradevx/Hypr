@@ -1,10 +1,10 @@
 @echo off
 cls
 color 0A
-title Hydrion Selfbot Installer (Windows Batch)
+title Hypr Installer (Windows Batch)
 
 echo --------------------------------------------------
-echo      🚀 Hydrion Selfbot Installer - Windows
+echo      🚀 Hypr Installer - Windows
 echo --------------------------------------------------
 echo.
 
@@ -27,9 +27,9 @@ npm install -g pnpm
 
 :: 4. Clone repo
 echo.
-echo [4/6] Cloning Hydrion-S3LFB0T repository...
-git clone https://github.com/Hydradevx/Hydrion-S3LFB0T.git
-cd Hydrion-S3LFB0T
+echo [4/6] Cloning Hypr repository...
+git clone https://github.com/Hydradevx/Hypr.git
+cd Hypr
 
 :: 5. Install dependencies
 echo.
@@ -54,7 +54,7 @@ if not exist config.json (
 
 :: Done
 echo.
-echo [=] Installation complete! Starting Hydrion-S3LFB0T...
+echo [=] Installation complete! Starting Hypr...
 pnpm start
 
 pause
