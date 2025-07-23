@@ -1,0 +1,40 @@
+# Hypr v1.3 To-Do List
+
+## 🌐 Full Web UI Revamp
+- [ ] Redesign dashboard layout with modern glassy/electric aesthetic
+- [ ] Add retractable sidebar with animated glow effects
+- [ ] Improve responsiveness (mobile + desktop)
+- [ ] Centralize theme and UI config in one place (e.g., `ui.config.ts`)
+- [ ] Better status cards for selfbot (uptime, errors, last command, etc.)
+- [ ] Add better logs panel with:
+    - [ ] Scrollback
+    - [ ] Timestamps
+    - [ ] Highlight errors or warnings
+
+## ⚙️ Improved Config System
+- [ ] Migrate to single `config.json` or `config.ts` with:
+    - [ ] Token
+    - [ ] Default server/channel IDs
+    - [ ] Rich Presence settings
+- [ ] Add UI editor for config with:
+    - [ ] Live preview
+    - [ ] Save to file button
+    - [ ] Reset to default option
+- [ ] Ensure config changes reload selfbot without restart
+
+## 🛠 New and Improved Commands
+- [ ] Add new utility commands
+- [ ] Add aliases for common commands
+- [ ] Add usage/help metadata for all commands
+- [ ] Refactor command handler for better error catching
+
+## 🚀 GitHub Workflow Improvements
+- [ ] Add release workflow (`.github/workflows/release.yml`)
+    - [ ] Auto-tag v1.3
+    - [ ] Generate changelog from commits
+- [ ] Add CI workflow (`lint`, `build`, `test`)
+
+## 🧹 Cleanup & Misc
+- [ ] Delete unused files/components
+- [ ] Rename Hydrion references to Hypr if any remain
+- [ ] Final pre-release testing
