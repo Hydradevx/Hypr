@@ -5,7 +5,7 @@
   "main": "bot.ts",
   "description": "The Hypr selfbot runtime",
   "scripts": {
-    "dev": "tsx bot.ts",
+    "dev": "tsx watch bot.ts",
     "build": "tsc"
   },
   "dependencies": {
