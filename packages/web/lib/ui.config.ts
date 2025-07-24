@@ -5,3 +5,9 @@ export const sidebarNav = [
   { path: "/logs", name: "Logs", icon: "Terminal" },
   { path: "/rpc", name: "RPC Editor", icon: "LayoutDashboard" },
 ];
+
+export const themes = [
+  { id: "hydrion", label: "Hydrion (Blue)" },
+  { id: "obsidian", label: "Obsidian (Dark)" },
+  { id: "lumin", label: "Lumin (Light)" },
+]
