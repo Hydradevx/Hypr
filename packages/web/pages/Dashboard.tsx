@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { Gauge, Server, Clock, Activity } from "lucide-react";
 import { showSuccess } from "../utils/toast";
+import { useThemeStore } from "../lib/useThemeStore";
+import { themes as themeConfig } from "../lib/themeConfig";
 
 type BotStats = {
   username: string;
@@ -8,8 +11,10 @@ type BotStats = {
   uptime: string;
 };
 
-function Dashboard() {
+export default function Dashboard() {
   const [stats, setStats] = useState<BotStats | null>(null);
+  const { theme } = useThemeStore();
+  const activeTheme = themeConfig[theme];
 
   useEffect(() => {
     const fetchStats = () => {
@@ -20,51 +25,84 @@ function Dashboard() {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 500);
-
+    const interval = setInterval(fetchStats, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="p-6 text-white font-sans bg-gradient-to-br from-black via-blue-950 to-black min-h-screen h-full w-full">
-      <h1 className="text-4xl font-bold mb-10 text-blue-400 drop-shadow-lg">
-        Bot Dashboard
-      </h1>
+    <div
+      className={`min-h-screen w-full transition-all duration-300 ${activeTheme.background} ${activeTheme.text} overflow-x-hidden`}
+    >
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        <h1 className="text-4xl font-bold mb-10 drop-shadow-lg">Bot Dashboard</h1>
 
-      {stats ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard title="Username" value={stats.username} />
-          <StatCard title="Servers" value={stats.servers} />
-          <StatCard title="Ping" value={`${stats.ping}ms`} />
-          <StatCard title="Uptime" value={stats.uptime} />
+        {stats ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard
+              title="Username"
+              value={stats.username}
+              icon={<Activity size={32} />}
+              glow={activeTheme.glow}
+            />
+            <StatCard
+              title="Servers"
+              value={stats.servers}
+              icon={<Server size={32} />}
+              glow={activeTheme.glow}
+            />
+            <StatCard
+              title="Ping"
+              value={`${stats.ping}ms`}
+              icon={<Gauge size={32} />}
+              glow={activeTheme.glow}
+            />
+            <StatCard
+              title="Uptime"
+              value={stats.uptime}
+              icon={<Clock size={32} />}
+              glow={activeTheme.glow}
+            />
+          </div>
+        ) : (
+          <p className="text-gray-400">Loading stats...</p>
+        )}
+
+        <div className="mt-10">
+          <button
+            onClick={() => {
+              fetch("/api/kill", { method: "POST" })
+                .then((res) => res.json())
+                .then((data) => showSuccess(data.message));
+            }}
+            className={`px-6 py-3 rounded-xl transition-all duration-200 font-semibold
+              bg-red-600 text-white shadow-[0_0_15px_#f87171] hover:bg-red-700`}
+          >
+            Kill Selfbot
+          </button>
         </div>
-      ) : (
-        <p className="text-gray-400">Loading stats...</p>
-      )}
-
-      <div className="mt-10">
-        <button
-          onClick={() => {
-            fetch("/api/kill", { method: "POST" })
-              .then((res) => res.json())
-              .then((data) => showSuccess(data.message));
-          }}
-          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md hover:shadow-red-500/40 transition-all duration-200"
-        >
-          Kill Selfbot
-        </button>
       </div>
     </div>
   );
 }
 
-function StatCard({ title, value }: { title: string; value: string | number }) {
+function StatCard({
+  title,
+  value,
+  icon,
+  glow,
+}: {
+  title: string;
+  value: string | number;
+  icon: React.ReactNode;
+  glow: string;
+}) {
   return (
-    <div className="bg-blue-900/40 border border-blue-500/20 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
-      <h2 className="text-sm text-blue-300 uppercase tracking-wide">{title}</h2>
-      <p className="text-2xl font-bold text-blue-100 mt-2">{value}</p>
+    <div
+      className={`rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/10 flex flex-col items-start gap-2 hover:scale-[1.02] transition-all duration-300 bg-white/10 dark:bg-black/20 ${glow}`}
+    >
+      <div className="opacity-80">{icon}</div>
+      <h2 className="text-sm uppercase tracking-wide opacity-60">{title}</h2>
+      <p className="text-2xl font-bold">{value}</p>
     </div>
   );
 }
-
-export default Dashboard;

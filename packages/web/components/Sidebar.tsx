@@ -3,15 +3,14 @@ import { Link, useLocation } from "react-router-dom"
 import * as Icons from "lucide-react"
 import { sidebarNav } from "../lib/ui.config"
 import clsx from "clsx"
-import ElectricParticles from "./ElectricParticles"
 import { useThemeStore } from "../lib/useThemeStore"
-
-type Theme = "hydrion" | "obsidian" | "lumina"
+import { themes, Theme } from "../lib/themeConfig"
 
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(true)
   const location = useLocation()
   const { theme, setTheme } = useThemeStore()
+  const activeTheme = themes[theme]
 
   return (
     <aside
@@ -20,13 +19,10 @@ export default function Sidebar() {
         expanded ? "w-64" : "w-20"
       )}
     >
-      <ElectricParticles />
       <div
         className={clsx(
-          "relative h-full w-full border-r backdrop-blur-2xl shadow-[0_0_30px] transition-colors",
-          theme === "hydrion" && "bg-gradient-to-br from-[#0f172a]/60 via-[#1e293b]/60 to-[#0f172a]/60 border-blue-500/40 shadow-blue-500/50",
-          theme === "obsidian" && "bg-gradient-to-br from-black/50 via-neutral-900/60 to-black/50 border-gray-700 shadow-gray-800",
-          theme === "lumina" && "bg-gradient-to-br from-white/80 via-gray-100/80 to-white/80 border-gray-200 shadow-gray-300"
+          "relative h-full w-full border-r backdrop-blur-2xl transition-colors",
+          activeTheme.sidebar
         )}
       >
         <div className="flex flex-col items-start gap-3 px-4 pt-5">
@@ -43,9 +39,7 @@ export default function Sidebar() {
               <span
                 className={clsx(
                   "text-xl font-bold tracking-wide transition-all",
-                  theme === "hydrion" && "text-blue-300",
-                  theme === "obsidian" && "text-white",
-                  theme === "lumina" && "text-gray-800",
+                  activeTheme.text,
                   !expanded && "opacity-0 scale-0"
                 )}
               >
@@ -81,9 +75,7 @@ export default function Sidebar() {
                 title={!expanded ? name : undefined}
                 className={clsx(
                   "group flex items-center gap-4 rounded-xl px-4 py-2 text-sm font-medium transition-all",
-                  active
-                    ? "bg-blue-600/30 text-blue-300 shadow-[0_0_10px_#3b82f6aa]"
-                    : "hover:bg-blue-500/20 text-white/80 hover:text-blue-300"
+                  active ? activeTheme.active : `${activeTheme.hover} ${activeTheme.text}`
                 )}
               >
                 <Icon className="w-5 h-5" />
@@ -106,11 +98,16 @@ export default function Sidebar() {
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setTheme(e.target.value as Theme)
             }
-            className="bg-transparent border p-2 text-white w-full rounded-md"
+            className={clsx(
+              "w-full rounded-md border p-2 bg-transparent",
+              activeTheme.text
+            )}
           >
-            <option value="hydrion">Hydrion</option>
-            <option value="obsidian">Obsidian</option>
-            <option value="lumina">Lumina</option>
+            {Object.entries(themes).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value.name}
+              </option>
+            ))}
           </select>
         </div>
 

@@ -1,11 +1,12 @@
-import { create } from "zustand"
+import { Theme } from "./themeConfig";
+import { create } from "zustand";
 
-type Theme = "hydrion" | "obsidian" | "lumina"
+type ThemeStore = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
 
-export const useThemeStore = create<{
-  theme: Theme
-  setTheme: (t: Theme) => void
-}>((set) => ({
+export const useThemeStore = create<ThemeStore>((set) => ({
   theme: "hydrion",
-  setTheme: (t) => set({ theme: t })
-}))
+  setTheme: (theme) => set({ theme }),
+}));
