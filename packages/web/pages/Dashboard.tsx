@@ -3,6 +3,7 @@ import { Gauge, Server, Clock, Activity } from "lucide-react";
 import { showSuccess } from "../utils/toast";
 import { useThemeStore } from "../lib/useThemeStore";
 import { themes as themeConfig } from "../lib/themeConfig";
+import Layout from "../components/Layout";
 
 type BotStats = {
   username: string;
@@ -30,6 +31,7 @@ export default function Dashboard() {
   }, []);
 
   return (
+    <Layout>
     <div
       className={`min-h-screen w-full transition-all duration-300 ${activeTheme.background} ${activeTheme.text} overflow-x-hidden`}
     >
@@ -82,6 +84,7 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 

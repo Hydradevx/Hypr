@@ -5,9 +5,10 @@ import { sidebarNav } from "../lib/ui.config"
 import clsx from "clsx"
 import { useThemeStore } from "../lib/useThemeStore"
 import { themes, Theme } from "../lib/themeConfig"
+import { useSidebarStore } from "../lib/useSidebarStore"
 
 export default function Sidebar() {
-  const [expanded, setExpanded] = useState(true)
+  const { expanded, toggle } = useSidebarStore()
   const location = useLocation()
   const { theme, setTheme } = useThemeStore()
   const activeTheme = themes[theme]
@@ -49,7 +50,7 @@ export default function Sidebar() {
           </div>
 
           <button
-            onClick={() => setExpanded((v) => !v)}
+            onClick={() => toggle()}
             className={clsx(
               "self-center rounded-full p-1 transition-all duration-200",
               "bg-blue-500/30 hover:bg-blue-500/50 shadow-[0_0_8px_#3b82f6aa]"

@@ -5,7 +5,7 @@
 - [-] Add retractable sidebar with animated glow effects
 - [ ] Improve responsiveness (mobile + desktop)
 - [ ] Centralize theme and UI config in one place (e.g., `ui.config.ts`)
-- [ ] Better status cards for selfbot (uptime, errors, last command, etc.)
+- [-] Better status cards for selfbot (uptime, errors, last command, etc.)
 - [ ] Add better logs panel with:
     - [ ] Scrollback
     - [ ] Timestamps

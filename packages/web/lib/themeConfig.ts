@@ -2,7 +2,7 @@ export const themes = {
   hydrion: {
     name: "Hydrion",
     background: "bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e]",
-    sidebar: "bg-black/40 border-blue-800 shadow-[inset_0_0_20px_#0ff]",
+    sidebar: "bg-[#0b1a33] text-white border-r border-blue-400/10",
     glow: "shadow-[0_0_10px_#00f5ff]",
     text: "text-blue-300",
     hover: "hover:bg-blue-500/20 hover:text-blue-300",

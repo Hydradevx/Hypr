@@ -31,7 +31,7 @@ if (!config.hasAccess) {
     config.hasAccess = [];
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
-const commandsPath = path.resolve("build/bot/commands");
+const commandsPath = path.resolve("dist/bot/commands");
 function getFilesRecursively(directory) {
     let files = [];
     const items = fs.readdirSync(directory, { withFileTypes: true });

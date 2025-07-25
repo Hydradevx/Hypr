@@ -1,7 +1,7 @@
 {
   "name": "hypr",
   "private": true,
-  "version": "1.2.5",
+  "version": "1.2.6",
   "type": "module",
   "description": "Hypr - The best selfbot + web UI made by Hydra_DevX",
   "author": "Hydra_DevX",
@@ -13,8 +13,8 @@
   "scripts": {
     "build": "pnpm -r run build",
     "dev": "pnpm -r run dev",
-    "start": "node build/bot.js",
-    "config": "node build/bot/utils/config.js"
+    "start": "node dist/bot.js",
+    "config": "node dist/bot/utils/config.js"
   },
   "workspaces": [
     "packages/*"
