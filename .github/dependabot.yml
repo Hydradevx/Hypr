@@ -5,7 +5,25 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: [sunday, wednesday]
+      day: "sunday"
+      time: "03:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    assignees:
+      - "Hydradevx"
+    rebase-strategy: "auto"
+    allow:
+      - dependency-type: "all"
+    versioning-strategy: "auto"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
       time: "03:00"
       timezone: "UTC"
     open-pull-requests-limit: 0
