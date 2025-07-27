@@ -93,24 +93,37 @@ export default function Sidebar() {
           })}
         </div>
 
-        <div className="absolute bottom-4 left-0 w-full px-4">
-          <select
-            value={theme}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setTheme(e.target.value as Theme)
-            }
-            className={clsx(
-              "w-full rounded-md border p-2 bg-transparent",
-              activeTheme.text
-            )}
-          >
-            {Object.entries(themes).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value.name}
-              </option>
-            ))}
-          </select>
-        </div>
+       <div className="absolute bottom-4 left-0 w-full px-4">
+  <div className="relative">
+    <select
+      value={theme}
+      onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+        setTheme(e.target.value as Theme)
+      }
+      className={clsx(
+        "w-full appearance-none rounded-md border px-10 py-2 bg-transparent text-sm font-medium transition-all",
+        activeTheme.text,
+        activeTheme.inputBorder || "border-blue-400/50"
+      )}
+    >
+      {Object.entries(themes).map(([key, value]) => (
+        <option key={key} value={key} className="bg-black text-white">
+          {value.name}
+        </option>
+      ))}
+    </select>
+
+    <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+      {(() => {
+        const Icon = Icons[themes[theme].icon as keyof typeof Icons]
+        return <Icon className="w-4 h-4 opacity-80" />
+      })()}
+    </div>
+
+    <Icons.ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-60 pointer-events-none" />
+  </div>
+</div>
+
 
         <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-500 animate-pulse blur-lg" />
       </div>

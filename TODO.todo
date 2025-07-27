@@ -1,10 +1,10 @@
 # Hypr v1.3 To-Do List
 
 ## 🌐 Full Web UI Revamp
-- [ ] Redesign dashboard layout with modern glassy/electric aesthetic
+- [-] Redesign dashboard layout with modern glassy/electric aesthetic
 - [-] Add retractable sidebar with animated glow effects
-- [ ] Improve responsiveness (mobile + desktop)
-- [ ] Centralize theme and UI config in one place (e.g., `ui.config.ts`)
+- [-] Improve responsiveness (mobile + desktop)
+- [-] Centralize theme and UI config in one place (e.g., `ui.config.ts`)
 - [-] Better status cards for selfbot (uptime, errors, last command, etc.)
 - [ ] Add better logs panel with:
     - [ ] Scrollback

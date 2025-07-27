@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Trash2, Plus } from "lucide-react";
 import { showSuccess } from "../utils/toast";
+import { useThemeStore } from "../lib/useThemeStore";
+import { themes as themeConfig } from "../lib/themeConfig";
+import Layout from "../components/Layout";
 
 const types = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"];
 
 export default function RpcEditor() {
+  const { theme } = useThemeStore();
+  const activeTheme = themeConfig[theme];
+
   const [rpc, setRpc] = useState({
     applicationId: "",
     type: "PLAYING",
@@ -32,7 +38,7 @@ export default function RpcEditor() {
   };
 
   const handleButtonChange = (i: number, key: string, value: string) => {
-    const newButtons: any = [...rpc.buttons];
+    const newButtons = [...rpc.buttons];
     newButtons[i][key] = value;
     setRpc({ ...rpc, buttons: newButtons });
   };
@@ -78,165 +84,132 @@ export default function RpcEditor() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#0f172a] to-black p-8 text-white">
-      <div className="max-w-4xl mx-auto bg-zinc-900/80 border border-blue-900 rounded-2xl shadow-xl p-8 space-y-8">
-        <h1 className="text-3xl font-bold text-blue-400 drop-shadow-[0_0_6px_#3b82f6]">
-          RPC Editor
-        </h1>
+    <Layout>
+      <div className={`min-h-screen p-8 ${activeTheme.background} ${activeTheme.text}`}>
+        <div className={`max-w-4xl mx-auto rounded-2xl p-8 space-y-8 border ${activeTheme.glow} bg-opacity-80 bg-black/40`}>
+          <h1 className={`text-3xl font-bold drop-shadow ${activeTheme.highlight}`}>RPC Editor</h1>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Application ID</label>
-            <input
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              placeholder="Application ID"
-              value={rpc.applicationId}
-              onChange={(e) => handleChange("applicationId", e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Activity Type</label>
-            <select
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              value={rpc.type}
-              onChange={(e) => handleChange("type", e.target.value)}
-            >
-              {types.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Name</label>
-            <input
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              value={rpc.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Details</label>
-            <input
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              value={rpc.details}
-              onChange={(e) => handleChange("details", e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Large Image Key</label>
-            <input
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              value={rpc.largeImageKey}
-              onChange={(e) => handleChange("largeImageKey", e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-blue-300">Large Image Text</label>
-            <input
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-              value={rpc.largeImageText}
-              onChange={(e) => handleChange("largeImageText", e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-blue-300">Buttons</h2>
-            <button
-              onClick={addButton}
-              className="flex items-center gap-1 text-sm bg-blue-800 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition"
-            >
-              <Plus className="w-4 h-4" /> Add Button
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {rpc.buttons.map((btn, i) => (
-              <div
-                key={i}
-                className="grid md:grid-cols-2 gap-4 items-start bg-zinc-800 p-4 rounded-xl border border-zinc-700"
-              >
-                <div className="space-y-2">
-                  <label className="text-sm text-blue-300">Label</label>
-                  <input
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-                    value={btn.label}
-                    onChange={(e) =>
-                      handleButtonChange(i, "label", e.target.value)
-                    }
-                    placeholder={`Button ${i + 1} Label`}
-                  />
-                </div>
-
-                <div className="space-y-2 relative">
-                  <label className="text-sm text-blue-300">URL</label>
-                  <input
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2 text-sm"
-                    value={btn.url}
-                    onChange={(e) =>
-                      handleButtonChange(i, "url", e.target.value)
-                    }
-                    placeholder={`Button ${i + 1} URL`}
-                  />
-                  <button
-                    onClick={() => deleteButton(i)}
-                    className="absolute top-0 right-0 text-red-500 hover:text-red-400 p-2"
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              ["Application ID", "applicationId"],
+              ["Activity Type", "type"],
+              ["Name", "name"],
+              ["Details", "details"],
+              ["Large Image Key", "largeImageKey"],
+              ["Large Image Text", "largeImageText"],
+            ].map(([label, key]) => (
+              <div key={key} className="space-y-2">
+                <label className={`text-sm ${activeTheme.highlight}`}>{label}</label>
+                {key === "type" ? (
+                  <select
+                    className={`w-full ${activeTheme.input} ${activeTheme.inputBorder} rounded-lg px-4 py-2 text-sm`}
+                    value={rpc[key as keyof typeof rpc]}
+                    onChange={(e) => handleChange(key, e.target.value)}
                   >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+                    {types.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    className={`w-full ${activeTheme.input} ${activeTheme.inputBorder} rounded-lg px-4 py-2 text-sm`}
+                    value={rpc[key as keyof typeof rpc]}
+                    onChange={(e) => handleChange(key, e.target.value)}
+                  />
+                )}
               </div>
             ))}
           </div>
-        </div>
 
-        <div className="pt-4">
-          <button
-            className="bg-blue-700 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-medium shadow-md transition"
-            onClick={updateRpc}
-          >
-            Update RPC
-          </button>
-        </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className={`text-xl font-semibold ${activeTheme.highlight}`}>Buttons</h2>
+              <button
+                onClick={addButton}
+                className={`flex items-center gap-1 text-sm ${activeTheme.button} ${activeTheme.buttonHover} px-3 py-1 rounded-lg transition`}
+              >
+                <Plus className="w-4 h-4" /> Add Button
+              </button>
+            </div>
 
-        <div className="border-t border-blue-900 pt-6 space-y-4">
-          <h2 className="text-xl font-semibold text-blue-300">Presets</h2>
-          <div className="flex gap-2">
-            <input
-              className="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm w-full"
-              placeholder="New Preset Name"
-              value={presetName}
-              onChange={(e) => setPresetName(e.target.value)}
-            />
+            <div className="space-y-4">
+              {rpc.buttons.map((btn, i) => (
+                <div
+                  key={i}
+                  className={`grid md:grid-cols-2 gap-4 items-start ${activeTheme.input} p-4 rounded-xl ${activeTheme.inputBorder}`}
+                >
+                  <div className="space-y-2">
+                    <label className={`text-sm ${activeTheme.highlight}`}>Label</label>
+                    <input
+                      className={`w-full ${activeTheme.input} ${activeTheme.inputBorder} rounded-lg px-4 py-2 text-sm`}
+                      value={btn.label}
+                      onChange={(e) => handleButtonChange(i, "label", e.target.value)}
+                      placeholder={`Button ${i + 1} Label`}
+                    />
+                  </div>
+
+                  <div className="space-y-2 relative">
+                    <label className={`text-sm ${activeTheme.highlight}`}>URL</label>
+                    <input
+                      className={`w-full ${activeTheme.input} ${activeTheme.inputBorder} rounded-lg px-4 py-2 text-sm`}
+                      value={btn.url}
+                      onChange={(e) => handleButtonChange(i, "url", e.target.value)}
+                      placeholder={`Button ${i + 1} URL`}
+                    />
+                    <button
+                      onClick={() => deleteButton(i)}
+                      className="absolute top-0 right-0 text-red-500 hover:text-red-400 p-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-4">
             <button
-              className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-xl font-medium transition"
-              onClick={savePreset}
+              className={`px-6 py-2 rounded-xl font-medium shadow-md transition ${activeTheme.button} ${activeTheme.buttonHover}`}
+              onClick={updateRpc}
             >
-              Save Preset
+              Update RPC
             </button>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(presets).map((name) => (
+          <div className={`border-t pt-6 space-y-4 ${activeTheme.inputBorder}`}>
+            <h2 className={`text-xl font-semibold ${activeTheme.highlight}`}>Presets</h2>
+            <div className="flex gap-2">
+              <input
+                className={`w-full ${activeTheme.input} ${activeTheme.inputBorder} rounded-lg px-4 py-2 text-sm`}
+                placeholder="New Preset Name"
+                value={presetName}
+                onChange={(e) => setPresetName(e.target.value)}
+              />
               <button
-                key={name}
-                className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-sm text-blue-300 px-3 py-1.5 rounded-lg shadow-sm transition"
-                onClick={() => loadPreset(name)}
+                className={`px-4 py-2 rounded-xl font-medium transition bg-green-700 hover:bg-green-600 text-white`}
+                onClick={savePreset}
               >
-                {name}
+                Save Preset
               </button>
-            ))}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {Object.keys(presets).map((name) => (
+                <button
+                  key={name}
+                  className={`text-sm px-3 py-1.5 rounded-lg transition ${activeTheme.input} ${activeTheme.inputBorder} ${activeTheme.highlight} hover:${activeTheme.hover}`}
+                  onClick={() => loadPreset(name)}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
