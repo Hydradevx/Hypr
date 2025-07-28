@@ -16,19 +16,13 @@
     - [-] Default server/channel IDs
 - [-] Ensure config changes reload selfbot without restart
 
-## 🛠 New and Improved Commands
-- [ ] Add new utility commands
-- [ ] Add aliases for common commands
-- [ ] Add usage/help metadata for all commands
-- [ ] Refactor command handler for better error catching
-
 ## 🚀 GitHub Workflow Improvements
-- [ ] Add release workflow (`.github/workflows/release.yml`)
-    - [ ] Auto-tag v1.3
-    - [ ] Generate changelog from commits
-- [ ] Add CI workflow (`lint`, `build`, `test`)
+- [-] Add release workflow (`.github/workflows/release.yml`)
+    - [-] Auto-tag v1.3
+    - [-] Generate changelog from commits
+- [-] Add CI workflow (`lint`, `build`, `test`)
 
 ## 🧹 Cleanup & Misc
-- [ ] Delete unused files/components
-- [ ] Rename Hydrion references to Hypr if any remain
-- [ ] Final pre-release testing
+- [-] Delete unused files/components
+- [-] Rename Hydrion references to Hypr if any remain
+- [-] Final pre-release testing

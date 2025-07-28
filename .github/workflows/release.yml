@@ -1,0 +1,36 @@
+name: 🚀 Release
+
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate changelog and tag version
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.3
+          name: Release v1.3
+          body: |
+            ## Changelog
+            - Auto-generated changelog based on recent commits.
+            - TODO: You can automate this body with a changelog tool.
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
