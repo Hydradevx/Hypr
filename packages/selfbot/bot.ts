@@ -12,22 +12,11 @@ import { startWebUI } from "./web.js";
 import { setupAutoReact } from "./bot/features/autoReact.js";
 import { antiCrash } from "./bot/utils/antiCrash.js";
 import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.js";
-import { fileURLToPath, pathToFileURL } from "url";
+import { pathToFileURL } from "url";
+import { getConfig } from "./bot/utils/config-read.js"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-let config: any;
-const configPath = path.join(__dirname, "../config.json");
-
-if (!fs.existsSync(configPath)) {
-  console.log(
-    `Please type ${chalk.red("npm run config")} to set up the config!`,
-  );
-  process.exit();
-}
-
-config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+let config = getConfig();
 export const client: any = new Client();
 
 const token = config.token;
@@ -35,11 +24,6 @@ const prefix: string = config.prefix || "!";
 const safetyTime = config.safetyTime * 1000 || 60000 * 5;
 
 client.commands = new Collection();
-
-if (!config.hasAccess) {
-  config.hasAccess = [];
-  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-}
 
 const commandsPath = path.resolve("dist/bot/commands");
 

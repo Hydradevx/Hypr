@@ -11,15 +11,10 @@
     - [-] Highlight errors or warnings
 
 ## ⚙️ Improved Config System
-- [ ] Migrate to single `config.json` or `config.ts` with:
-    - [ ] Token
-    - [ ] Default server/channel IDs
-    - [ ] Rich Presence settings
-- [ ] Add UI editor for config with:
-    - [ ] Live preview
-    - [ ] Save to file button
-    - [ ] Reset to default option
-- [ ] Ensure config changes reload selfbot without restart
+- [-] Migrate to single `config.json` or `config.ts` with:
+    - [-] Token
+    - [-] Default server/channel IDs
+- [-] Ensure config changes reload selfbot without restart
 
 ## 🛠 New and Improved Commands
 - [ ] Add new utility commands
