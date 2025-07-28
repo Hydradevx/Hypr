@@ -6,10 +6,9 @@
 - [-] Improve responsiveness (mobile + desktop)
 - [-] Centralize theme and UI config in one place (e.g., `ui.config.ts`)
 - [-] Better status cards for selfbot (uptime, errors, last command, etc.)
-- [ ] Add better logs panel with:
-    - [ ] Scrollback
-    - [ ] Timestamps
-    - [ ] Highlight errors or warnings
+- [-] Add better logs panel with:
+    - [-] Scrollback
+    - [-] Highlight errors or warnings
 
 ## ⚙️ Improved Config System
 - [ ] Migrate to single `config.json` or `config.ts` with:
