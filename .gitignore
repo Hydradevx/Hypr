@@ -3,3 +3,4 @@ devconfig
 package-lock.json
 config.json
 rpc-presets.json
+dist
