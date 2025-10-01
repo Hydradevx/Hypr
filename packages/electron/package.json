@@ -1,0 +1,11 @@
+{
+  "name": "Hypr Electron Process",
+  "version": "1.4.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node start.js"
+  },
+  "dependencies": {
+    "electron": "21.4.4"
+  }
+}
