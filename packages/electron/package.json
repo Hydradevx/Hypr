@@ -1,11 +1,15 @@
 {
-  "name": "Hypr Electron Process",
-  "version": "1.4.0",
-  "main": "main.js",
+  "name": "electron-app",
+  "version": "1.0.0",
+  "main": "dist/electron/main.js",
   "scripts": {
-    "dev": "node start.js"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "electron ../../dist/electron/main.js",
+    "clean": "rm -rf ../../dist/electron"
   },
-  "dependencies": {
-    "electron": "21.4.4"
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
   }
 }
