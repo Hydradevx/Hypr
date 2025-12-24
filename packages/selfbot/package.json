@@ -16,7 +16,7 @@
     "cross-fetch": "^4.1.0",
     "discord.js-selfbot-v13": "^3.7.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
+    "express": "^5.2.0",
     "fs": "^0.0.1-security",
     "inquirer": "^12.8.0",
     "ms": "^2.1.3",
