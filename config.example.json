@@ -1,8 +1,0 @@
-{
-  "token": "your-token",
-  "prefix": "!",
-  "safetyTime": 30,
-  "WebUI": true,
-  "rpc": true,
-  "autoreact": false
-}
