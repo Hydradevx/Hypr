@@ -6,6 +6,7 @@ import clsx from "clsx"
 import { useThemeStore } from "../lib/useThemeStore"
 import { themes, Theme } from "../lib/themeConfig"
 import { useSidebarStore } from "../lib/useSidebarStore"
+import hyprLogo from "../assets/hypr.jpg";
 
 export default function Sidebar() {
   const { expanded, toggle } = useSidebarStore()
@@ -30,7 +31,7 @@ export default function Sidebar() {
           <div className="flex items-center gap-2 w-full justify-between">
             <div className="flex items-center gap-2">
               <img
-                src="/hypr.jpg"
+                src={hyprLogo}
                 alt="Hypr"
                 className={clsx(
                   "w-12 h-12 rounded-full object-cover shadow-[0_0_12px_#3b82f6]",

@@ -19,8 +19,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchStats = () => {
-      fetch("/api/botStats")
-        .then((res) => res.json())
+      window.hypr
+        .getBotStats()
         .then(setStats)
         .catch(console.error);
     };
@@ -72,9 +72,9 @@ export default function Dashboard() {
         <div className="mt-10">
           <button
             onClick={() => {
-              fetch("/api/kill", { method: "POST" })
-                .then((res) => res.json())
-                .then((data) => showSuccess(data.message));
+              window.hypr.killBot().then(() => {
+                showSuccess("Selfbot shutting down...");
+              });
             }}
             className={`px-6 py-3 rounded-xl transition-all duration-200 font-semibold
               bg-red-600 text-white shadow-[0_0_15px_#f87171] hover:bg-red-700`}

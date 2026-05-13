@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import hyprLogo from "../assets/hypr.jpg";
 
 export default function LoadingScreen() {
   const [sparks, setSparks] = useState<any[]>([]);
@@ -35,7 +36,7 @@ export default function LoadingScreen() {
         />
 
         <motion.img
-          src="/hypr.jpg"
+          src={hyprLogo}
           alt="Hypr Logo"
           className="w-full h-full rounded-full border-4 border-cyan-400 shadow-2xl"
           animate={{
