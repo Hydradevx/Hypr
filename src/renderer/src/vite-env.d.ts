@@ -12,5 +12,20 @@ interface Window {
     killBot: () => Promise<boolean>;
 
     getLogs: () => Promise<string[]>;
+
+    getRPC: () => Promise<{
+      details: string;
+      state: string;
+      largeImageKey: string;
+      largeImageText: string;
+      smallImageKey: string;
+      smallImageText: string;
+      buttons: {
+        label: string;
+        url: string;
+      }[];
+    }>;
+
+    setRPC: (data: any) => Promise<boolean>;
   };
 }
