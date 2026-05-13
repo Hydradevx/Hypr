@@ -1,5 +1,6 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { ipcRenderer } from 'electron'
 
 // Custom APIs for renderer
 const api = {}
@@ -11,6 +12,30 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld("hypr", {
+
+  getConfig: () =>
+    ipcRenderer.invoke("config:get"),
+
+  saveConfig: (config: any) =>
+    ipcRenderer.invoke("config:set", config),
+
+  getBotStats: () =>
+    ipcRenderer.invoke("bot:stats"),
+
+  getLogs: () =>
+    ipcRenderer.invoke("bot:logs"),
+
+  killBot: () =>
+    ipcRenderer.invoke("bot:kill"),
+
+  getRPC: () =>
+    ipcRenderer.invoke("rpc:get"),
+
+  setRPC: (data: any) =>
+    ipcRenderer.invoke("rpc:set", data),
+
+});
   } catch (error) {
     console.error(error)
   }

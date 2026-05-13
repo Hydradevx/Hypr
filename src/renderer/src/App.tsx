@@ -1,35 +1,49 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Logs from "./pages/Logs";
+import Settings from "./pages/Settings";
+import Controls from "./pages/Controls";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./components/LoadingScreen";
+import RpcEditor from "./pages/RpcEditor";
+import { Toaster } from "sonner";
 
-function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+export default function App() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoaded(true), 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (!loaded) return <LoadingScreen />;
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className:
+            "bg-[#0f172a] text-blue-300 border border-blue-800 shadow-lg rounded-xl px-4 py-3 font-sans",
+          style: {
+            backgroundColor: "#0f172a",
+            color: "#93c5fd",
+            borderColor: "#1e3a8a",
+          },
+          duration: 4000,
+        }}
+      />
+      <div className="flex h-screen bg-gray-100">
+        <main className="flex-1 overflow-y-auto">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/logs" element={<Logs />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/controls" element={<Controls />} />
+            <Route path="/rpc" element={<RpcEditor />} />
+          </Routes>
+        </main>
       </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
     </>
-  )
+  );
 }
-
-export default App
