@@ -10,5 +10,7 @@ interface Window {
     }>;
 
     killBot: () => Promise<boolean>;
+
+    getLogs: () => Promise<string[]>;
   };
 }

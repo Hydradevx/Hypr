@@ -9,17 +9,22 @@ export default function Logs() {
   const activeTheme = themeConfig[theme];
 
   useEffect(() => {
-    const fetchLogs = () => {
-      fetch("/api/logs")
-        .then((res) => res.json())
-        .then((data) => {
-          if (Array.isArray(data.logs)) setLogs(data.logs);
-        })
-        .catch(console.error);
+    const fetchLogs = async () => {
+      try {
+        const data = await window.hypr.getLogs();
+
+        if (Array.isArray(data)) {
+          setLogs(data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     fetchLogs();
+
     const interval = setInterval(fetchLogs, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
