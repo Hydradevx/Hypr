@@ -1,5 +1,5 @@
-import { client } from "../../../bot.js";
-import logger from "../../utils/logger.js";
+import { client } from "../../../bot.ts";
+import logger from "../../utils/logger.ts";
 
 export default {
   name: "play",

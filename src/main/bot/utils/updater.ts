@@ -1,5 +1,5 @@
 import axios from "axios";
-import logger from "./logger.js";
+import logger from "./logger.ts";
 import inquirer from "inquirer";
 import { spawn, execSync } from "child_process";
 import fs from "fs";

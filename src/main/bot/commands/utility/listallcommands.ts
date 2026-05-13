@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import logger from "../../utils/logger.js";
+import logger from "../../utils/logger.ts";
 import { fileURLToPath, pathToFileURL } from "url";
 
 const __filename = fileURLToPath(import.meta.url);

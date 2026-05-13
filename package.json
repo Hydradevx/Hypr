@@ -1,10 +1,11 @@
 {
-  "name": "hypr-temp",
+  "name": "hypr",
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
+  "type": "module",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -25,8 +26,11 @@
     "@electron-toolkit/utils": "^4.0.0",
     "axios": "^1.16.0",
     "chalk": "^4.1.2",
+    "cross-fetch": "^4.1.0",
     "discord.js-selfbot-v13": "^3.7.1",
     "electron-updater": "^6.3.9",
+    "inquirer": "^13.4.3",
+    "ms": "^2.1.3",
     "systeminformation": "^5.31.6"
   },
   "devDependencies": {

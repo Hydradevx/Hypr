@@ -1,6 +1,6 @@
 import { MessageAttachment } from "discord.js-selfbot-v13";
 
-import logger from "../../utils/logger.js";
+import logger from "../../utils/logger.ts";
 
 export default {
   name: "archive",

@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-import autoReactState from "../managers/autoReactState.js";
+import autoReactState from "../managers/autoReactState.ts";
 
 const configPath = path.join(__dirname, "../../../autoReact.json");
 let autoReactConfig: { [key: string]: string } = {};

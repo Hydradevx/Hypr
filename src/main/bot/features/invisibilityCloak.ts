@@ -1,10 +1,9 @@
-import { PresenceStatusData } from 'discord.js-selfbot-v13';
-import logger from '../utils/logger.js';
+import logger from '../utils/logger.ts';
 
 export function equipInvisibilityCloak(client: any) {
   let lastActivity = Date.now();
   let isInvisible = false;
-  let previousStatus: PresenceStatusData = 'online';
+  let previousStatus: any = 'online';
 
   client.on('messageCreate', async (msg: any) => {
     if (msg.author.id !== client.user?.id) return;

@@ -1,5 +1,5 @@
 import { Message } from "discord.js-selfbot-v13";
-import logger from "./logger.js";
+import logger from "./logger.ts";
 
 interface Command {
   name: string;

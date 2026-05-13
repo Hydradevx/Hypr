@@ -1,4 +1,4 @@
-import logger from "../../utils/logger.js";
+import logger from "../../utils/logger.ts";
 
 const giveawayBots = [
   "294882584201003009", // GiveawayBot

@@ -1,5 +1,5 @@
-import logger from "../../utils/logger.js";
-import autoReactState from "../../managers/autoReactState.js";
+import logger from "../../utils/logger.ts";
+import autoReactState from "../../managers/autoReactState.ts";
 
 export default {
   name: "autoreact",

@@ -1,5 +1,5 @@
-import afkState from "../../managers/afkState.js";
-import logger from "../../utils/logger.js";
+import afkState from "../../managers/afkState.ts";
+import logger from "../../utils/logger.ts";
 
 export default {
   name: "afk",

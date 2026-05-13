@@ -1,6 +1,6 @@
-import { client } from "../../../bot.js";
-import { setRichPresence as rpc } from "../../utils/richPresence.js";
-import logger from "../../utils/logger.js";
+import { client } from "../../../bot.ts";
+import { setRichPresence as rpc } from "../../utils/richPresence.ts";
+import logger from "../../utils/logger.ts";
 
 export default {
   name: "stopactivity",

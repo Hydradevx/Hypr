@@ -1,5 +1,5 @@
-import logger from "../../utils/logger.js";
-import raidState from "../../managers/raidState.js";
+import logger from "../../utils/logger.ts";
+import raidState from "../../managers/raidState.ts";
 
 export default {
   name: "raidstop",

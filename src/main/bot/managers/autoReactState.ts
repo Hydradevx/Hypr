@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { getConfig } from "../utils/config-read.js"
+import { getConfig } from "../utils/config-read.ts"
 
 let config: any;
 config = getConfig();
