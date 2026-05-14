@@ -69,4 +69,42 @@ export function setupIPC() {
     return true;
   });
 
+  ipcMain.handle(
+      "sendCommand",
+    async (_, data) => {
+      const { channelId, content } = data;
+
+      const channel =
+        await client.channels.fetch(channelId);
+
+      if (!channel || !("send" in channel)) {
+        throw new Error("Invalid channel");
+      }
+
+      await (channel as any).send(content);
+
+      return {
+        success: true,
+        message: "Command sent successfully",
+      };
+    },
+  );
+
+  ipcMain.handle("getServers", async () => {
+    const servers = client.guilds.cache.map((guild) => ({
+      id: guild.id,
+      name: guild.name,
+      channels: guild.channels.cache
+        .filter(
+          (ch: any) =>
+            ch.type === "GUILD_TEXT" ||
+            ch.type === "GUILD_NEWS"
+        )
+        .map((ch) => ({
+          id: ch.id,
+          name: ch.name,
+        })),
+    }));
+    return servers;
+  });
 }

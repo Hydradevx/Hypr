@@ -1,6 +1,8 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer } from 'electron'
+import { get } from 'http'
+import { getServers } from 'dns'
 
 // Custom APIs for renderer
 const api = {}
@@ -35,6 +37,14 @@ if (process.contextIsolated) {
   setRPC: (data: any) =>
     ipcRenderer.invoke("rpc:set", data),
 
+  getServers: () =>
+    ipcRenderer.invoke("getServers"),
+
+  sendCommand: (data: any) =>
+    ipcRenderer.invoke(
+      "sendCommand",
+      data,
+    ),
 });
   } catch (error) {
     console.error(error)
