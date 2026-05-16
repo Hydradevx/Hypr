@@ -1,42 +1,25 @@
-import logger from "../../utils/logger.ts";
 import afkState from "../../managers/afkState.ts";
+import logger from "../../utils/logger.ts";
 
 export default {
   name: "unafk",
-  aliases: ["back", "comeBack"],
-  info: "returns you from being AFK",
+  aliases: ["back", "removeafk"],
+  info: "removes AFK status",
   usage: "unafk",
+
   async execute(message: any) {
-    message.delete();
-    if (!afkState.afkStatus) {
-      return message.channel.send("You are not currently AFK.");
+    await message.delete().catch(() => {});
+
+    if (!afkState.getAfkStatus()) {
+      return message.channel.send("❌ You are not AFK.");
     }
 
-    const afkEndTime: any = new Date();
-    const afkDuration = afkEndTime - afkState.afkStartTime;
-
-    const seconds = Math.floor((afkDuration / 1000) % 60);
-    const minutes = Math.floor((afkDuration / (1000 * 60)) % 60);
-    const hours = Math.floor((afkDuration / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(afkDuration / (1000 * 60 * 60 * 24));
-
-    let afkDurationString = "";
-    if (days > 0) afkDurationString += `${days} day${days > 1 ? "s" : ""} `;
-    if (hours > 0) afkDurationString += `${hours} hour${hours > 1 ? "s" : ""} `;
-    if (minutes > 0)
-      afkDurationString += `${minutes} minute${minutes > 1 ? "s" : ""} `;
-    if (seconds > 0)
-      afkDurationString += `${seconds} second${seconds > 1 ? "s" : ""} `;
-
-    afkState.setAfkStatus(false);
+    afkState.status = false;
     afkState.setAfkReason("");
     afkState.setAfkStartTime(null);
 
-    message.channel.send(
-      `🎉 ${
-        message.isOwnMessage ? "You are" : "I am"
-      } no longer AFK! You were AFK for ${afkDurationString.trim()}.`,
-    );
-    logger.status(`AFK ended. Duration: ${afkDurationString.trim()}`);
+    message.channel.send("✅ AFK removed.");
+
+    logger.status("AFK removed");
   },
 };

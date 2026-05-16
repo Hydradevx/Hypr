@@ -11,57 +11,33 @@ export default {
   aliases: ["listall", "listcommand", "listcommands", "listallcommand"],
   info: "Displays all available commands",
   usage: "listallcommands",
-  async execute(message) {
-    await message.delete();
+  async execute(message: any, _args: any, client: any) {
+    await message.delete().catch(() => {});
 
-    function getFilesRecursively(dir) {
-      let files: any = [];
-      const items = fs.readdirSync(dir, { withFileTypes: true });
+    const commandNames = [
+      ...new Set(client.commands.map((cmd: any) => cmd.name))
+    ];
 
-      for (const item of items) {
-        const fullPath = path.join(dir, item.name);
-        if (item.isDirectory()) {
-          files = files.concat(getFilesRecursively(fullPath));
-        } else if (item.isFile() && fullPath.endsWith(".js")) {
-          files.push(fullPath);
-        }
-      }
-
-      return files;
-    }
-
-    const commandsPath = path.join(__dirname, "../");
-    const commandFiles = getFilesRecursively(commandsPath);
-    let commandNames: any[] = [];
-
-    for (const filePath of commandFiles) {
-      try {
-        const commandModule = await import(pathToFileURL(filePath).href);
-        const command = commandModule.default;
-
-        if (command?.name) commandNames.push(command.name);
-      } catch (error: any) {
-        logger.error(`Failed to load command at ${filePath}: ${error.message}`);
-      }
-    }
-
-    if (commandNames.length === 0)
+    if (!commandNames.length) {
       return message.channel.send("❌ No commands found.");
+    }
 
-    const commandCount = commandNames.length;
-    const chunkSize = 1950;
-    let currentMessage = `🌟 **Wow! There are a total of \`${commandCount}\` commands available.** 🌟\n\n📚 **Available Commands:**\n`;
+    let currentMessage =
+      `🌟 Total Commands: \`${commandNames.length}\`\n\n`;
 
     for (const command of commandNames) {
-      if ((currentMessage + `\n• ${command}`).length > chunkSize) {
+      if ((currentMessage + command).length > 1900) {
         await message.channel.send(currentMessage);
-        currentMessage = "📚 **Available Commands (continued):**\n";
+        currentMessage = "";
       }
-      currentMessage += `\n• ${command}`;
+
+      currentMessage += `• ${command}\n`;
     }
 
-    if (currentMessage) await message.channel.send(currentMessage);
+    if (currentMessage) {
+      await message.channel.send(currentMessage);
+    }
 
-    logger.cmd("List All Commands Command has been executed");
-  },
+    logger.cmd("List All Commands executed");
+  }
 };

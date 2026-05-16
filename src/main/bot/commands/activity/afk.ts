@@ -14,7 +14,7 @@ export default {
       return message.channel.send("You are already AFK.");
     }
 
-    afkState.setAfkStatus(true);
+    afkState.status = true;
     afkState.setAfkReason(reason);
     afkState.setAfkStartTime(new Date());
 

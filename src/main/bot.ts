@@ -99,7 +99,32 @@ client.on("ready", async () => {
   equipInvisibilityCloak(client);
 });
 
-client.on("messageCreate", (message: any) => {
+client.on("messageCreate", async (message: any) => {
+  let isReply = false;
+
+  if (message.reference?.messageId) {
+    try {
+      const repliedMessage = await message.fetchReference();
+
+      if (repliedMessage?.author?.id === client.user?.id) {
+        isReply = true;
+      }
+    } catch {}
+  }
+
+  const isMentioned = message.mentions.has(client.user!);
+
+  if (
+    afkState.getAfkStatus() &&
+    message.author.id !== client.user?.id &&
+    (isMentioned || isReply)
+  ) {
+    message.reply(
+      `💤 I'm currently AFK. Reason: ${afkState.getAfkReason()}`
+    );
+
+    return;
+  }
 
   if (message.author.bot || !message.content.startsWith(prefix)) return;
 
