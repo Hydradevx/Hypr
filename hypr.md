@@ -1,78 +1,78 @@
 # Hypr TODO
 
 ## Activity
-- [Removed] afk
-- [ ] dnd
-- [ ] idle
-- [ ] listen
-- [ ] play
-- [ ] stopactivity
-- [ ] stream
-- [Removed] unafk
-- [ ] watch
+- [broken] afk
+- [broken] dnd
+- [broken] idle
+- [broken] listen
+- [broken] play
+- [broken] stopactivity
+- [broken] stream
+- [broken] unafk
+- [broken] watch
 
 ## Fun
-- [ ] 8ball
-- [ ] coinflip
-- [ ] gay
-- [ ] joke
-- [ ] meme
-- [ ] rizz
-- [ ] skid
+- [working] 8ball
+- [working] coinflip
+- [working] gay
+- [working] joke
+- [working] meme
+- [working] rizz
+- [working] skid
 
 ## Utility
-- [ ] announce
-- [ ] archive
-- [ ] checkprefix
-- [ ] cloneserver
-- [ ] dm
-- [ ] iplookup
-- [ ] listallcommands
-- [ ] pfp
-- [ ] ping
-- [ ] quote
-- [ ] remind
-- [ ] roles
-- [ ] setprefix
-- [ ] stats
-- [ ] userinfo
+- [working] announce
+- [working] archive
+- [working] checkprefix
+- [broken] cloneserver
+- [working] dm
+- [working] iplookup
+- [working] listallcommands
+- [working] pfp
+- [working] ping
+- [working] quote
+- [working] remind
+- [working] roles
+- [broken] setprefix
+- [working] stats
+- [working] userinfo
 
 ## Moderation
-- [ ] ban
-- [ ] kick
-- [ ] lock
-- [ ] mute
-- [ ] pin
-- [ ] poll
-- [ ] slowmode
-- [ ] unban
-- [ ] unlock
-- [ ] warn
+- [working] ban
+- [working] kick
+- [working] lock
+- [working] mute
+- [working] pin
+- [working] poll
+- [working] slowmode
+- [working] unban
+- [working] unlock
+- [working] warn
 
 ## Raiding
-- [ ] banAllMembers
-- [ ] clear
-- [ ] clearAllMessages
-- [ ] deleteCategories
-- [ ] deleteChannels
-- [ ] deleteRoles
-- [ ] destroy
-- [ ] nuke
-- [ ] raidstart
-- [ ] raidstop
-- [ ] spam
+- [working] banAllMembers
+- [working] clear
+- [working] clearAllMessages
+- [working] deleteCategories
+- [working] deleteChannels
+- [working] deleteRoles
+- [working] destroy
+- [working] nuke
+- [working] raidstart
+- [working] raidstop
+- [working] spam
 
 ## Tools
-- [ ] autoreact
-- [ ] giveawaysniper
-- [ ] nitrosniper
+- [broken] autoreact
+- [working] giveawaysniper
+- [working] nitrosniper
 
 ## UI / Help
-- [ ] activity
-- [ ] fun
-- [ ] general
-- [ ] help
-- [ ] moderation
-- [ ] raiding
-- [ ] tools
-- [ ] utility
+- [working] activity
+- [working] fun
+- [working] general
+- [working] help
+- [working] moderation
+- [working] raiding
+- [working] tools
+- [working] utility
