@@ -1,45 +1,45 @@
-appId: com.electron.app
-productName: hypr-temp
+appId: com.hypr.app
+productName: Hypr
+
 directories:
   buildResources: build
+
 files:
+  - out/**
+  - package.json
   - '!**/.vscode/*'
   - '!src/*'
+  - '!*.md'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!{pnpm-lock.yaml,.npmrc,.env,.env.*}'
+
+asar: true
+
 asarUnpack:
   - resources/**
+
 win:
-  executableName: hypr-temp
+  target:
+    - nsis
+  executableName: hypr
+
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
+  artifactName: hypr-${version}-setup.${ext}
+  shortcutName: Hypr
+  uninstallDisplayName: Hypr
   createDesktopShortcut: always
-mac:
-  entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
-dmg:
-  artifactName: ${name}-${version}.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
 linux:
   target:
     - AppImage
-    - snap
     - deb
-  maintainer: electronjs.org
   category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
+
+mac:
+  notarize: false
+
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
-electronDownload:
-  mirror: https://npmmirror.com/mirrors/electron/

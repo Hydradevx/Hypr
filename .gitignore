@@ -5,3 +5,4 @@ out
 .eslintcache
 *.log*
 config.json
+.idea

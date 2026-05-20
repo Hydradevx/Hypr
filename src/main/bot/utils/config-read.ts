@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import chalk from "chalk";
 
 type Config = {
@@ -12,11 +13,25 @@ type Config = {
   hasAccess: string[];
 };
 
-const configPath = path.resolve("config.json");
+const isDev = process.env.NODE_ENV === "development";
+
+const configDir = isDev
+  ? process.cwd()
+  : path.join(os.homedir(), ".config", "hypr");
+
+if (!fs.existsSync(configDir)) {
+  fs.mkdirSync(configDir, { recursive: true });
+}
+
+const configPath = isDev
+  ? path.join(configDir, "config.json")
+  : path.join(configDir, "config.json");
 
 if (!fs.existsSync(configPath)) {
   console.log(
-    `Please type ${chalk.red("npm run config")} to set up the config!`
+    `Please type ${chalk.red(
+      "npm run config"
+    )} to set up the config!`
   );
 
   process.exit(1);
@@ -31,3 +46,5 @@ if (!config.hasAccess) {
 }
 
 export const getConfig = (): Config => config;
+
+export { configPath };

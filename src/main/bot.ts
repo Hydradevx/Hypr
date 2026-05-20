@@ -14,6 +14,7 @@ import { antiCrash } from "./bot/utils/antiCrash.ts";
 import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.ts";
 import { pathToFileURL } from "url";
 import { getConfig } from "./bot/utils/config-read.ts"
+import { app } from "electron";
 
 
 let config = getConfig();
@@ -25,14 +26,24 @@ const safetyTime = config.safetyTime * 1000 || 60000 * 5;
 
 client.commands = new Collection();
 
-const commandsPath = path.resolve(
-  "src/main/bot/commands"
-);
+
+const isDev = !app.isPackaged;
+
+const commandsPath = isDev
+  ? path.join(process.cwd(), "src/main/bot/commands")
+  : path.join(app.getAppPath(), "out/main/bot/commands");
 
 function getFilesRecursively(directory: string): string[] {
   let files: string[] = [];
 
-  const items = fs.readdirSync(directory, { withFileTypes: true });
+  if (!fs.existsSync(directory)) {
+    logger.error(`Commands directory does not exist: ${directory}`);
+    return files;
+  }
+
+  const items = fs.readdirSync(directory, {
+    withFileTypes: true,
+  });
 
   for (const item of items) {
     const fullPath = path.join(directory, item.name);
@@ -40,12 +51,15 @@ function getFilesRecursively(directory: string): string[] {
     if (item.isDirectory()) {
       files.push(...getFilesRecursively(fullPath));
     } else if (
-  item.isFile() &&
-  (
-    (fullPath.endsWith(".ts") &&
-      !fullPath.endsWith(".d.ts")) ||
-    fullPath.endsWith(".js")
-  )
+      item.isFile() &&
+      (
+        fullPath.endsWith(".js") ||
+        (
+          isDev &&
+          fullPath.endsWith(".ts") &&
+          !fullPath.endsWith(".d.ts")
+        )
+      )
     ) {
       files.push(fullPath);
     }
@@ -54,16 +68,18 @@ function getFilesRecursively(directory: string): string[] {
   return files;
 }
 
-logger.info(commandsPath);
-
-const commandFiles = getFilesRecursively(commandsPath);
-
-logger.info(commandFiles.toString());
+logger.info(`Commands path: ${commandsPath}`);
 
 async function loadCommands() {
+  const commandFiles = getFilesRecursively(commandsPath);
+
+  logger.info(
+    `Found ${commandFiles.length} command files`
+  );
+
   for (const filePath of commandFiles) {
     try {
-      console.log("Loading command:", filePath);
+      logger.info(`Loading command: ${filePath}`);
 
       const commandModule = await import(
         pathToFileURL(filePath).href
@@ -72,19 +88,23 @@ async function loadCommands() {
       const command =
         commandModule.default || commandModule;
 
-      console.log("Loaded command:", command?.name);
-
       if (command?.name) {
         client.commands.set(command.name, command);
 
         if (Array.isArray(command.aliases)) {
-          command.aliases.forEach((alias: string) => {
+          for (const alias of command.aliases) {
             client.commands.set(alias, command);
-          });
+          }
         }
+
+        logger.info(`Loaded command: ${command.name}`);
+      } else {
+        logger.warn(
+          `Skipped invalid command file: ${filePath}`
+        );
       }
     } catch (err) {
-      console.error("Failed loading:", filePath);
+      logger.error(`Failed loading: ${filePath}`);
       console.error(err);
     }
   }
