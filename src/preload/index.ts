@@ -3,6 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer } from 'electron'
 import { get } from 'http'
 import { getServers } from 'dns'
+import { ConfigType } from '../main/bot/utils/config-read'
 
 // Custom APIs for renderer
 const api = {}
@@ -21,6 +22,12 @@ if (process.contextIsolated) {
 
   saveConfig: (config: any) =>
     ipcRenderer.invoke("config:set", config),
+
+  configExists: () =>
+    ipcRenderer.invoke("config:exists"),
+
+  createConfig: (data: ConfigType) =>
+    ipcRenderer.invoke("config:create", data),
 
   getBotStats: () =>
     ipcRenderer.invoke("bot:stats"),

@@ -1,50 +1,69 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
-import chalk from "chalk";
 
-type Config = {
+type ConfigType = {
   token: string;
   prefix: string;
   safetyTime: number;
-  WebUI: boolean;
   rpc: boolean;
   autoreact: boolean;
   hasAccess: string[];
 };
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev =
+  process.env.NODE_ENV === "development";
 
 const configDir = isDev
   ? process.cwd()
   : path.join(os.homedir(), ".config", "hypr");
 
 if (!fs.existsSync(configDir)) {
-  fs.mkdirSync(configDir, { recursive: true });
+  fs.mkdirSync(configDir, {
+    recursive: true,
+  });
 }
 
-const configPath = isDev
-  ? path.join(configDir, "config.json")
-  : path.join(configDir, "config.json");
-
-if (!fs.existsSync(configPath)) {
-  console.log(
-    `Please type ${chalk.red(
-      "npm run config"
-    )} to set up the config!`
-  );
-
-  process.exit(1);
-}
-
-const config: Config = JSON.parse(
-  fs.readFileSync(configPath, "utf-8")
+const configPath = path.join(
+  configDir,
+  "config.json"
 );
 
-if (!config.hasAccess) {
-  config.hasAccess = [];
+function doesConfigExists() {
+  return fs.existsSync(configPath);
 }
 
-export const getConfig = (): Config => config;
+function configCreate(data: ConfigType) {
+  fs.writeFileSync(
+    configPath,
+    JSON.stringify(data, null, 2),
+    "utf-8"
+  );
+}
 
-export { configPath };
+function getConfig(): ConfigType {
+  if (!doesConfigExists()) {
+    throw new Error(
+      "Config file does not exist"
+    );
+  }
+
+  const config: ConfigType = JSON.parse(
+    fs.readFileSync(configPath, "utf-8")
+  );
+
+  if (!config.hasAccess) {
+    config.hasAccess = [];
+  }
+
+  return config;
+}
+
+export {
+  configPath,
+  doesConfigExists,
+  configCreate,
+  getConfig,
+};
+
+export type { ConfigType };

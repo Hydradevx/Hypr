@@ -9,6 +9,7 @@ import {
   setRichPresence,
   getCurrentRpc
 } from "./bot/utils/richPresence.ts";
+import { configCreate, ConfigType, doesConfigExists } from "./bot/utils/config-read.ts";
 
 const CONFIG_PATH = path.resolve("config.json");
 
@@ -35,6 +36,14 @@ export function setupIPC() {
     );
 
     return true;
+  });
+
+  ipcMain.handle("config:exists", async () => {
+    return doesConfigExists();
+  });
+
+  ipcMain.handle("config:create", async (_, data: ConfigType) => {
+    await configCreate(data);
   });
 
   ipcMain.handle("bot:stats", () => {

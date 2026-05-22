@@ -13,16 +13,34 @@ import { setupAutoReact } from "./bot/features/autoReact.ts";
 import { antiCrash } from "./bot/utils/antiCrash.ts";
 import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.ts";
 import { pathToFileURL } from "url";
-import { getConfig } from "./bot/utils/config-read.ts"
+import { doesConfigExists, getConfig } from "./bot/utils/config-read.ts"
 import { app } from "electron";
 
 
-let config = getConfig();
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+
+async function waitForConfig() {
+  while (!doesConfigExists()) {
+    logger.warn("Waiting for config...");
+    await sleep(1000);
+  }
+
+  logger.info("Config detected");
+  return getConfig();
+}
+
+
 export const client: any = new Client();
 
-const token = config.token;
-const prefix: string = config.prefix || "!";
-const safetyTime = config.safetyTime * 1000 || 60000 * 5;
+let config: any;
+let token = "";
+let prefix = "!";
+let safetyTime = 60000 * 5;
 
 client.commands = new Collection();
 
@@ -193,16 +211,16 @@ client.info = client_info;
 
 //update();
 
-function sleep(ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 sleep(100);
 
 async function startBot() {
-  await loadCommands();
+  config = await waitForConfig();
+
+  token = config.token;
+  prefix = config.prefix || "!";
+
+  safetyTime =
+    config.safetyTime * 1000 || 60000 * 5;
 
   logger.info(
     `Loaded ${client.commands.size} commands`
