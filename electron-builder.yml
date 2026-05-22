@@ -7,6 +7,7 @@ directories:
 files:
   - out/**
   - package.json
+  - node_modules/**
   - '!**/.vscode/*'
   - '!src/*'
   - '!*.md'
@@ -14,10 +15,6 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
   - '!{pnpm-lock.yaml,.npmrc,.env,.env.*}'
 
-asar: true
-
-asarUnpack:
-  - resources/**
 
 win:
   target:
@@ -43,3 +40,5 @@ mac:
   notarize: false
 
 npmRebuild: false
+asar: false
+nodeGypRebuild: false

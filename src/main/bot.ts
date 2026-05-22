@@ -222,6 +222,8 @@ async function startBot() {
   safetyTime =
     config.safetyTime * 1000 || 60000 * 5;
 
+  await loadCommands();
+
   logger.info(
     `Loaded ${client.commands.size} commands`
   );
