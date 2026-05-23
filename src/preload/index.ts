@@ -1,6 +1,6 @@
 import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer } from 'electron'
+import { electronAPI } from '@electron-toolkit/preload'
 import { get } from 'http'
 import { getServers } from 'dns'
 import { ConfigType } from '../main/bot/utils/config-read'
@@ -57,8 +57,8 @@ if (process.contextIsolated) {
     console.error(error)
   }
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+  // // ts-ignore (define in dts)
+  // window.electron = electronAPI
+  // // ts-ignore (define in dts)
+  // window.api = api
 }

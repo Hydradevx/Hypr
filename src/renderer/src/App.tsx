@@ -50,7 +50,7 @@ export default function App() {
 
       {!configExists ? (
         <CreateConfig
-          onCreated={() => setConfigExists(true)}
+          onComplete={() => setConfigExists(true)}
         />
       ) : (
         <div className="flex h-screen bg-gray-100">
