@@ -7,6 +7,7 @@ import RpcEditor from "./pages/RpcEditor";
 import CreateConfig from "./pages/createConfig";
 import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
+import Sidebar from "./components/Sidebar";
 
 export default function App() {
   const [configExists, setConfigExists] =
@@ -54,6 +55,7 @@ export default function App() {
         />
       ) : (
         <div className="flex h-screen w-full overflow-hidden bg-background">
+          <Sidebar />
           <main className="flex-1 overflow-y-auto">
             <Routes>
               <Route

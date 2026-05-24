@@ -1,126 +1,216 @@
-import { ChangeEvent } from "react"
-import { Link, useLocation } from "react-router-dom"
-import * as Icons from "lucide-react"
-import { sidebarNav } from "../lib/ui.config"
-import clsx from "clsx"
-import { useThemeStore } from "../lib/useThemeStore"
-import { themes, Theme } from "../lib/themeConfig"
-import { useSidebarStore } from "../lib/useSidebarStore"
-import hyprLogo from "../assets/hypr.jpg";
+"use client"
+
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+
+import {
+  LayoutDashboard,
+  Terminal,
+  Gamepad2,
+  Sliders,
+  Settings,
+  Zap,
+  ChevronRight,
+  Wifi,
+} from "lucide-react"
+
+import { cn } from "../lib/utils"
+
+const navItems = [
+  {
+    path: "/",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    shortcut: "D",
+  },
+  {
+    path: "/logs",
+    label: "Logs",
+    icon: Terminal,
+    shortcut: "L",
+  },
+  {
+    path: "/controls",
+    label: "Controls",
+    icon: Sliders,
+    shortcut: "C",
+  },
+  {
+    path: "/rpc",
+    label: "Rich Presence",
+    icon: Gamepad2,
+    shortcut: "R",
+  },
+  {
+    path: "/settings",
+    label: "Settings",
+    icon: Settings,
+    shortcut: "S",
+  }
+]
 
 export default function Sidebar() {
-  const { expanded, toggle } = useSidebarStore()
+  const navigate = useNavigate()
   const location = useLocation()
-  const { theme, setTheme } = useThemeStore()
-  const activeTheme = themes[theme]
+
+  const [ping, setPing] = useState(0)
+
+  useEffect(() => {
+    const fetchPing = async () => {
+      try {
+        const stats =
+          await window.hypr.getBotStats()
+
+        setPing(stats.ping || 0)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchPing()
+
+    const interval =
+      setInterval(fetchPing, 2000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const handleKey = (
+      e: KeyboardEvent
+    ) => {
+      if (!e.ctrlKey) return
+
+      const key = e.key.toLowerCase()
+
+      const item = navItems.find(
+        (i) =>
+          i.shortcut.toLowerCase() === key
+      )
+
+      if (!item) return
+
+      e.preventDefault()
+
+      navigate(item.path)
+    }
+
+    window.addEventListener(
+      "keydown",
+      handleKey
+    )
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKey
+      )
+    }
+  }, [navigate])
 
   return (
-    <aside
-      className={clsx(
-        "fixed top-0 left-0 z-50 h-full transition-all duration-300 overflow-hidden",
-        expanded ? "w-64" : "w-20"
-      )}
-    >
-      <div
-        className={clsx(
-          "relative h-full w-full border-r backdrop-blur-2xl transition-colors",
-          activeTheme.sidebar
-        )}
-      >
-        <div className="flex flex-col items-start gap-3 px-4 pt-5">
-          <div className="flex items-center gap-2 w-full justify-between">
-            <div className="flex items-center gap-2">
-              <img
-                src={hyprLogo}
-                alt="Hypr"
-                className={clsx(
-                  "w-12 h-12 rounded-full object-cover shadow-[0_0_12px_#3b82f6]",
-                  !expanded && "opacity-0 scale-0"
-                )}
-              />
-              <span
-                className={clsx(
-                  "text-xl font-bold tracking-wide transition-all",
-                  activeTheme.text,
-                  !expanded && "opacity-0 scale-0"
-                )}
-              >
-                Hypr
+    <aside className="w-56 h-screen flex flex-col bg-sidebar border-r border-sidebar-border">
+      {/* Logo */}
+      <div className="h-14 px-4 flex items-center gap-3 border-b border-sidebar-border">
+        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <Zap className="w-4 h-4 text-primary" />
+        </div>
+
+        <span className="text-base font-semibold text-foreground tracking-tight">
+          Hypr
+        </span>
+
+        <span className="ml-auto px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground bg-muted rounded">
+          v2
+        </span>
+      </div>
+
+      {/* User */}
+      <div className="p-3">
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-secondary/50">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/60 to-primary/20 flex items-center justify-center text-xs font-semibold text-primary-foreground">
+            HY
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">
+              Hypr Client
+            </p>
+
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+
+              <span className="text-xs text-muted-foreground">
+                Online
               </span>
             </div>
           </div>
-
-          <button
-            onClick={() => toggle()}
-            className={clsx(
-              "self-center rounded-full p-1 transition-all duration-200",
-              "bg-blue-500/30 hover:bg-blue-500/50 shadow-[0_0_8px_#3b82f6aa]"
-            )}
-          >
-            {expanded ? (
-              <Icons.ChevronLeft className="w-5 h-5 text-blue-200" />
-            ) : (
-              <Icons.ChevronRight className="w-5 h-5 text-blue-200" />
-            )}
-          </button>
         </div>
+      </div>
 
-        <div className="mt-6 flex flex-col gap-1 px-2">
-          {sidebarNav.map(({ path, name }) => {
-            const active = location.pathname === path
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-2">
+        <div className="space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon
+
+            const isActive =
+              location.pathname === item.path
 
             return (
-              <Link
-                key={path}
-                to={path}
-                title={!expanded ? name : undefined}
-                className={clsx(
-                  "group flex items-center gap-4 rounded-xl px-4 py-2 text-sm font-medium transition-all",
-                  active ? activeTheme.active : `${activeTheme.hover} ${activeTheme.text}`
+              <button
+                key={item.path}
+                onClick={() =>
+                  navigate(item.path)
+                }
+                className={cn(
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 group",
+                  isActive
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 )}
               >
-                <span
-                  className={clsx(
-                    "transition-all",
-                    !expanded && "opacity-0 w-0 overflow-hidden"
+                <Icon
+                  className={cn(
+                    "w-4 h-4",
+                    isActive &&
+                      "text-primary"
                   )}
-                >
-                  {name}
+                />
+
+                <span className="flex-1 text-left font-medium">
+                  {item.label}
                 </span>
-              </Link>
+
+                <kbd className="hidden group-hover:flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground bg-muted rounded">
+                  CTRL+
+                  {item.shortcut}
+                </kbd>
+
+                {isActive && (
+                  <ChevronRight className="w-3 h-3 text-muted-foreground" />
+                )}
+              </button>
             )
           })}
         </div>
+      </nav>
 
-       <div className="absolute bottom-4 left-0 w-full px-4">
-  <div className="relative">
-    <select
-      value={theme}
-      onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-        setTheme(e.target.value as Theme)
-      }
-      className={clsx(
-        "w-full appearance-none rounded-md border px-10 py-2 bg-transparent text-sm font-medium transition-all",
-        activeTheme.text,
-        activeTheme.inputBorder || "border-blue-400/50"
-      )}
-    >
-      {Object.entries(themes).map(([key, value]) => (
-        <option key={key} value={key} className="bg-black text-white">
-          {value.name}
-        </option>
-      ))}
-    </select>
+      {/* Bottom */}
+      <div className="p-3 border-t border-sidebar-border">
+        <div className="px-3 py-2 rounded-lg bg-green-400/10">
+          <div className="flex items-center gap-2">
+            <Wifi className="w-3.5 h-3.5 text-green-400" />
 
-    <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-    </div>
+            <span className="text-xs font-medium text-green-400">
+              Connected
+            </span>
 
-    <Icons.ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-60 pointer-events-none" />
-  </div>
-</div>
-
-
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-500 animate-pulse blur-lg" />
+            <span className="ml-auto text-xs text-muted-foreground">
+              {ping}ms
+            </span>
+          </div>
+        </div>
       </div>
     </aside>
   )
