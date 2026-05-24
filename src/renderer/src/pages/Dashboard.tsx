@@ -1,111 +1,280 @@
-import { useEffect, useState } from "react";
-import { Gauge, Server, Clock, Activity } from "lucide-react";
-import { showSuccess } from "../utils/toast";
-import { useThemeStore } from "../lib/useThemeStore";
-import { themes as themeConfig } from "../lib/themeConfig";
-import Layout from "../components/Layout";
+"use client"
+
+import {
+  Activity,
+  Server,
+  ArrowUpRight,
+  Clock,
+  Cpu,
+  HardDrive,
+  Wifi,
+} from "lucide-react"
+
+import { cn } from "../lib/utils"
+import { useEffect, useState } from "react"
 
 type BotStats = {
-  username: string;
-  servers: number;
-  ping: number;
-  uptime: string;
-};
+  username: string
+  servers: number
+  ping: number
+  uptime: string
+
+  cpuUsage: number
+
+  ramUsage: number
+  ramUsed: string
+  ramTotal: string
+}
 
 export default function Dashboard() {
-  const [stats, setStats] = useState<BotStats | null>(null);
-  const { theme } = useThemeStore();
-  const activeTheme = themeConfig[theme];
+  const [stats, setStats] =
+    useState<BotStats | null>(null)
 
   useEffect(() => {
-    const fetchStats = () => {
-      window.hypr
-        .getBotStats()
-        .then(setStats)
-        .catch(console.error);
-    };
+    const fetchStats = async () => {
+      try {
+        const data: BotStats =
+          await window.hypr.getBotStats()
 
-    fetchStats();
-    const interval = setInterval(fetchStats, 1000);
-    return () => clearInterval(interval);
-  }, []);
+        setStats(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchStats()
+
+    const interval =
+      setInterval(fetchStats, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const statsData = stats
+    ? [
+        {
+          label: "Username",
+          value: stats.username,
+          change: `${stats.ping}ms`,
+          trend: "up",
+          icon: Activity,
+        },
+        {
+          label: "Servers",
+          value: stats.servers,
+          change: "+0",
+          trend: "up",
+          icon: Server,
+        },
+        {
+          label: "Ping",
+          value: `${stats.ping}ms`,
+          change: "Realtime",
+          trend: "up",
+          icon: Wifi,
+        },
+        {
+          label: "Uptime",
+          value: stats.uptime,
+          change: "Running",
+          trend: "neutral",
+          icon: Clock,
+        },
+      ]
+    : []
 
   return (
-    <Layout>
-    <div
-      className={`min-h-screen w-full transition-all duration-300 ${activeTheme.background} ${activeTheme.text} overflow-x-hidden`}
-    >
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold mb-10 drop-shadow-lg">Bot Dashboard</h1>
+    <div className="p-6 space-y-6">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-4 gap-4">
+        {statsData.map((stat) => {
+          const Icon = stat.icon
 
-        {stats ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard
-              title="Username"
-              value={stats.username}
-              icon={<Activity size={32} />}
-              glow={activeTheme.glow}
-            />
-            <StatCard
-              title="Servers"
-              value={stats.servers}
-              icon={<Server size={32} />}
-              glow={activeTheme.glow}
-            />
-            <StatCard
-              title="Ping"
-              value={`${stats.ping}ms`}
-              icon={<Gauge size={32} />}
-              glow={activeTheme.glow}
-            />
-            <StatCard
-              title="Uptime"
-              value={stats.uptime}
-              icon={<Clock size={32} />}
-              glow={activeTheme.glow}
-            />
+          return (
+            <div
+              key={stat.label}
+              className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 rounded-lg bg-secondary">
+                  <Icon className="w-4 h-4 text-muted-foreground" />
+                </div>
+
+                <div
+                  className={cn(
+                    "flex items-center gap-1 text-xs font-medium",
+                    stat.trend === "up"
+                      ? "text-success"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {stat.trend === "up" && (
+                    <ArrowUpRight className="w-3 h-3" />
+                  )}
+
+                  {stat.change}
+                </div>
+              </div>
+
+              <p className="text-2xl font-semibold text-foreground tracking-tight">
+                {stat.value}
+              </p>
+
+              <p className="text-xs text-muted-foreground mt-1">
+                {stat.label}
+              </p>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* System Status */}
+      <div className="rounded-xl bg-card border border-border">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+          <h3 className="text-base font-semibold text-foreground">
+            System Status
+          </h3>
+
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+
+            <span className="text-sm text-green-400 font-medium">
+              All Systems Operational
+            </span>
           </div>
-        ) : (
-          <p className="text-gray-400">Loading stats...</p>
-        )}
+        </div>
 
-        <div className="mt-10">
-          <button
-            onClick={() => {
-              window.hypr.killBot().then(() => {
-                showSuccess("Selfbot shutting down...");
-              });
-            }}
-            className={`px-6 py-3 rounded-xl transition-all duration-200 font-semibold
-              bg-red-600 text-white shadow-[0_0_15px_#f87171] hover:bg-red-700`}
-          >
-            Kill Selfbot
-          </button>
+        <div className="p-6">
+          <div className="grid grid-cols-2 gap-8">
+            {/* CPU */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-secondary">
+                    <Cpu className="w-5 h-5 text-muted-foreground" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      CPU Usage
+                    </p>
+
+                    <p className="text-xs text-muted-foreground">
+                      Live processor usage
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-semibold text-foreground">
+                  {stats?.cpuUsage ?? 0}%
+                </span>
+              </div>
+
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-500"
+                  style={{
+                    width: `${stats?.cpuUsage ?? 0}%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Memory */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-secondary">
+                    <HardDrive className="w-5 h-5 text-muted-foreground" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      Memory
+                    </p>
+
+                    <p className="text-xs text-muted-foreground">
+                      {stats?.ramUsed ?? "0 GB"} /{" "}
+                      {stats?.ramTotal ?? "0 GB"}
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-semibold text-foreground">
+                  {stats?.ramUsage ?? 0}%
+                </span>
+              </div>
+
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-500"
+                  style={{
+                    width: `${stats?.ramUsage ?? 0}%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Network */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-secondary">
+                    <Wifi className="w-5 h-5 text-muted-foreground" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      Network
+                    </p>
+
+                    <p className="text-xs text-muted-foreground">
+                      Latency: {stats?.ping ?? 0}ms
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-semibold text-green-400">
+                  Online
+                </span>
+              </div>
+
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
+                <div className="h-full w-[95%] bg-green-400 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* Uptime */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-secondary">
+                    <Clock className="w-5 h-5 text-muted-foreground" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      Runtime
+                    </p>
+
+                    <p className="text-xs text-muted-foreground">
+                      Since last restart
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-semibold text-foreground">
+                  {stats?.uptime ?? "0s"}
+                </span>
+              </div>
+
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
+                <div className="h-full w-[100%] bg-primary rounded-full transition-all duration-500" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    </Layout>
-  );
-}
-
-function StatCard({
-  title,
-  value,
-  icon,
-  glow,
-}: {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  glow: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/10 flex flex-col items-start gap-2 hover:scale-[1.02] transition-all duration-300 bg-white/10 dark:bg-black/20 ${glow}`}
-    >
-      <div className="opacity-80">{icon}</div>
-      <h2 className="text-sm uppercase tracking-wide opacity-60">{title}</h2>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  );
+  )
 }

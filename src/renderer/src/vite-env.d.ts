@@ -7,12 +7,7 @@ type Config = {
 
 interface Window {
   hypr: {
-    getBotStats: () => Promise<{
-      username: string;
-      servers: number;
-      ping: number;
-      uptime: string;
-    }>;
+    getBotStats: () => Promise<>;
 
     killBot: () => Promise<boolean>;
 

@@ -2,15 +2,12 @@ import { Client, Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import update from "./bot/utils/updater.ts";
 import logger from "./bot/utils/logger.ts";
 import { usageLoad } from "./bot/utils/usageLoader.ts";
 import { infoLoad } from "./bot/utils/infoLoader.ts";
 import afkState from "./bot/managers/afkState.ts";
 import { setRichPresence } from "./bot/utils/richPresence.ts";
-// import { startWebUI } from "./web.ts";
 import { setupAutoReact } from "./bot/features/autoReact.ts";
-import { antiCrash } from "./bot/utils/antiCrash.ts";
 import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.ts";
 import { pathToFileURL } from "url";
 import { doesConfigExists, getConfig } from "./bot/utils/config-read.ts"
@@ -238,7 +235,6 @@ startlogs();
 function startlogs() {
   console.log(chalk.gray("Initializing logs...\n"));
   logger.initLogger();
-  antiCrash();
 }
 }
 

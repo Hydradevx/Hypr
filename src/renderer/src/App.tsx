@@ -44,7 +44,7 @@ export default function App() {
         position="top-right"
         toastOptions={{
           className:
-            "bg-[#0f172a] text-blue-300 border border-blue-800 shadow-lg rounded-xl px-4 py-3 font-sans",
+            "bg-card text-foreground border border-border shadow-lg rounded-xl px-4 py-3",
         }}
       />
 
@@ -53,7 +53,7 @@ export default function App() {
           onComplete={() => setConfigExists(true)}
         />
       ) : (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen w-full overflow-hidden bg-background">
           <main className="flex-1 overflow-y-auto">
             <Routes>
               <Route
@@ -85,5 +85,5 @@ export default function App() {
         </div>
       )}
     </>
-  );
+  )
 }

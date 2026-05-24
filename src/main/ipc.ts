@@ -10,6 +10,7 @@ import {
   getCurrentRpc
 } from "./bot/utils/richPresence.ts";
 import { configCreate, ConfigType, doesConfigExists } from "./bot/utils/config-read.ts";
+import { getBotStats } from "./bot/utils/botStats.ts";
 
 const CONFIG_PATH = path.resolve("config.json");
 
@@ -47,12 +48,7 @@ export function setupIPC() {
   });
 
   ipcMain.handle("bot:stats", () => {
-    return {
-      username: client.user?.username || "Unknown",
-      servers: client.guilds.cache.size,
-      ping: client.ws.ping,
-      uptime: formatUptime(client.uptime),
-    };
+    return getBotStats();
   });
 
   ipcMain.handle("bot:logs", () => {
