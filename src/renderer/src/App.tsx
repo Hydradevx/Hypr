@@ -8,6 +8,7 @@ import CreateConfig from "./pages/createConfig";
 import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
+import { Header } from "./components/Header";
 
 export default function App() {
   const [configExists, setConfigExists] =
@@ -57,6 +58,7 @@ export default function App() {
         <div className="flex h-screen w-full overflow-hidden bg-background">
           <Sidebar />
           <main className="flex-1 overflow-y-auto">
+            <Header />
             <Routes>
               <Route
                 path="/"

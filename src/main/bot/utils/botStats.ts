@@ -42,10 +42,10 @@ function getCPUUsage() {
 
 export function getBotStats() {
   const usedMemory =
-    process.memoryUsage().heapUsed / 1024 / 1024
+    (os.totalmem() - os.freemem()) / 1024 / 1024 / 1024
 
   const totalMemory =
-    process.memoryUsage().heapTotal / 1024 / 1024
+    os.totalmem() / 1024 / 1024 / 1024
 
   const ramUsage = Math.round(
     (usedMemory / totalMemory) * 100
@@ -70,10 +70,10 @@ export function getBotStats() {
       getCPUUsage(),
 
     ramUsed:
-      `${usedMemory.toFixed(1)} MB`,
+      `${usedMemory.toFixed(1)} GB`,
 
     ramTotal:
-      `${totalMemory.toFixed(1)} MB`,
+      `${totalMemory.toFixed(1)} GB`,
 
     ramUsage,
   }
