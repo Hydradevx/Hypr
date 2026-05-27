@@ -88,13 +88,8 @@ logger.info(`Commands path: ${commandsPath}`);
 async function loadCommands() {
   const commandFiles = getFilesRecursively(commandsPath);
 
-  logger.info(
-    `Found ${commandFiles.length} command files`
-  );
-
   for (const filePath of commandFiles) {
     try {
-      logger.info(`Loading command: ${filePath}`);
 
       const commandModule = await import(
         pathToFileURL(filePath).href
@@ -111,15 +106,8 @@ async function loadCommands() {
             client.commands.set(alias, command);
           }
         }
-
-        logger.info(`Loaded command: ${command.name}`);
-      } else {
-        logger.warn(
-          `Skipped invalid command file: ${filePath}`
-        );
       }
     } catch (err) {
-      logger.error(`Failed loading: ${filePath}`);
       console.error(err);
     }
   }
@@ -220,10 +208,6 @@ async function startBot() {
     config.safetyTime * 1000 || 60000 * 5;
 
   await loadCommands();
-
-  logger.info(
-    `Loaded ${client.commands.size} commands`
-  );
 
   // setupAutoReact(client);
 client.login(token);
