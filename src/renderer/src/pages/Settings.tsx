@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 
 type Config = {
+  botToken?: string
   token?: string
   prefix?: string
   theme?: string
@@ -149,6 +150,61 @@ export default function Settings() {
                   onChange={(e) =>
                     updateSetting(
                       "token",
+                      e.target.value
+                    )
+                  }
+                  className="w-full h-11 px-4 rounded-lg bg-secondary border border-border text-foreground outline-none font-mono"
+                />
+              </div>
+
+              {/* Bot Token */}
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">
+                  Bot Token
+                </label>
+
+                <input
+                  type="password"
+                  value={config.botToken || ""}
+                  onChange={(e) =>
+                    updateSetting(
+                      "botToken",
+                      e.target.value
+                    )
+                  }
+                  className="w-full h-11 px-4 rounded-lg bg-secondary border border-border text-foreground outline-none font-mono"
+                />
+              </div>
+
+                            {/* Owner ID */}
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">
+                  Owner ID
+                </label>
+
+                <input
+                  value={config.ownerId || ""}
+                  onChange={(e) =>
+                    updateSetting(
+                      "ownerId",
+                      e.target.value
+                    )
+                  }
+                  className="w-full h-11 px-4 rounded-lg bg-secondary border border-border text-foreground outline-none font-mono"
+                />
+              </div>
+
+              {/* Application ID */}
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">
+                  Application ID
+                </label>
+
+                <input
+                  value={config.applicationId || ""}
+                  onChange={(e) =>
+                    updateSetting(
+                      "applicationId",
                       e.target.value
                     )
                   }

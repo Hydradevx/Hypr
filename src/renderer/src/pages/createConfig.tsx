@@ -14,6 +14,9 @@ interface CreateConfigViewProps {
 
 type ConfigType = {
   token: string;
+  botToken: string;
+  ownerId?: string;
+  applicationId?: string;
   prefix: string;
   safetyTime: number;
   rpc: boolean;
@@ -48,6 +51,9 @@ export default function CreateConfig({ onComplete }: CreateConfigViewProps) {
   const [saving, setSaving] = useState(false)
   const [config, setConfig] = useState<ConfigType>({
     token: "",
+    botToken: "",
+    ownerId: "",
+    applicationId: "",
     prefix: ".",
     safetyTime: 5,
     rpc: true,
@@ -80,6 +86,11 @@ export default function CreateConfig({ onComplete }: CreateConfigViewProps) {
   const createConfig = async () => {
     if (!config.token.trim()) {
       showError("Token is required")
+      return
+    }
+   
+    if(!config.botToken.trim()) {
+      showError("Bot token is required")
       return
     }
 
@@ -148,6 +159,69 @@ export default function CreateConfig({ onComplete }: CreateConfigViewProps) {
               </div>
               <p className="text-xs text-muted-foreground">
                 Your token is encrypted and stored locally
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm text-muted-foreground">
+                Bot Token
+              </Label>
+
+              <div className="relative">
+                <Input
+                  type={showToken ? "text" : "password"}
+                  value={config.botToken}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      botToken: e.target.value,
+                    })
+                  }
+                  placeholder="Enter your bot token"
+                  className="bg-secondary border-border pr-10"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm text-muted-foreground">
+                Owner ID
+              </Label>
+
+              <Input
+                value={config.ownerId}
+                onChange={(e) =>
+                  setConfig({
+                    ...config,
+                    ownerId: e.target.value,
+                  })
+                }
+                placeholder="Your Discord User ID"
+                className="bg-secondary border-border"
+              />
+
+              <p className="text-xs text-muted-foreground">
+                Only this user can use slash commands
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm text-muted-foreground">
+                Application ID
+              </Label>
+
+              <Input
+                value={config.applicationId}
+                onChange={(e) =>
+                  setConfig({
+                    ...config,
+                    applicationId: e.target.value,
+                  })
+                }
+                placeholder="Discord Application ID"
+                className="bg-secondary border-border"
+              />
+
+              <p className="text-xs text-muted-foreground">
+                Found in Discord Developer Portal
               </p>
             </div>
           </div>

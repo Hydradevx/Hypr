@@ -1,4 +1,4 @@
-import { Client, Collection } from "discord.js-selfbot-v13";
+import { Client } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
@@ -12,6 +12,8 @@ import { equipInvisibilityCloak } from "./bot/features/invisibilityCloak.ts";
 import { pathToFileURL } from "url";
 import { doesConfigExists, getConfig } from "./bot/utils/config-read.ts"
 import { app } from "electron";
+import * as Discord from "discord.js";
+import { GatewayIntentBits, Collection, REST, Routes, Interaction, } from "discord.js";
 
 
 function sleep(ms: number) {
@@ -33,38 +35,59 @@ async function waitForConfig() {
 
 
 export const client: any = new Client();
+export const botClient: any = new Discord.Client({ intents: [ GatewayIntentBits.Guilds, ], });
 
 let config: any;
 let token = "";
 let prefix = "!";
 let safetyTime = 60000 * 5;
 
-client.commands = new Collection();
-
+botClient.commands = new Collection();
 
 const isDev = !app.isPackaged;
 
 const commandsPath = isDev
-  ? path.join(process.cwd(), "src/main/bot/commands")
-  : path.join(app.getAppPath(), "out/main/bot/commands");
+  ? path.join(
+      process.cwd(),
+      "src/main/bot/slashCommands"
+    )
+  : path.join(
+      app.getAppPath(),
+      "out/main/bot/slashCommands"
+    );
 
-function getFilesRecursively(directory: string): string[] {
+function getFilesRecursively(
+  directory: string
+): string[] {
   let files: string[] = [];
 
   if (!fs.existsSync(directory)) {
-    logger.error(`Commands directory does not exist: ${directory}`);
+    logger.error(
+      `Slash commands directory missing: ${directory}`
+    );
+
     return files;
   }
 
-  const items = fs.readdirSync(directory, {
-    withFileTypes: true,
-  });
+  const items = fs.readdirSync(
+    directory,
+    {
+      withFileTypes: true,
+    }
+  );
 
   for (const item of items) {
-    const fullPath = path.join(directory, item.name);
+    const fullPath = path.join(
+      directory,
+      item.name
+    );
 
     if (item.isDirectory()) {
-      files.push(...getFilesRecursively(fullPath));
+      files.push(
+        ...getFilesRecursively(
+          fullPath
+        )
+      );
     } else if (
       item.isFile() &&
       (
@@ -83,35 +106,115 @@ function getFilesRecursively(directory: string): string[] {
   return files;
 }
 
-logger.info(`Commands path: ${commandsPath}`);
+async function loadSlashCommands() {
+  const commandFiles =
+    getFilesRecursively(
+      commandsPath
+    );
 
-async function loadCommands() {
-  const commandFiles = getFilesRecursively(commandsPath);
+  const slashData: any[] = [];
 
   for (const filePath of commandFiles) {
     try {
-
-      const commandModule = await import(
-        pathToFileURL(filePath).href
-      );
+      const commandModule =
+        await import(
+          pathToFileURL(filePath).href
+        );
 
       const command =
-        commandModule.default || commandModule;
+        commandModule.default ||
+        commandModule;
 
-      if (command?.name) {
-        client.commands.set(command.name, command);
+      if (
+        command?.data &&
+        command?.execute
+      ) {
+        botClient.commands.set(
+          command.data.name,
+          command
+        );
 
-        if (Array.isArray(command.aliases)) {
-          for (const alias of command.aliases) {
-            client.commands.set(alias, command);
-          }
-        }
+        slashData.push(
+          command.data.toJSON()
+        );
+
+        logger.info(
+          `Loaded slash command ${command.data.name}`
+        );
       }
     } catch (err) {
       console.error(err);
     }
   }
+
+  const rest = new REST({
+    version: "10",
+  }).setToken(config.botToken);
+
+  await rest.put(
+    Routes.applicationCommands(
+      config.applicationId
+    ),
+    {
+      body: slashData,
+    }
+  );
+
+  logger.info(
+    `Registered ${slashData.length} slash commands`
+  );
 }
+
+botClient.on(
+  "interactionCreate",
+  async (interaction: Interaction) => {
+    if (
+      !interaction.isChatInputCommand()
+    )
+      return;
+
+    if (
+      interaction.user.id !==
+      config.ownerId
+    ) {
+      await interaction.reply({
+        content:
+          "You are not allowed to use this bot.",
+        ephemeral: true,
+      });
+
+      return;
+    }
+
+    const command =
+      botClient.commands.get(
+        interaction.commandName
+      );
+
+    if (!command) return;
+
+    try {
+      await command.execute(
+        interaction,
+        client,
+        config
+      );
+    } catch (err) {
+      console.error(err);
+
+      if (
+        interaction.isRepliable()
+      ) {
+        await interaction.reply({
+          content:
+            "Command execution failed",
+          ephemeral: true,
+        });
+      }
+    }
+  }
+);
+
 
 client.on("ready", async () => {
   logger.status(`Logged in as ${client.user?.tag}`);
@@ -122,70 +225,6 @@ client.on("ready", async () => {
   equipInvisibilityCloak(client);
 });
 
-client.on("messageCreate", async (message: any) => {
-  let isReply = false;
-
-  if (message.reference?.messageId) {
-    try {
-      const repliedMessage = await message.fetchReference();
-
-      if (repliedMessage?.author?.id === client.user?.id) {
-        isReply = true;
-      }
-    } catch {}
-  }
-
-  const isMentioned = message.mentions.has(client.user!);
-
-  if (
-    afkState.getAfkStatus() &&
-    message.author.id !== client.user?.id &&
-    (isMentioned || isReply)
-  ) {
-    message.reply(
-      `💤 I'm currently AFK. Reason: ${afkState.getAfkReason()}`
-    );
-
-    return;
-  }
-
-  if (message.author.bot || !message.content.startsWith(prefix)) return;
-
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const commandName = args.shift()?.toLowerCase();
-  const command = client.commands.get(commandName);
-
-  if (!command) return;
-
-  if (message.author.id !== client.user?.id) return;
-
-  const originalSend = message.channel.send.bind(message.channel);
-
-  message.channel.send = async (...args: any[]) => {
-    const sentMessage = await originalSend(...args);
-    if (sentMessage) {
-      setTimeout(() => {
-        if (sentMessage.deletable) sentMessage.delete().catch(() => {});
-      }, safetyTime);
-    }
-  };
-
-  setTimeout(() => {
-    if (message.deletable) message.delete().catch(() => {});
-  }, safetyTime);
-
-  if (args[0] === "--usage") {
-    usageLoad(command, message, prefix);
-    return;
-  }
-
-  if (args[0] === "--info") {
-    infoLoad(command, message);
-    return;
-  }
-
-  command.execute(message, args, client, prefix);
-});
 
 let client_info = {
   raidsEnabled: false,
@@ -193,8 +232,6 @@ let client_info = {
 };
 
 client.info = client_info;
-
-//update();
 
 sleep(100);
 
@@ -207,13 +244,17 @@ async function startBot() {
   safetyTime =
     config.safetyTime * 1000 || 60000 * 5;
 
-  await loadCommands();
-
-  // setupAutoReact(client);
+  // await loadCommands();
 client.login(token);
-if(config.WebUI){
-// startWebUI();
-}
+
+await loadSlashCommands();
+
+await botClient.login(config.botToken);
+
+logger.info(
+  `Bot logged in as ${botClient.user?.tag}`
+);
+
 startlogs();
 
 function startlogs() {

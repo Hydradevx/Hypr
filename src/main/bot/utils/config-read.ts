@@ -4,6 +4,9 @@ import os from "os";
 
 type ConfigType = {
   token: string;
+  botToken: string;
+  ownerId?: string;
+  applicationId?: string;
   prefix: string;
   safetyTime: number;
   rpc: boolean;
