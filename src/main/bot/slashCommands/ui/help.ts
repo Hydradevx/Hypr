@@ -30,50 +30,18 @@ export default {
         .setDescription(
           "Modern Discord utility suite powered by Hypr."
         )
-        .addFields(
-          {
-            name: "🔨 General",
-            value:
-              "`/general`",
-            inline: true,
-          },
-          {
-            name: "🎲 Fun",
-            value:
-              "`/fun`",
-            inline: true,
-          },
-          {
-            name: "🔧 Utility",
-            value:
-              "`/utility`",
-            inline: true,
-          },
-          {
-            name: "🎮 Activity",
-            value:
-              "`/activity`",
-            inline: true,
-          },
-          {
-            name: "💥 Raiding",
-            value:
-              "`/raiding`",
-            inline: true,
-          },
-          {
-            name: "🚔 Moderation",
-            value:
-              "`/moderation`",
-            inline: true,
-          },
-          {
-            name: "🛠 Tools",
-            value:
-              "`/tools`",
-            inline: true,
-          }
-        )
+        .addFields({
+          name: "Command Categories",
+          value: [
+            "🔨 `/general`",
+            "🎲 `/fun`",
+            "🔧 `/utility`",
+            "🎮 `/activity`",
+            "💥 `/raiding`",
+            "🚔 `/moderation`",
+            "🛠 `/tools`",
+          ].join("\n"),
+        })
         .setFooter({
           text:
             "Selfbot crafted by @hydradevx",
